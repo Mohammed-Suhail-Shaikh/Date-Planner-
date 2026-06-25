@@ -1,3 +1,6 @@
+/** Default path segment for invite links (e.g. /d/abc123). */
+export const INVITE_PATH = "/d";
+
 /**
  * Resolves the public app URL for invite links.
  * Priority: NEXT_PUBLIC_APP_URL → VERCEL_URL (auto on Vercel) → localhost
@@ -12,4 +15,8 @@ export function getBaseUrl(): string {
   }
 
   return "http://localhost:3000";
+}
+
+export function getInviteUrl(inviteId: string): string {
+  return `${getBaseUrl()}${INVITE_PATH}/${inviteId}`;
 }

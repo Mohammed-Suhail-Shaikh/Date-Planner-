@@ -3,7 +3,7 @@ import { desc, eq } from "drizzle-orm";
 import { getDb, initDb } from "@/lib/db";
 import { invites } from "@/lib/db/schema";
 import { isAdminAuthenticated } from "@/lib/auth";
-import { getBaseUrl } from "@/lib/url";
+import { getInviteUrl } from "@/lib/url";
 import { generateInviteId } from "@/lib/short-id";
 
 export async function GET() {
@@ -36,7 +36,7 @@ export async function POST(request: Request) {
   await initDb();
   const db = getDb();
 
-  let id = generateInviteId(name.trim());
+  let id = generateInviteId();
   for (let attempt = 0; attempt < 5; attempt++) {
     const existing = await db
       .select({ id: invites.id })
@@ -44,7 +44,7 @@ export async function POST(request: Request) {
       .where(eq(invites.id, id))
       .limit(1);
     if (!existing.length) break;
-    id = generateInviteId(name.trim());
+    id = generateInviteId();
   }
 
   await db.insert(invites).values({
@@ -53,7 +53,7 @@ export async function POST(request: Request) {
     status: "pending",
   });
 
-  const url = `${getBaseUrl()}/date/${id}`;
+  const url = getInviteUrl(id);
 
   return NextResponse.json({ id, name: name.trim(), url });
 }

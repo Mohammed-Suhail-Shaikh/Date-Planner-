@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { INVITE_PATH } from "@/lib/url";
 import { useEffect, useState } from "react";
 import { AdminLogin } from "@/components/admin/AdminLogin";
 
@@ -169,7 +170,7 @@ export default function AdminPage() {
         ) : (
           <ul className="space-y-3">
             {invites.map((invite) => {
-              const url = `${baseUrl}/date/${invite.id}`;
+              const url = `${baseUrl}${INVITE_PATH}/${invite.id}`;
               return (
                 <li
                   key={invite.id}
