@@ -4,6 +4,7 @@ import { desc, eq } from "drizzle-orm";
 import { getDb, initDb } from "@/lib/db";
 import { invites } from "@/lib/db/schema";
 import { isAdminAuthenticated } from "@/lib/auth";
+import { getBaseUrl } from "@/lib/url";
 
 export async function GET() {
   const authed = await isAdminAuthenticated();
@@ -42,8 +43,7 @@ export async function POST(request: Request) {
     status: "pending",
   });
 
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
-  const url = `${baseUrl}/date/${id}`;
+  const url = `${getBaseUrl()}/date/${id}`;
 
   return NextResponse.json({ id, name: name.trim(), url });
 }

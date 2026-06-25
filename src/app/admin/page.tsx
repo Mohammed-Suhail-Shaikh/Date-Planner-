@@ -25,6 +25,11 @@ export default function AdminPage() {
   const [createdUrl, setCreatedUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [baseUrl, setBaseUrl] = useState("http://localhost:3000");
+
+  useEffect(() => {
+    setBaseUrl(window.location.origin);
+  }, []);
 
   async function loadInvites() {
     const res = await fetch("/api/invites");
@@ -131,8 +136,6 @@ export default function AdminPage() {
       </main>
     );
   }
-
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
   return (
     <main className="mx-auto min-h-screen max-w-2xl px-6 py-10">
