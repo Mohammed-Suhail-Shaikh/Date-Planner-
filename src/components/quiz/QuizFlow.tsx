@@ -77,7 +77,7 @@ export function QuizFlow({ name, photos = [], onComplete }: QuizFlowProps) {
   }
 
   return (
-    <div className="mx-auto flex min-h-screen max-w-lg flex-col px-6 py-10">
+    <div className="mx-auto flex min-h-screen max-w-lg flex-col overflow-x-visible px-6 py-10">
       {step.type !== "welcome" && (
         <ProgressBar current={quizStepNumber} total={QUIZ_STEPS} />
       )}
@@ -101,7 +101,7 @@ export function QuizFlow({ name, photos = [], onComplete }: QuizFlowProps) {
                       {name}
                     </span>
                   </h1>
-                  <p className="mb-10 max-w-xs text-lg text-muted">
+                  <p className="mx-auto mb-10 max-w-xs text-lg text-muted">
                     Let&apos;s plan something special together. Answer a few quick
                     questions and I&apos;ll put together a date just for you.
                   </p>

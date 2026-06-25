@@ -158,8 +158,8 @@ body::after {
   position: relative;
   display: flex;
   width: 100%;
-  max-width: 24rem;
-  min-height: 28rem;
+  max-width: 34rem;
+  min-height: 36rem;
   align-items: center;
   justify-content: center;
   margin-inline: auto;
@@ -170,11 +170,16 @@ body::after {
   position: relative;
   z-index: 2;
   width: 100%;
-  padding: 3.5rem 0.5rem;
+  padding: 4.5rem 0.5rem 1rem;
+}
+
+.photo-scatter-wrap .welcome-scene-content {
+  padding-inline: 2rem;
 }
 
 .photo-scatter-wrap {
   position: relative;
+  width: 100%;
 }
 
 .photo-scatter-item {
@@ -184,7 +189,7 @@ body::after {
 }
 
 .photo-scatter-tilt {
-  border-radius: 0.75rem;
+  border-radius: 0.85rem;
   border: 3px solid rgba(255, 255, 255, 0.9);
   background: white;
   box-shadow:
@@ -195,30 +200,56 @@ body::after {
 
 .photo-scatter-img {
   display: block;
-  width: 5rem;
-  height: 5rem;
+  width: 12rem;
+  height: 12rem;
   object-fit: cover;
 }
 
-/* 1 photo — floating above-left of name */
-.photo-scatter-wrap--1 .photo-scatter-item--0 {
-  top: 6%;
-  left: -4%;
+.photo-scatter-wrap--1,
+.photo-scatter-wrap--3,
+.photo-scatter-wrap--5 {
+  padding-bottom: 2.75rem;
 }
 
-.photo-scatter-wrap--1 .photo-scatter-item--0 .photo-scatter-tilt {
-  transform: rotate(-10deg);
+.photo-scatter-wrap--1 .welcome-scene-content,
+.photo-scatter-wrap--3 .welcome-scene-content,
+.photo-scatter-wrap--5 .welcome-scene-content {
+  padding-bottom: 12.5rem;
 }
 
+.photo-scatter-wrap--1 .photo-scatter-item--0,
+.photo-scatter-wrap--3 .photo-scatter-item--2,
+.photo-scatter-wrap--5 .photo-scatter-item--4 {
+  top: auto;
+  left: 50%;
+  right: auto;
+  bottom: -2.5rem;
+  transform: translateX(-50%);
+}
+
+.photo-scatter-wrap--1 .photo-scatter-item--0 .photo-scatter-tilt,
+.photo-scatter-wrap--3 .photo-scatter-item--2 .photo-scatter-tilt,
+.photo-scatter-wrap--5 .photo-scatter-item--4 .photo-scatter-tilt {
+  transform: rotate(4deg);
+}
+
+.photo-scatter-wrap--1 .photo-scatter-item--0 .photo-scatter-img,
+.photo-scatter-wrap--3 .photo-scatter-item--2 .photo-scatter-img,
+.photo-scatter-wrap--5 .photo-scatter-item--4 .photo-scatter-img {
+  width: 11.5rem;
+  height: 11.5rem;
+}
+
+/* 1 photo — centered below content */
 .photo-scatter-wrap--1 .photo-scatter-item--0 .photo-scatter-img {
-  width: 6.5rem;
-  height: 6.5rem;
+  width: 12.5rem;
+  height: 12.5rem;
 }
 
-/* 2 photos — flanking upper area */
+/* 2 photos — upper flanks */
 .photo-scatter-wrap--2 .photo-scatter-item--0 {
-  top: 4%;
-  left: -10%;
+  top: 2%;
+  left: -54%;
 }
 
 .photo-scatter-wrap--2 .photo-scatter-item--0 .photo-scatter-tilt {
@@ -226,18 +257,18 @@ body::after {
 }
 
 .photo-scatter-wrap--2 .photo-scatter-item--1 {
-  top: 2%;
-  right: -10%;
+  top: 0;
+  right: -54%;
 }
 
 .photo-scatter-wrap--2 .photo-scatter-item--1 .photo-scatter-tilt {
   transform: rotate(10deg);
 }
 
-/* 3 photos — triangle around top & sides */
+/* 3 photos */
 .photo-scatter-wrap--3 .photo-scatter-item--0 {
-  top: 0;
-  left: -12%;
+  top: -4%;
+  left: -54%;
 }
 
 .photo-scatter-wrap--3 .photo-scatter-item--0 .photo-scatter-tilt {
@@ -245,33 +276,18 @@ body::after {
 }
 
 .photo-scatter-wrap--3 .photo-scatter-item--1 {
-  top: -2%;
-  right: -12%;
+  top: -6%;
+  right: -54%;
 }
 
 .photo-scatter-wrap--3 .photo-scatter-item--1 .photo-scatter-tilt {
   transform: rotate(12deg);
 }
 
-.photo-scatter-wrap--3 .photo-scatter-item--2 {
-  bottom: 38%;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.photo-scatter-wrap--3 .photo-scatter-item--2 .photo-scatter-tilt {
-  transform: rotate(4deg);
-}
-
-.photo-scatter-wrap--3 .photo-scatter-item--2 .photo-scatter-img {
-  width: 4.5rem;
-  height: 4.5rem;
-}
-
-/* 4 photos — corners framing content */
+/* 4 photos — side corners */
 .photo-scatter-wrap--4 .photo-scatter-item--0 {
-  top: 2%;
-  left: -14%;
+  top: -2%;
+  left: -56%;
 }
 
 .photo-scatter-wrap--4 .photo-scatter-item--0 .photo-scatter-tilt {
@@ -279,8 +295,8 @@ body::after {
 }
 
 .photo-scatter-wrap--4 .photo-scatter-item--1 {
-  top: 0;
-  right: -14%;
+  top: -4%;
+  right: -56%;
 }
 
 .photo-scatter-wrap--4 .photo-scatter-item--1 .photo-scatter-tilt {
@@ -288,8 +304,8 @@ body::after {
 }
 
 .photo-scatter-wrap--4 .photo-scatter-item--2 {
-  bottom: 18%;
-  left: -12%;
+  top: 46%;
+  left: -58%;
 }
 
 .photo-scatter-wrap--4 .photo-scatter-item--2 .photo-scatter-tilt {
@@ -297,18 +313,18 @@ body::after {
 }
 
 .photo-scatter-wrap--4 .photo-scatter-item--3 {
-  bottom: 16%;
-  right: -12%;
+  top: 44%;
+  right: -58%;
 }
 
 .photo-scatter-wrap--4 .photo-scatter-item--3 .photo-scatter-tilt {
   transform: rotate(-9deg);
 }
 
-/* 5 photos — ring around center */
+/* 5 photos — scatter ring on sides (no bottom) */
 .photo-scatter-wrap--5 .photo-scatter-item--0 {
-  top: 0;
-  left: -14%;
+  top: -8%;
+  left: -56%;
 }
 
 .photo-scatter-wrap--5 .photo-scatter-item--0 .photo-scatter-tilt {
@@ -316,8 +332,8 @@ body::after {
 }
 
 .photo-scatter-wrap--5 .photo-scatter-item--1 {
-  top: -2%;
-  right: -14%;
+  top: -10%;
+  right: -56%;
 }
 
 .photo-scatter-wrap--5 .photo-scatter-item--1 .photo-scatter-tilt {
@@ -325,8 +341,8 @@ body::after {
 }
 
 .photo-scatter-wrap--5 .photo-scatter-item--2 {
-  top: 42%;
-  left: -16%;
+  top: 44%;
+  left: -60%;
 }
 
 .photo-scatter-wrap--5 .photo-scatter-item--2 .photo-scatter-tilt {
@@ -334,39 +350,18 @@ body::after {
 }
 
 .photo-scatter-wrap--5 .photo-scatter-item--3 {
-  top: 40%;
-  right: -16%;
+  top: 42%;
+  right: -60%;
 }
 
 .photo-scatter-wrap--5 .photo-scatter-item--3 .photo-scatter-tilt {
   transform: rotate(-8deg);
 }
 
-.photo-scatter-wrap--5 .photo-scatter-item--4 {
-  bottom: 6%;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.photo-scatter-wrap--5 .photo-scatter-item--4 .photo-scatter-tilt {
-  transform: rotate(3deg);
-}
-
-.photo-scatter-wrap--5 .photo-scatter-item--2 .photo-scatter-img,
-.photo-scatter-wrap--5 .photo-scatter-item--3 .photo-scatter-img {
-  width: 4.25rem;
-  height: 4.25rem;
-}
-
-.photo-scatter-wrap--5 .photo-scatter-item--4 .photo-scatter-img {
-  width: 4.5rem;
-  height: 4.5rem;
-}
-
-/* 6 photos — fuller scatter ring */
+/* 6 photos — three per side, spaced */
 .photo-scatter-wrap--6 .photo-scatter-item--0 {
-  top: 0;
-  left: -14%;
+  top: -4%;
+  left: -56%;
 }
 
 .photo-scatter-wrap--6 .photo-scatter-item--0 .photo-scatter-tilt {
@@ -374,8 +369,8 @@ body::after {
 }
 
 .photo-scatter-wrap--6 .photo-scatter-item--1 {
-  top: -2%;
-  right: -14%;
+  top: -6%;
+  right: -56%;
 }
 
 .photo-scatter-wrap--6 .photo-scatter-item--1 .photo-scatter-tilt {
@@ -383,8 +378,8 @@ body::after {
 }
 
 .photo-scatter-wrap--6 .photo-scatter-item--2 {
-  top: 36%;
-  left: -18%;
+  top: 38%;
+  left: -60%;
 }
 
 .photo-scatter-wrap--6 .photo-scatter-item--2 .photo-scatter-tilt {
@@ -392,8 +387,8 @@ body::after {
 }
 
 .photo-scatter-wrap--6 .photo-scatter-item--3 {
-  top: 34%;
-  right: -18%;
+  top: 36%;
+  right: -60%;
 }
 
 .photo-scatter-wrap--6 .photo-scatter-item--3 .photo-scatter-tilt {
@@ -401,8 +396,8 @@ body::after {
 }
 
 .photo-scatter-wrap--6 .photo-scatter-item--4 {
-  bottom: 14%;
-  left: -8%;
+  top: 54%;
+  left: -58%;
 }
 
 .photo-scatter-wrap--6 .photo-scatter-item--4 .photo-scatter-tilt {
@@ -410,8 +405,8 @@ body::after {
 }
 
 .photo-scatter-wrap--6 .photo-scatter-item--5 {
-  bottom: 12%;
-  right: -8%;
+  top: 52%;
+  right: -58%;
 }
 
 .photo-scatter-wrap--6 .photo-scatter-item--5 .photo-scatter-tilt {
@@ -422,8 +417,8 @@ body::after {
 .photo-scatter-wrap--6 .photo-scatter-item--3 .photo-scatter-img,
 .photo-scatter-wrap--6 .photo-scatter-item--4 .photo-scatter-img,
 .photo-scatter-wrap--6 .photo-scatter-item--5 .photo-scatter-img {
-  width: 4rem;
-  height: 4rem;
+  width: 11rem;
+  height: 11rem;
 }
 
 /* ——— Typography ——— */
