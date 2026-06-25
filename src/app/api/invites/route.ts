@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
-import { v4 as uuidv4 } from "uuid";
 import { desc, eq } from "drizzle-orm";
 import { getDb, initDb } from "@/lib/db";
 import { invites } from "@/lib/db/schema";
 import { isAdminAuthenticated } from "@/lib/auth";
 import { getBaseUrl } from "@/lib/url";
+import { generateShortInviteId } from "@/lib/short-id";
 
 export async function GET() {
   const authed = await isAdminAuthenticated();
@@ -35,7 +35,17 @@ export async function POST(request: Request) {
 
   await initDb();
   const db = getDb();
-  const id = uuidv4();
+
+  let id = generateShortInviteId();
+  for (let attempt = 0; attempt < 5; attempt++) {
+    const existing = await db
+      .select({ id: invites.id })
+      .from(invites)
+      .where(eq(invites.id, id))
+      .limit(1);
+    if (!existing.length) break;
+    id = generateShortInviteId();
+  }
 
   await db.insert(invites).values({
     id,
