@@ -153,66 +153,277 @@ body::after {
   margin-bottom: -0.85rem;
 }
 
-/* ——— Welcome photo collage ——— */
-.photo-collage {
-  display: grid;
-  gap: 0.65rem;
+/* ——— Welcome photo scatter ——— */
+.welcome-scene {
+  position: relative;
+  display: flex;
+  width: 100%;
+  max-width: 24rem;
+  min-height: 28rem;
+  align-items: center;
+  justify-content: center;
   margin-inline: auto;
-  padding: 0.5rem;
+  overflow: visible;
 }
 
-.photo-collage--1 {
-  grid-template-columns: 1fr;
-  max-width: 14rem;
+.welcome-scene-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  padding: 3.5rem 0.5rem;
 }
 
-.photo-collage--2 {
-  grid-template-columns: 1fr 1fr;
-  max-width: 18rem;
+.photo-scatter-wrap {
+  position: relative;
 }
 
-.photo-collage--3 {
-  grid-template-columns: 1.2fr 0.8fr;
-  grid-template-rows: auto auto;
-  max-width: 20rem;
+.photo-scatter-item {
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
 }
 
-.photo-collage--3 .photo-collage-item:first-child {
-  grid-row: span 2;
-}
-
-.photo-collage--many {
-  grid-template-columns: repeat(2, 1fr);
-  max-width: 22rem;
-}
-
-.photo-collage-item {
-  overflow: hidden;
-  border-radius: 0.85rem;
-  border: 3px solid rgba(255, 255, 255, 0.85);
+.photo-scatter-tilt {
+  border-radius: 0.75rem;
+  border: 3px solid rgba(255, 255, 255, 0.9);
   background: white;
   box-shadow:
-    0 8px 24px rgba(190, 80, 140, 0.18),
-    0 2px 8px rgba(120, 60, 160, 0.1);
+    0 10px 28px rgba(190, 80, 140, 0.2),
+    0 3px 10px rgba(120, 60, 160, 0.12);
+  overflow: hidden;
 }
 
-.photo-collage-img {
+.photo-scatter-img {
   display: block;
-  width: 100%;
-  height: 100%;
-  min-height: 5.5rem;
+  width: 5rem;
+  height: 5rem;
   object-fit: cover;
-  aspect-ratio: 1;
 }
 
-.photo-collage--1 .photo-collage-img {
-  min-height: 11rem;
-  aspect-ratio: 4 / 5;
+/* 1 photo — floating above-left of name */
+.photo-scatter-wrap--1 .photo-scatter-item--0 {
+  top: 6%;
+  left: -4%;
 }
 
-.photo-collage--3 .photo-collage-item:first-child .photo-collage-img {
-  min-height: 10rem;
-  aspect-ratio: auto;
+.photo-scatter-wrap--1 .photo-scatter-item--0 .photo-scatter-tilt {
+  transform: rotate(-10deg);
+}
+
+.photo-scatter-wrap--1 .photo-scatter-item--0 .photo-scatter-img {
+  width: 6.5rem;
+  height: 6.5rem;
+}
+
+/* 2 photos — flanking upper area */
+.photo-scatter-wrap--2 .photo-scatter-item--0 {
+  top: 4%;
+  left: -10%;
+}
+
+.photo-scatter-wrap--2 .photo-scatter-item--0 .photo-scatter-tilt {
+  transform: rotate(-12deg);
+}
+
+.photo-scatter-wrap--2 .photo-scatter-item--1 {
+  top: 2%;
+  right: -10%;
+}
+
+.photo-scatter-wrap--2 .photo-scatter-item--1 .photo-scatter-tilt {
+  transform: rotate(10deg);
+}
+
+/* 3 photos — triangle around top & sides */
+.photo-scatter-wrap--3 .photo-scatter-item--0 {
+  top: 0;
+  left: -12%;
+}
+
+.photo-scatter-wrap--3 .photo-scatter-item--0 .photo-scatter-tilt {
+  transform: rotate(-14deg);
+}
+
+.photo-scatter-wrap--3 .photo-scatter-item--1 {
+  top: -2%;
+  right: -12%;
+}
+
+.photo-scatter-wrap--3 .photo-scatter-item--1 .photo-scatter-tilt {
+  transform: rotate(12deg);
+}
+
+.photo-scatter-wrap--3 .photo-scatter-item--2 {
+  bottom: 38%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.photo-scatter-wrap--3 .photo-scatter-item--2 .photo-scatter-tilt {
+  transform: rotate(4deg);
+}
+
+.photo-scatter-wrap--3 .photo-scatter-item--2 .photo-scatter-img {
+  width: 4.5rem;
+  height: 4.5rem;
+}
+
+/* 4 photos — corners framing content */
+.photo-scatter-wrap--4 .photo-scatter-item--0 {
+  top: 2%;
+  left: -14%;
+}
+
+.photo-scatter-wrap--4 .photo-scatter-item--0 .photo-scatter-tilt {
+  transform: rotate(-11deg);
+}
+
+.photo-scatter-wrap--4 .photo-scatter-item--1 {
+  top: 0;
+  right: -14%;
+}
+
+.photo-scatter-wrap--4 .photo-scatter-item--1 .photo-scatter-tilt {
+  transform: rotate(13deg);
+}
+
+.photo-scatter-wrap--4 .photo-scatter-item--2 {
+  bottom: 18%;
+  left: -12%;
+}
+
+.photo-scatter-wrap--4 .photo-scatter-item--2 .photo-scatter-tilt {
+  transform: rotate(8deg);
+}
+
+.photo-scatter-wrap--4 .photo-scatter-item--3 {
+  bottom: 16%;
+  right: -12%;
+}
+
+.photo-scatter-wrap--4 .photo-scatter-item--3 .photo-scatter-tilt {
+  transform: rotate(-9deg);
+}
+
+/* 5 photos — ring around center */
+.photo-scatter-wrap--5 .photo-scatter-item--0 {
+  top: 0;
+  left: -14%;
+}
+
+.photo-scatter-wrap--5 .photo-scatter-item--0 .photo-scatter-tilt {
+  transform: rotate(-12deg);
+}
+
+.photo-scatter-wrap--5 .photo-scatter-item--1 {
+  top: -2%;
+  right: -14%;
+}
+
+.photo-scatter-wrap--5 .photo-scatter-item--1 .photo-scatter-tilt {
+  transform: rotate(11deg);
+}
+
+.photo-scatter-wrap--5 .photo-scatter-item--2 {
+  top: 42%;
+  left: -16%;
+}
+
+.photo-scatter-wrap--5 .photo-scatter-item--2 .photo-scatter-tilt {
+  transform: rotate(7deg);
+}
+
+.photo-scatter-wrap--5 .photo-scatter-item--3 {
+  top: 40%;
+  right: -16%;
+}
+
+.photo-scatter-wrap--5 .photo-scatter-item--3 .photo-scatter-tilt {
+  transform: rotate(-8deg);
+}
+
+.photo-scatter-wrap--5 .photo-scatter-item--4 {
+  bottom: 6%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.photo-scatter-wrap--5 .photo-scatter-item--4 .photo-scatter-tilt {
+  transform: rotate(3deg);
+}
+
+.photo-scatter-wrap--5 .photo-scatter-item--2 .photo-scatter-img,
+.photo-scatter-wrap--5 .photo-scatter-item--3 .photo-scatter-img {
+  width: 4.25rem;
+  height: 4.25rem;
+}
+
+.photo-scatter-wrap--5 .photo-scatter-item--4 .photo-scatter-img {
+  width: 4.5rem;
+  height: 4.5rem;
+}
+
+/* 6 photos — fuller scatter ring */
+.photo-scatter-wrap--6 .photo-scatter-item--0 {
+  top: 0;
+  left: -14%;
+}
+
+.photo-scatter-wrap--6 .photo-scatter-item--0 .photo-scatter-tilt {
+  transform: rotate(-13deg);
+}
+
+.photo-scatter-wrap--6 .photo-scatter-item--1 {
+  top: -2%;
+  right: -14%;
+}
+
+.photo-scatter-wrap--6 .photo-scatter-item--1 .photo-scatter-tilt {
+  transform: rotate(12deg);
+}
+
+.photo-scatter-wrap--6 .photo-scatter-item--2 {
+  top: 36%;
+  left: -18%;
+}
+
+.photo-scatter-wrap--6 .photo-scatter-item--2 .photo-scatter-tilt {
+  transform: rotate(6deg);
+}
+
+.photo-scatter-wrap--6 .photo-scatter-item--3 {
+  top: 34%;
+  right: -18%;
+}
+
+.photo-scatter-wrap--6 .photo-scatter-item--3 .photo-scatter-tilt {
+  transform: rotate(-7deg);
+}
+
+.photo-scatter-wrap--6 .photo-scatter-item--4 {
+  bottom: 14%;
+  left: -8%;
+}
+
+.photo-scatter-wrap--6 .photo-scatter-item--4 .photo-scatter-tilt {
+  transform: rotate(9deg);
+}
+
+.photo-scatter-wrap--6 .photo-scatter-item--5 {
+  bottom: 12%;
+  right: -8%;
+}
+
+.photo-scatter-wrap--6 .photo-scatter-item--5 .photo-scatter-tilt {
+  transform: rotate(-10deg);
+}
+
+.photo-scatter-wrap--6 .photo-scatter-item--2 .photo-scatter-img,
+.photo-scatter-wrap--6 .photo-scatter-item--3 .photo-scatter-img,
+.photo-scatter-wrap--6 .photo-scatter-item--4 .photo-scatter-img,
+.photo-scatter-wrap--6 .photo-scatter-item--5 .photo-scatter-img {
+  width: 4rem;
+  height: 4rem;
 }
 
 /* ——— Typography ——— */

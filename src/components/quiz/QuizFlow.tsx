@@ -92,25 +92,28 @@ export function QuizFlow({ name, photos = [], onComplete }: QuizFlowProps) {
           className="flex flex-1 flex-col"
         >
           {step.type === "welcome" && (
-            <div className="flex flex-1 flex-col items-center justify-center text-center">
-              <PhotoCollage photos={photos} />
-              <p className="label-eyebrow mb-4">A little surprise for you</p>
-              <h1 className="mb-0 overflow-visible">
-                <span className="welcome-name text-8xl">
-                  {name}
-                </span>
-              </h1>
-              <p className="mb-10 max-w-xs text-lg text-muted">
-                Let&apos;s plan something special together. Answer a few quick
-                questions and I&apos;ll put together a date just for you.
-              </p>
-              <button
-                type="button"
-                onClick={next}
-                className="btn-romantic px-8 py-3"
-              >
-                Let&apos;s go →
-              </button>
+            <div className="flex flex-1 flex-col items-center justify-center overflow-visible">
+              <PhotoCollage photos={photos}>
+                <div className="text-center">
+                  <p className="label-eyebrow mb-4">A little surprise for you</p>
+                  <h1 className="mb-0 overflow-visible">
+                    <span className="welcome-name text-8xl">
+                      {name}
+                    </span>
+                  </h1>
+                  <p className="mb-10 max-w-xs text-lg text-muted">
+                    Let&apos;s plan something special together. Answer a few quick
+                    questions and I&apos;ll put together a date just for you.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={next}
+                    className="btn-romantic px-8 py-3"
+                  >
+                    Let&apos;s go →
+                  </button>
+                </div>
+              </PhotoCollage>
             </div>
           )}
 

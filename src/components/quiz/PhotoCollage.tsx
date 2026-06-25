@@ -4,52 +4,33 @@ import { motion } from "framer-motion";
 
 type PhotoCollageProps = {
   photos: string[];
+  children: React.ReactNode;
 };
 
-const LAYOUTS: Array<{
-  className: string;
-  imgClassName?: string;
-}> = [
-  { className: "col-span-2 row-span-2" },
-  { className: "col-span-1 row-span-1 -rotate-3" },
-  { className: "col-span-1 row-span-1 rotate-2 translate-y-2" },
-  { className: "col-span-1 row-span-1 rotate-1" },
-  { className: "col-span-1 row-span-1 -rotate-2 translate-y-1" },
-  { className: "col-span-2 row-span-1 rotate-1" },
-];
-
-export function PhotoCollage({ photos }: PhotoCollageProps) {
-  if (!photos.length) return null;
-
+export function PhotoCollage({ photos, children }: PhotoCollageProps) {
   const count = Math.min(photos.length, 6);
-  const layoutClass =
-    count === 1
-      ? "photo-collage photo-collage--1"
-      : count === 2
-        ? "photo-collage photo-collage--2"
-        : count === 3
-          ? "photo-collage photo-collage--3"
-          : "photo-collage photo-collage--many";
+
+  if (!count) {
+    return <>{children}</>;
+  }
 
   return (
-    <div className={`${layoutClass} mb-8 w-full max-w-sm`}>
+    <div className={`welcome-scene photo-scatter-wrap photo-scatter-wrap--${count}`}>
       {photos.slice(0, 6).map((src, i) => (
         <motion.div
           key={`${src.slice(0, 32)}-${i}`}
-          initial={{ opacity: 0, scale: 0.92, y: 12 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ delay: i * 0.08, duration: 0.45 }}
-          className={`photo-collage-item ${LAYOUTS[i]?.className ?? ""}`}
+          initial={{ opacity: 0, scale: 0.85, rotate: 0 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: i * 0.07, duration: 0.5, type: "spring", stiffness: 120 }}
+          className={`photo-scatter-item photo-scatter-item--${i}`}
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={src}
-            alt=""
-            className="photo-collage-img"
-            draggable={false}
-          />
+          <div className="photo-scatter-tilt">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={src} alt="" className="photo-scatter-img" draggable={false} />
+          </div>
         </motion.div>
       ))}
+      <div className="welcome-scene-content">{children}</div>
     </div>
   );
 }
