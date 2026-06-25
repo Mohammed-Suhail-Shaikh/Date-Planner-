@@ -772,5 +772,7 @@ export function generateItinerary(answers: QuizAnswers): Itinerary {
     date: formatDateDisplay(dateIso),
     dateIso,
     slots,
+    flowers: answers.flowers,
+    flowersSuggestion: answers.flowersSuggestion,
   };
 }

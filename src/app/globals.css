@@ -130,6 +130,7 @@ body::after {
   position: relative;
   z-index: 1;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 .font-display {
@@ -734,6 +735,7 @@ body::after {
 
 /* ——— Inputs ——— */
 .input-romantic {
+  box-sizing: border-box;
   background: linear-gradient(
     145deg,
     rgba(255, 255, 255, 0.92),
@@ -742,7 +744,10 @@ body::after {
   border: 1px solid var(--border);
   border-radius: 0.75rem;
   color: var(--foreground);
+  font-size: 0.9375rem;
+  line-height: 1.5;
   outline: none;
+  padding: 0.875rem 1rem;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -750,6 +755,24 @@ body::after {
   border-color: rgba(192, 38, 211, 0.45);
   box-shadow: 0 0 0 3px rgba(232, 121, 249, 0.2),
     0 4px 16px rgba(244, 114, 182, 0.12);
+}
+
+input.input-romantic,
+input[type="date"].input-romantic,
+input[type="email"].input-romantic {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+textarea.input-romantic {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  min-height: 5.5rem;
+  resize: vertical;
 }
 
 /* ——— Links & accents ——— */
@@ -949,3 +972,15 @@ body::after {
   font-size: 0.7rem;
 }
 
+/* Form fields — reliable inset (overrides Tailwind preflight / utility conflicts) */
+textarea.input-romantic,
+input.input-romantic {
+  box-sizing: border-box;
+  padding: 1rem 1.125rem !important;
+  line-height: 1.5;
+}
+
+textarea.input-romantic {
+  min-height: 5.5rem;
+  resize: vertical;
+}

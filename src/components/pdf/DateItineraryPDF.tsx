@@ -9,6 +9,7 @@ import {
   pdf,
 } from "@react-pdf/renderer";
 import type { Itinerary } from "@/lib/db/schema";
+import { formatFlowersPreference } from "@/lib/format-flowers";
 
 const styles = StyleSheet.create({
   page: {
@@ -68,6 +69,8 @@ function DateItineraryDocument({
   itinerary: Itinerary;
   name: string;
 }) {
+  const flowersLine = formatFlowersPreference(itinerary);
+
   return (
     <Document>
       <Page size="A4" style={styles.page}>
@@ -82,6 +85,13 @@ function DateItineraryDocument({
             {slot.notes ? <Text style={styles.notes}>{slot.notes}</Text> : null}
           </View>
         ))}
+
+        {flowersLine ? (
+          <View style={styles.slot}>
+            <Text style={styles.slotTitle}>Flowers for our date</Text>
+            <Text style={styles.notes}>{flowersLine}</Text>
+          </View>
+        ) : null}
 
         {itinerary.customSuggestions ? (
           <View style={styles.slot}>

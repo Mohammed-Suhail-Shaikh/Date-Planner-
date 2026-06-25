@@ -22,6 +22,7 @@ type Step =
   | { type: "activity" }
   | { type: "time" }
   | { type: "date" }
+  | { type: "flowers" }
   | { type: "notes" }
   | { type: "email" };
 
@@ -32,6 +33,7 @@ const STEPS: Step[] = [
   { type: "activity" },
   { type: "time" },
   { type: "date" },
+  { type: "flowers" },
   { type: "notes" },
   { type: "email" },
 ];
@@ -45,6 +47,7 @@ export function QuizFlow({ name, photos = [], onComplete }: QuizFlowProps) {
     selectedDate: getDefaultPickableDate(),
   });
   const [dietaryNotes, setDietaryNotes] = useState("");
+  const [flowersSuggestion, setFlowersSuggestion] = useState("");
   const [herEmail, setHerEmail] = useState("");
 
   const step = STEPS[stepIndex];
@@ -71,6 +74,8 @@ export function QuizFlow({ name, photos = [], onComplete }: QuizFlowProps) {
       activity: answers.activity!,
       time: answers.time!,
       selectedDate: answers.selectedDate!,
+      flowers: answers.flowers!,
+      flowersSuggestion: flowersSuggestion.trim() || undefined,
       dietaryNotes: dietaryNotes.trim() || undefined,
       herEmail: herEmail.trim(),
     });
@@ -78,10 +83,10 @@ export function QuizFlow({ name, photos = [], onComplete }: QuizFlowProps) {
 
   return (
     <div
-      className={`mx-auto flex min-h-screen flex-col py-8 sm:py-10 ${
+      className={`mx-auto flex min-h-screen w-full max-w-lg flex-col box-border py-6 sm:py-10 ${
         step.type === "welcome"
-          ? "w-full max-w-full px-1 sm:max-w-lg sm:px-6"
-          : "max-w-lg px-4 sm:px-6"
+          ? "max-w-full px-1 sm:max-w-lg sm:px-6"
+          : "px-4 sm:px-6"
       } overflow-x-hidden sm:overflow-visible`}
     >
       {step.type !== "welcome" && (
@@ -91,11 +96,11 @@ export function QuizFlow({ name, photos = [], onComplete }: QuizFlowProps) {
       <AnimatePresence mode="wait">
         <motion.div
           key={stepIndex}
-          initial={{ opacity: 0, x: 24 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -24 }}
-          transition={{ duration: 0.3 }}
-          className="flex flex-1 flex-col"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.25 }}
+          className="flex w-full min-w-0 flex-1 flex-col"
         >
           {step.type === "welcome" && (
             <div className="flex flex-1 flex-col items-center justify-center overflow-visible">
@@ -129,7 +134,7 @@ export function QuizFlow({ name, photos = [], onComplete }: QuizFlowProps) {
               subtitle="Pick what feels right"
               onBack={back}
             >
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid w-full grid-cols-2 gap-3">
                 {options.quiz.moods.map((m) => (
                   <OptionCard
                     key={m.id}
@@ -150,7 +155,7 @@ export function QuizFlow({ name, photos = [], onComplete }: QuizFlowProps) {
               subtitle="How active should we be?"
               onBack={back}
             >
-              <div className="grid grid-cols-1 gap-3">
+              <div className="grid w-full grid-cols-1 gap-3">
                 {options.quiz.energies.map((e) => (
                   <OptionCard
                     key={e.id}
@@ -171,7 +176,7 @@ export function QuizFlow({ name, photos = [], onComplete }: QuizFlowProps) {
               subtitle="Choose an activity"
               onBack={back}
             >
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid w-full grid-cols-2 gap-3">
                 {options.quiz.activities.map((a) => (
                   <OptionCard
                     key={a.id}
@@ -192,7 +197,7 @@ export function QuizFlow({ name, photos = [], onComplete }: QuizFlowProps) {
               subtitle="Pick a time window"
               onBack={back}
             >
-              <div className="grid grid-cols-1 gap-3">
+              <div className="grid w-full grid-cols-1 gap-3">
                 {options.quiz.times.map((t) => (
                   <OptionCard
                     key={t.id}
@@ -213,7 +218,7 @@ export function QuizFlow({ name, photos = [], onComplete }: QuizFlowProps) {
               subtitle="Choose the day that works for you"
               onBack={back}
             >
-              <div className="card-romantic p-5">
+              <div className="card-romantic w-full min-w-0 p-4 sm:p-5">
                 <label htmlFor="quiz-date" className="mb-2 block text-sm text-muted">
                   Date
                 </label>
@@ -228,14 +233,70 @@ export function QuizFlow({ name, photos = [], onComplete }: QuizFlowProps) {
                       selectedDate: e.target.value,
                     }))
                   }
-                  className="input-romantic w-full px-4 py-3"
+                  className="input-romantic w-full min-w-0 max-w-full rounded-xl sm:rounded-2xl"
                 />
               </div>
               <button
                 type="button"
                 onClick={next}
                 disabled={!answers.selectedDate}
-                className="btn-romantic mt-6 w-full py-3"
+                className="btn-romantic mt-8 w-full max-w-full py-3 sm:mt-6"
+              >
+                Continue →
+              </button>
+            </QuizStep>
+          )}
+
+          {step.type === "flowers" && (
+            <QuizStep
+              title="What flowers should I bring?"
+              subtitle="Pick your favourite"
+              onBack={back}
+            >
+              <div className="grid w-full grid-cols-2 gap-3">
+                {options.quiz.flowers.map((f) => (
+                  <OptionCard
+                    key={f.id}
+                    emoji={f.emoji}
+                    label={f.label}
+                    description={f.description}
+                    selected={answers.flowers === f.id}
+                    onClick={() =>
+                      setAnswers((prev) => ({ ...prev, flowers: f.id }))
+                    }
+                  />
+                ))}
+              </div>
+              <div className="card-romantic mt-8 w-full min-w-0 p-4 sm:mt-6 sm:p-4">
+                <label
+                  htmlFor="flowers-suggestion"
+                  className="mb-2 block text-sm text-muted"
+                >
+                  {answers.flowers === "roses"
+                    ? "What colour would you like?"
+                    : "Any notes? (optional)"}
+                </label>
+                <textarea
+                  id="flowers-suggestion"
+                  value={flowersSuggestion}
+                  onChange={(e) => setFlowersSuggestion(e.target.value)}
+                  placeholder={
+                    answers.flowers === "roses"
+                      ? "e.g. red, pink, white, yellow..."
+                      : "e.g. pastel colours, no pollen allergies..."
+                  }
+                  rows={2}
+                  className="input-romantic w-full min-w-0 max-w-full rounded-xl sm:rounded-2xl"
+                />
+              </div>
+              <button
+                type="button"
+                onClick={next}
+                disabled={
+                  !answers.flowers ||
+                  (answers.flowers === "roses" && !flowersSuggestion.trim())
+                }
+                className="btn-romantic mt-8 w-full max-w-full py-3 sm:mt-6"
               >
                 Continue →
               </button>
@@ -252,13 +313,13 @@ export function QuizFlow({ name, photos = [], onComplete }: QuizFlowProps) {
                 value={dietaryNotes}
                 onChange={(e) => setDietaryNotes(e.target.value)}
                 placeholder="e.g. vegetarian, no seafood..."
-                rows={4}
-                className="input-romantic w-full rounded-2xl p-4"
+                rows={3}
+                className="input-romantic w-full min-w-0 max-w-full rounded-xl sm:rounded-2xl"
               />
               <button
                 type="button"
                 onClick={next}
-                className="btn-romantic mt-6 w-full py-3"
+                className="btn-romantic mt-5 w-full max-w-full py-3 sm:mt-6"
               >
                 Continue →
               </button>
@@ -276,13 +337,13 @@ export function QuizFlow({ name, photos = [], onComplete }: QuizFlowProps) {
                 value={herEmail}
                 onChange={(e) => setHerEmail(e.target.value)}
                 placeholder="you@email.com"
-                className="input-romantic w-full rounded-2xl p-4"
+                className="input-romantic w-full min-w-0 max-w-full rounded-xl sm:rounded-2xl"
               />
               <button
                 type="button"
                 onClick={handleFinish}
                 disabled={!herEmail.trim()}
-                className="btn-romantic mt-6 w-full py-3"
+                className="btn-romantic mt-5 w-full max-w-full py-3 sm:mt-6"
               >
                 See my date plan →
               </button>
@@ -306,17 +367,19 @@ function QuizStep({
   children: React.ReactNode;
 }) {
   return (
-    <>
+    <div className="w-full min-w-0">
       <button
         type="button"
         onClick={onBack}
-        className="mb-6 text-sm text-muted transition hover:text-accent"
+        className="mb-4 text-sm text-muted transition hover:text-accent sm:mb-6"
       >
         ← Back
       </button>
-      <h2 className="font-display text-gradient mb-1 text-3xl font-bold">{title}</h2>
-      <p className="mb-8 text-muted">{subtitle}</p>
+      <h2 className="font-display text-gradient mb-1 text-2xl font-bold sm:text-3xl">
+        {title}
+      </h2>
+      <p className="mb-6 text-sm text-muted sm:mb-8 sm:text-base">{subtitle}</p>
       {children}
-    </>
+    </div>
   );
 }

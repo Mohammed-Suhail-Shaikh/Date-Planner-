@@ -21,15 +21,18 @@ export function OptionCard({
     <motion.button
       type="button"
       onClick={onClick}
-      whileTap={{ scale: 0.97 }}
-      whileHover={{ y: selected ? 0 : -2 }}
-      className={`flex flex-col items-start rounded-2xl p-5 text-left transition-all duration-300 ${
+      whileTap={{ scale: 0.98 }}
+      className={`relative isolate flex w-full min-w-0 items-center gap-3 rounded-xl p-4 text-left transition-all duration-300 sm:flex-col sm:items-start sm:gap-0 sm:rounded-2xl sm:p-5 ${
         selected ? "card-romantic-selected" : "card-romantic hover:shadow-[var(--shadow-romantic-lg)]"
       }`}
     >
-      <span className="mb-2 text-2xl">{emoji}</span>
-      <span className="font-medium">{label}</span>
-      <span className="mt-1 text-sm text-muted">{description}</span>
+      <span className="shrink-0 text-2xl leading-none sm:mb-2">{emoji}</span>
+      <span className="min-w-0 flex-1 sm:flex-none">
+        <span className="block text-sm font-medium leading-snug sm:text-base">{label}</span>
+        <span className="mt-1 hidden text-sm leading-snug text-muted sm:block">
+          {description}
+        </span>
+      </span>
     </motion.button>
   );
 }

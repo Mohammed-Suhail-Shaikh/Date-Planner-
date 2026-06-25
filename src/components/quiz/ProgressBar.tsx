@@ -11,7 +11,7 @@ export function ProgressBar({ current, total }: ProgressBarProps) {
   const percent = (current / total) * 100;
 
   return (
-    <div className="progress-romantic-track mb-8">
+    <div className="progress-romantic-track mb-6 w-full sm:mb-8">
       <motion.div
         className="progress-romantic-fill"
         initial={{ width: 0 }}

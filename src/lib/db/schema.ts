@@ -26,6 +26,8 @@ export type QuizAnswers = {
   activity: string;
   time: string;
   selectedDate: string;
+  flowers: string;
+  flowersSuggestion?: string;
   dietaryNotes?: string;
   herEmail: string;
 };
@@ -46,6 +48,8 @@ export type Itinerary = {
   date: string;
   dateIso?: string;
   slots: ItinerarySlot[];
+  flowers?: string;
+  flowersSuggestion?: string;
   customSuggestions?: string;
 };
 

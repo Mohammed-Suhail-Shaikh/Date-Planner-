@@ -115,6 +115,50 @@
         "emoji": "📅",
         "description": "Brunch through dinner"
       }
+    ],
+    "flowers": [
+      {
+        "id": "roses",
+        "label": "Roses",
+        "emoji": "🌹",
+        "description": "Classic and romantic — specify your colour below"
+      },
+      {
+        "id": "tulips",
+        "label": "Tulips",
+        "emoji": "🌷",
+        "description": "Cheerful and elegant"
+      },
+      {
+        "id": "lilies",
+        "label": "Lilies",
+        "emoji": "🪷",
+        "description": "Graceful and fragrant"
+      },
+      {
+        "id": "sunflowers",
+        "label": "Sunflowers",
+        "emoji": "🌻",
+        "description": "Bright and bold"
+      },
+      {
+        "id": "daisies",
+        "label": "Daisies",
+        "emoji": "🌼",
+        "description": "Simple and sweet"
+      },
+      {
+        "id": "peonies",
+        "label": "Peonies",
+        "emoji": "🌸",
+        "description": "Soft and dreamy"
+      },
+      {
+        "id": "mixed-bouquet",
+        "label": "Mixed bouquet",
+        "emoji": "💐",
+        "description": "A little bit of everything"
+      }
     ]
   },
   "venues": [
