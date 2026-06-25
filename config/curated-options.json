@@ -1,0 +1,145 @@
+{
+  "planner": {
+    "name": "You",
+    "email": "you@gmail.com",
+    "defaultLocation": "Your City"
+  },
+  "quiz": {
+    "moods": [
+      { "id": "romantic", "label": "Romantic", "emoji": "🌹", "description": "Intimate and thoughtful" },
+      { "id": "adventurous", "label": "Adventurous", "emoji": "🏔️", "description": "Something exciting and new" },
+      { "id": "cozy", "label": "Cozy", "emoji": "☕", "description": "Relaxed and low-key" },
+      { "id": "playful", "label": "Playful", "emoji": "🎉", "description": "Fun and lighthearted" }
+    ],
+    "energies": [
+      { "id": "low-key", "label": "Low-key", "emoji": "🌙", "description": "Easy pace, no rush" },
+      { "id": "balanced", "label": "Balanced", "emoji": "⚖️", "description": "A nice mix of activity and chill" },
+      { "id": "high-energy", "label": "High-energy", "emoji": "⚡", "description": "Keep things moving" }
+    ],
+    "activities": [
+      { "id": "dinner", "label": "Dinner", "emoji": "🍽️", "description": "Great food and conversation" },
+      { "id": "outdoors", "label": "Outdoors", "emoji": "🌿", "description": "Fresh air and scenery" },
+      { "id": "culture", "label": "Culture", "emoji": "🎭", "description": "Art, music, or museums" },
+      { "id": "drinks", "label": "Drinks", "emoji": "🥂", "description": "Cocktails or wine bar" }
+    ],
+    "times": [
+      { "id": "afternoon", "label": "Afternoon", "emoji": "☀️", "description": "Starts around 2 PM" },
+      { "id": "evening", "label": "Evening", "emoji": "🌆", "description": "Starts around 6 PM" },
+      { "id": "full-day", "label": "Full day", "emoji": "📅", "description": "An all-day adventure" }
+    ]
+  },
+  "venues": [
+    {
+      "id": "bistro-luna",
+      "name": "Bistro Luna",
+      "address": "123 Main St",
+      "tags": ["romantic", "dinner", "evening", "cozy"],
+      "defaultDuration": 90,
+      "notes": "Reserve a window table"
+    },
+    {
+      "id": "rooftop-walk",
+      "name": "Harbor Rooftop Walk",
+      "address": "Harbor View Promenade",
+      "tags": ["romantic", "outdoors", "evening", "low-key"],
+      "defaultDuration": 60,
+      "notes": "Stunning sunset views"
+    },
+    {
+      "id": "trail-cafe",
+      "name": "Trailhead Café",
+      "address": "456 Park Ave",
+      "tags": ["adventurous", "outdoors", "afternoon", "cozy"],
+      "defaultDuration": 45,
+      "notes": "Grab coffee before the hike"
+    },
+    {
+      "id": "summit-lookout",
+      "name": "Summit Lookout",
+      "address": "Eagle Ridge Trail",
+      "tags": ["adventurous", "outdoors", "afternoon", "high-energy"],
+      "defaultDuration": 120,
+      "notes": "Moderate hike, bring water"
+    },
+    {
+      "id": "gallery-modern",
+      "name": "Modern Art Gallery",
+      "address": "789 Arts District",
+      "tags": ["culture", "afternoon", "balanced", "playful"],
+      "defaultDuration": 75,
+      "notes": "Current exhibit is interactive"
+    },
+    {
+      "id": "wine-bar-velvet",
+      "name": "Velvet Wine Bar",
+      "address": "321 Vine St",
+      "tags": ["drinks", "evening", "romantic", "cozy"],
+      "defaultDuration": 90,
+      "notes": "Try the house red"
+    },
+    {
+      "id": "jazz-lounge",
+      "name": "Blue Note Jazz Lounge",
+      "address": "555 Music Row",
+      "tags": ["culture", "drinks", "evening", "playful"],
+      "defaultDuration": 120,
+      "notes": "Live music starts at 8"
+    },
+    {
+      "id": "brunch-garden",
+      "name": "Garden Brunch Spot",
+      "address": "88 Bloom Lane",
+      "tags": ["cozy", "afternoon", "full-day", "playful"],
+      "defaultDuration": 75,
+      "notes": "Outdoor seating when weather permits"
+    }
+  ],
+  "itineraryRules": [
+    {
+      "match": { "mood": "romantic", "activity": "dinner" },
+      "slots": [
+        { "type": "venue", "venueId": "bistro-luna", "offsetMinutes": 0 },
+        { "type": "venue", "venueId": "rooftop-walk", "offsetMinutes": 120 }
+      ]
+    },
+    {
+      "match": { "mood": "adventurous", "activity": "outdoors" },
+      "slots": [
+        { "type": "venue", "venueId": "trail-cafe", "offsetMinutes": 0 },
+        { "type": "venue", "venueId": "summit-lookout", "offsetMinutes": 60 }
+      ]
+    },
+    {
+      "match": { "mood": "cozy", "activity": "drinks" },
+      "slots": [
+        { "type": "venue", "venueId": "wine-bar-velvet", "offsetMinutes": 0 }
+      ]
+    },
+    {
+      "match": { "activity": "culture" },
+      "slots": [
+        { "type": "venue", "venueId": "gallery-modern", "offsetMinutes": 0 },
+        { "type": "venue", "venueId": "jazz-lounge", "offsetMinutes": 150 }
+      ]
+    },
+    {
+      "match": { "time": "full-day" },
+      "slots": [
+        { "type": "venue", "venueId": "brunch-garden", "offsetMinutes": 0 },
+        { "type": "venue", "venueId": "gallery-modern", "offsetMinutes": 120 },
+        { "type": "venue", "venueId": "bistro-luna", "offsetMinutes": 300 }
+      ]
+    }
+  ],
+  "fallbackRule": {
+    "slots": [
+      { "type": "venue", "venueId": "bistro-luna", "offsetMinutes": 0 },
+      { "type": "venue", "venueId": "wine-bar-velvet", "offsetMinutes": 120 }
+    ]
+  },
+  "timeDefaults": {
+    "afternoon": { "hour": 14, "minute": 0 },
+    "evening": { "hour": 18, "minute": 30 },
+    "full-day": { "hour": 11, "minute": 0 }
+  }
+}
