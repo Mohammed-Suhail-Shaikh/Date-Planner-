@@ -278,6 +278,33 @@
       "tags": ["playful", "balanced", "afternoon", "adventurous"],
       "defaultDuration": 60,
       "notes": "Iconic Boston pop culture store — comics, vinyls, collectibles. Great for a nerdy or quirky date."
+    },
+    {
+      "id": "kayaking",
+      "name": "Paddle Boston — Charles River Kayaking",
+      "address": "15 Broad Canal Way, Cambridge, MA 02142",
+      "mapsUrl": "https://maps.google.com/?q=Paddle+Boston+Cambridge+MA",
+      "tags": ["adventurous", "outdoors", "afternoon", "high-energy", "balanced", "romantic"],
+      "defaultDuration": 90,
+      "notes": "Rent kayaks or canoes on the Charles River. Book ahead on weekends. One of the best active date ideas in Boston."
+    },
+    {
+      "id": "prudential-view",
+      "name": "Prudential Tower Skywalk Observatory",
+      "address": "800 Boylston St, Boston, MA 02199",
+      "mapsUrl": "https://maps.google.com/?q=Prudential+Tower+Skywalk+Observatory+800+Boylston+St+Boston+MA",
+      "tags": ["romantic", "adventurous", "evening", "afternoon", "balanced"],
+      "defaultDuration": 60,
+      "notes": "360° views of Boston from the 50th floor. Stunning at sunset or at night. Tickets required — book ahead."
+    },
+    {
+      "id": "museum-gallery-wndr",
+      "name": "WNDR Museum Boston",
+      "address": "500 Washington St, Boston, MA 02111",
+      "mapsUrl": "https://maps.google.com/?q=WNDR+Museum+500+Washington+St+Boston+MA",
+      "tags": ["culture", "afternoon", "playful", "high-energy", "balanced", "adventurous"],
+      "defaultDuration": 90,
+      "notes": "Immersive, interactive art museum. Super photogenic and fun — great for a playful or curious date. Book tickets online."
     }
   ],
   "itineraryRules": [
