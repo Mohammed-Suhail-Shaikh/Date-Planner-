@@ -16,6 +16,7 @@ type DatePageClientProps = {
 export function DatePageClient({ inviteId }: DatePageClientProps) {
   const [view, setView] = useState<View>("loading");
   const [name, setName] = useState("");
+  const [photos, setPhotos] = useState<string[]>([]);
   const [itinerary, setItinerary] = useState<Itinerary | null>(null);
   const [herEmail, setHerEmail] = useState("");
   const [calendarError, setCalendarError] = useState<string | null>(null);
@@ -32,6 +33,7 @@ export function DatePageClient({ inviteId }: DatePageClientProps) {
       }
       const data = await res.json();
       setName(formatDisplayName(data.invite.name));
+      setPhotos(Array.isArray(data.invite.photos) ? data.invite.photos : []);
 
       if (data.invite.status === "approved" && data.response?.itinerary) {
         setItinerary(data.response.itinerary);
@@ -121,7 +123,7 @@ export function DatePageClient({ inviteId }: DatePageClientProps) {
   }
 
   if (view === "quiz") {
-    return <QuizFlow name={name} onComplete={handleQuizComplete} />;
+    return <QuizFlow name={name} photos={photos} onComplete={handleQuizComplete} />;
   }
 
   if (view === "preview" && itinerary) {

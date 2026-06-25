@@ -1,15 +1,17 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
+import { AdminLogin } from "@/components/admin/AdminLogin";
+import { compressImage, MAX_INVITE_PHOTOS } from "@/lib/compress-image";
 import { formatDisplayName } from "@/lib/format-name";
 import { getClientBaseUrl, INVITE_PATH } from "@/lib/url";
-import { useEffect, useState } from "react";
-import { AdminLogin } from "@/components/admin/AdminLogin";
 
 type Invite = {
   id: string;
   name: string;
   status: string;
+  photos?: string[];
   createdAt: string;
 };
 
@@ -24,10 +26,14 @@ export default function AdminPage() {
   const [checking, setChecking] = useState(true);
   const [invites, setInvites] = useState<Invite[]>([]);
   const [newName, setNewName] = useState("");
+  const [photos, setPhotos] = useState<string[]>([]);
+  const [photoError, setPhotoError] = useState("");
+  const [uploadingPhotos, setUploadingPhotos] = useState(false);
   const [createdUrl, setCreatedUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [baseUrl, setBaseUrl] = useState(getClientBaseUrl);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   async function loadInvites() {
     const res = await fetch("/api/invites");
@@ -44,23 +50,58 @@ export default function AdminPage() {
     loadInvites();
   }, []);
 
+  async function handlePhotoSelect(e: React.ChangeEvent<HTMLInputElement>) {
+    const files = Array.from(e.target.files ?? []);
+    e.target.value = "";
+    if (!files.length) return;
+
+    setPhotoError("");
+    setUploadingPhotos(true);
+
+    try {
+      const next = [...photos];
+      for (const file of files) {
+        if (next.length >= MAX_INVITE_PHOTOS) {
+          setPhotoError(`You can add up to ${MAX_INVITE_PHOTOS} photos.`);
+          break;
+        }
+        const compressed = await compressImage(file);
+        next.push(compressed);
+      }
+      setPhotos(next);
+    } catch (err) {
+      setPhotoError(err instanceof Error ? err.message : "Could not add photo.");
+    } finally {
+      setUploadingPhotos(false);
+    }
+  }
+
+  function removePhoto(index: number) {
+    setPhotos((prev) => prev.filter((_, i) => i !== index));
+    setPhotoError("");
+  }
+
   async function handleCreate(e: React.FormEvent) {
     e.preventDefault();
     if (!newName.trim()) return;
     setLoading(true);
     setCreatedUrl("");
+    setPhotoError("");
 
     const res = await fetch("/api/invites", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name: newName.trim() }),
+      body: JSON.stringify({ name: newName.trim(), photos }),
     });
 
     const data = await res.json();
     if (res.ok) {
       setCreatedUrl(data.url);
       setNewName("");
+      setPhotos([]);
       loadInvites();
+    } else {
+      setPhotoError(data.error || "Could not create invite.");
     }
     setLoading(false);
   }
@@ -129,20 +170,69 @@ export default function AdminPage() {
 
       <section className="card-romantic mb-10 p-6">
         <h2 className="mb-4 font-medium">Create new invite</h2>
-        <form onSubmit={handleCreate} className="flex gap-3">
-          <input
-            value={newName}
-            onChange={(e) => setNewName(e.target.value)}
-            placeholder="Her name"
-            className="input-romantic flex-1 px-4 py-2"
-          />
-          <button
-            type="submit"
-            disabled={loading}
-            className="btn-romantic px-6 py-2"
-          >
-            {loading ? "..." : "Create"}
-          </button>
+        <form onSubmit={handleCreate} className="space-y-4">
+          <div className="flex gap-3">
+            <input
+              value={newName}
+              onChange={(e) => setNewName(e.target.value)}
+              placeholder="Her name"
+              className="input-romantic flex-1 px-4 py-2"
+            />
+            <button
+              type="submit"
+              disabled={loading || uploadingPhotos}
+              className="btn-romantic px-6 py-2"
+            >
+              {loading ? "..." : "Create"}
+            </button>
+          </div>
+
+          <div>
+            <p className="mb-2 text-sm text-muted">
+              Photos (optional) — up to {MAX_INVITE_PHOTOS}, shown on her welcome page
+            </p>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              multiple
+              className="hidden"
+              onChange={handlePhotoSelect}
+            />
+            <button
+              type="button"
+              onClick={() => fileInputRef.current?.click()}
+              disabled={uploadingPhotos || photos.length >= MAX_INVITE_PHOTOS}
+              className="btn-romantic-outline px-4 py-2 text-sm disabled:opacity-50"
+            >
+              {uploadingPhotos ? "Processing..." : "Add photos"}
+            </button>
+            {photoError && (
+              <p className="mt-2 text-sm text-red-600">{photoError}</p>
+            )}
+            {photos.length > 0 && (
+              <div className="mt-3 flex flex-wrap gap-2">
+                {photos.map((src, i) => (
+                  <div key={`${i}-${src.slice(0, 24)}`} className="relative">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={src}
+                      alt=""
+                      className="h-16 w-16 rounded-lg border-2 border-white object-cover shadow-sm"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => removePhoto(i)}
+                      className="absolute -right-1.5 -top-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs text-white"
+                      aria-label="Remove photo"
+                    >
+                      ×
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </form>
         {createdUrl && (
           <div className="panel-romantic mt-4 p-4">

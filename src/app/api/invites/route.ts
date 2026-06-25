@@ -6,6 +6,7 @@ import { isAdminAuthenticated } from "@/lib/auth";
 import { getBaseUrl, getInviteUrl } from "@/lib/url";
 import { inviteIdCandidates } from "@/lib/short-id";
 import { formatDisplayName } from "@/lib/format-name";
+import { parseInvitePhotos } from "@/lib/invite-photos";
 
 export async function GET() {
   const authed = await isAdminAuthenticated();
@@ -29,9 +30,19 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const { name } = await request.json();
+  const { name, photos: rawPhotos } = await request.json();
   if (!name?.trim()) {
     return NextResponse.json({ error: "Name is required" }, { status: 400 });
+  }
+
+  let photos: string[] = [];
+  try {
+    photos = parseInvitePhotos(rawPhotos);
+  } catch (err) {
+    return NextResponse.json(
+      { error: err instanceof Error ? err.message : "Invalid photos." },
+      { status: 400 }
+    );
   }
 
   await initDb();
@@ -55,6 +66,7 @@ export async function POST(request: Request) {
   await db.insert(invites).values({
     id,
     name: trimmedName,
+    photos,
     status: "pending",
   });
 

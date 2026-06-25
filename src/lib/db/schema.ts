@@ -4,6 +4,7 @@ export const invites = sqliteTable("invites", {
   id: text("id").primaryKey(),
   name: text("name").notNull(),
   status: text("status").notNull().default("pending"),
+  photos: text("photos", { mode: "json" }).$type<string[]>().default([]),
   createdAt: integer("created_at", { mode: "timestamp" })
     .notNull()
     .$defaultFn(() => new Date()),

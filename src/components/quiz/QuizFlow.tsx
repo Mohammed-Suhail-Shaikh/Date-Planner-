@@ -6,10 +6,12 @@ import { ProgressBar } from "./ProgressBar";
 import { OptionCard } from "./OptionCard";
 import { getCuratedOptions } from "@/lib/itinerary-engine";
 import { getDefaultPickableDate, todayIso } from "@/lib/dates";
+import { PhotoCollage } from "./PhotoCollage";
 import type { QuizAnswers } from "@/lib/db/schema";
 
 type QuizFlowProps = {
   name: string;
+  photos?: string[];
   onComplete: (answers: QuizAnswers) => void;
 };
 
@@ -36,7 +38,7 @@ const STEPS: Step[] = [
 
 const QUIZ_STEPS = STEPS.length - 1;
 
-export function QuizFlow({ name, onComplete }: QuizFlowProps) {
+export function QuizFlow({ name, photos = [], onComplete }: QuizFlowProps) {
   const options = getCuratedOptions();
   const [stepIndex, setStepIndex] = useState(0);
   const [answers, setAnswers] = useState<Partial<QuizAnswers>>({
@@ -91,6 +93,7 @@ export function QuizFlow({ name, onComplete }: QuizFlowProps) {
         >
           {step.type === "welcome" && (
             <div className="flex flex-1 flex-col items-center justify-center text-center">
+              <PhotoCollage photos={photos} />
               <p className="label-eyebrow mb-4">A little surprise for you</p>
               <h1 className="mb-0 overflow-visible">
                 <span className="welcome-name text-8xl">

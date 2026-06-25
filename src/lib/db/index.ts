@@ -42,4 +42,10 @@ export async function initDb(): Promise<void> {
       approved_at INTEGER
     )
   `);
+
+  try {
+    await c.execute(`ALTER TABLE invites ADD COLUMN photos TEXT`);
+  } catch {
+    // Column already exists
+  }
 }

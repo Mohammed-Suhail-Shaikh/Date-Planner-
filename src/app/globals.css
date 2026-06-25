@@ -153,6 +153,68 @@ body::after {
   margin-bottom: -0.85rem;
 }
 
+/* ——— Welcome photo collage ——— */
+.photo-collage {
+  display: grid;
+  gap: 0.65rem;
+  margin-inline: auto;
+  padding: 0.5rem;
+}
+
+.photo-collage--1 {
+  grid-template-columns: 1fr;
+  max-width: 14rem;
+}
+
+.photo-collage--2 {
+  grid-template-columns: 1fr 1fr;
+  max-width: 18rem;
+}
+
+.photo-collage--3 {
+  grid-template-columns: 1.2fr 0.8fr;
+  grid-template-rows: auto auto;
+  max-width: 20rem;
+}
+
+.photo-collage--3 .photo-collage-item:first-child {
+  grid-row: span 2;
+}
+
+.photo-collage--many {
+  grid-template-columns: repeat(2, 1fr);
+  max-width: 22rem;
+}
+
+.photo-collage-item {
+  overflow: hidden;
+  border-radius: 0.85rem;
+  border: 3px solid rgba(255, 255, 255, 0.85);
+  background: white;
+  box-shadow:
+    0 8px 24px rgba(190, 80, 140, 0.18),
+    0 2px 8px rgba(120, 60, 160, 0.1);
+}
+
+.photo-collage-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 5.5rem;
+  object-fit: cover;
+  aspect-ratio: 1;
+}
+
+.photo-collage--1 .photo-collage-img {
+  min-height: 11rem;
+  aspect-ratio: 4 / 5;
+}
+
+.photo-collage--3 .photo-collage-item:first-child .photo-collage-img {
+  min-height: 10rem;
+  aspect-ratio: auto;
+}
+
 /* ——— Typography ——— */
 .text-gradient {
   background: var(--gradient-text);
