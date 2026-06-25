@@ -3,7 +3,9 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { AdminLogin } from "@/components/admin/AdminLogin";
+import { downloadItineraryPdf } from "@/components/pdf/DateItineraryPDF";
 import { compressImage, MAX_INVITE_PHOTOS } from "@/lib/compress-image";
+import type { Itinerary } from "@/lib/db/schema";
 import { formatDisplayName } from "@/lib/format-name";
 import { getClientBaseUrl, INVITE_PATH } from "@/lib/url";
 
@@ -32,6 +34,7 @@ export default function AdminPage() {
   const [createdUrl, setCreatedUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [downloadingId, setDownloadingId] = useState<string | null>(null);
   const [baseUrl, setBaseUrl] = useState(getClientBaseUrl);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -108,6 +111,27 @@ export default function AdminPage() {
 
   async function copyUrl(url: string) {
     await navigator.clipboard.writeText(url);
+  }
+
+  async function handleDownloadItinerary(invite: Invite) {
+    setDownloadingId(invite.id);
+    try {
+      const res = await fetch(`/api/invites/${invite.id}`);
+      if (!res.ok) {
+        throw new Error("Could not load itinerary");
+      }
+      const data = await res.json();
+      const itinerary = data.response?.itinerary as Itinerary | undefined;
+      if (!itinerary) {
+        window.alert("No itinerary found for this invite.");
+        return;
+      }
+      await downloadItineraryPdf(itinerary, formatDisplayName(invite.name));
+    } catch {
+      window.alert("Could not download itinerary. Please try again.");
+    } finally {
+      setDownloadingId(null);
+    }
   }
 
   async function handleDelete(invite: Invite) {
@@ -278,6 +302,16 @@ export default function AdminPage() {
                     >
                       Copy link
                     </button>
+                    {invite.status === "approved" && (
+                      <button
+                        type="button"
+                        onClick={() => handleDownloadItinerary(invite)}
+                        disabled={downloadingId === invite.id}
+                        className="link-romantic text-sm hover:underline disabled:opacity-40"
+                      >
+                        {downloadingId === invite.id ? "Downloading..." : "Download PDF"}
+                      </button>
+                    )}
                     <button
                       type="button"
                       onClick={() => handleDelete(invite)}
