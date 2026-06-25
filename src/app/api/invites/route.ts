@@ -3,8 +3,8 @@ import { desc, eq } from "drizzle-orm";
 import { getDb, initDb } from "@/lib/db";
 import { invites } from "@/lib/db/schema";
 import { isAdminAuthenticated } from "@/lib/auth";
-import { getInviteUrl } from "@/lib/url";
-import { generateInviteId } from "@/lib/short-id";
+import { getBaseUrl, getInviteUrl } from "@/lib/url";
+import { inviteIdCandidates } from "@/lib/short-id";
 
 export async function GET() {
   const authed = await isAdminAuthenticated();
@@ -19,7 +19,7 @@ export async function GET() {
     .from(invites)
     .orderBy(desc(invites.createdAt));
 
-  return NextResponse.json({ invites: allInvites });
+  return NextResponse.json({ invites: allInvites, baseUrl: getBaseUrl() });
 }
 
 export async function POST(request: Request) {
@@ -36,24 +36,28 @@ export async function POST(request: Request) {
   await initDb();
   const db = getDb();
 
-  let id = generateInviteId();
-  for (let attempt = 0; attempt < 5; attempt++) {
+  const trimmedName = name.trim();
+  const candidates = inviteIdCandidates(trimmedName);
+  let id = candidates[candidates.length - 1];
+  for (const candidate of candidates) {
     const existing = await db
       .select({ id: invites.id })
       .from(invites)
-      .where(eq(invites.id, id))
+      .where(eq(invites.id, candidate))
       .limit(1);
-    if (!existing.length) break;
-    id = generateInviteId();
+    if (!existing.length) {
+      id = candidate;
+      break;
+    }
   }
 
   await db.insert(invites).values({
     id,
-    name: name.trim(),
+    name: trimmedName,
     status: "pending",
   });
 
   const url = getInviteUrl(id);
 
-  return NextResponse.json({ id, name: name.trim(), url });
+  return NextResponse.json({ id, name: trimmedName, url });
 }

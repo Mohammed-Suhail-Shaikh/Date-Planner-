@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { INVITE_PATH } from "@/lib/url";
+import { getClientBaseUrl, INVITE_PATH } from "@/lib/url";
 import { useEffect, useState } from "react";
 import { AdminLogin } from "@/components/admin/AdminLogin";
 
@@ -26,17 +26,14 @@ export default function AdminPage() {
   const [createdUrl, setCreatedUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
-  const [baseUrl, setBaseUrl] = useState("http://localhost:3000");
-
-  useEffect(() => {
-    setBaseUrl(window.location.origin);
-  }, []);
+  const [baseUrl, setBaseUrl] = useState(getClientBaseUrl);
 
   async function loadInvites() {
     const res = await fetch("/api/invites");
     if (res.ok) {
       const data = await res.json();
       setInvites(data.invites);
+      if (data.baseUrl) setBaseUrl(data.baseUrl);
       setAuthed(true);
     }
     setChecking(false);
