@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { formatDisplayName } from "@/lib/format-name";
 import { getClientBaseUrl, INVITE_PATH } from "@/lib/url";
 import { useEffect, useState } from "react";
 import { AdminLogin } from "@/components/admin/AdminLogin";
@@ -174,7 +175,7 @@ export default function AdminPage() {
                   className="card-romantic flex items-center justify-between p-4"
                 >
                   <div>
-                    <p className="font-medium">{invite.name}</p>
+                    <p className="font-medium">{formatDisplayName(invite.name)}</p>
                     <p className="text-sm text-muted">
                       {STATUS_LABELS[invite.status] || invite.status}
                     </p>

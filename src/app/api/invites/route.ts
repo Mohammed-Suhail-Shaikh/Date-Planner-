@@ -5,6 +5,7 @@ import { invites } from "@/lib/db/schema";
 import { isAdminAuthenticated } from "@/lib/auth";
 import { getBaseUrl, getInviteUrl } from "@/lib/url";
 import { inviteIdCandidates } from "@/lib/short-id";
+import { formatDisplayName } from "@/lib/format-name";
 
 export async function GET() {
   const authed = await isAdminAuthenticated();
@@ -36,7 +37,7 @@ export async function POST(request: Request) {
   await initDb();
   const db = getDb();
 
-  const trimmedName = name.trim();
+  const trimmedName = formatDisplayName(name);
   const candidates = inviteIdCandidates(trimmedName);
   let id = candidates[candidates.length - 1];
   for (const candidate of candidates) {

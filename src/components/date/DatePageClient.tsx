@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback } from "react";
 import { QuizFlow } from "@/components/quiz/QuizFlow";
 import { ItineraryPreview } from "@/components/itinerary/ItineraryPreview";
 import { downloadItineraryPdf } from "@/components/pdf/DateItineraryPDF";
+import { formatDisplayName } from "@/lib/format-name";
 import type { Itinerary, QuizAnswers } from "@/lib/db/schema";
 
 type View = "loading" | "quiz" | "preview" | "done" | "error";
@@ -30,7 +31,7 @@ export function DatePageClient({ inviteId }: DatePageClientProps) {
         return;
       }
       const data = await res.json();
-      setName(data.invite.name);
+      setName(formatDisplayName(data.invite.name));
 
       if (data.invite.status === "approved" && data.response?.itinerary) {
         setItinerary(data.response.itinerary);
