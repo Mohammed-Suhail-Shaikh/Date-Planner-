@@ -91,11 +91,11 @@ export function QuizFlow({ name, onComplete }: QuizFlowProps) {
         >
           {step.type === "welcome" && (
             <div className="flex flex-1 flex-col items-center justify-center text-center">
-              <p className="mb-2 text-sm uppercase tracking-[0.2em] text-muted">
-                A little surprise
-              </p>
-              <h1 className="font-display mb-4 text-5xl">
-                Hey {name}
+              <p className="label-eyebrow mb-4">A little surprise for you</p>
+              <h1 className="mb-0 overflow-visible">
+                <span className="welcome-name text-8xl">
+                  {name}
+                </span>
               </h1>
               <p className="mb-10 max-w-xs text-lg text-muted">
                 Let&apos;s plan something special together. Answer a few quick
@@ -104,7 +104,7 @@ export function QuizFlow({ name, onComplete }: QuizFlowProps) {
               <button
                 type="button"
                 onClick={next}
-                className="rounded-full bg-accent px-8 py-3 text-white shadow-[0_4px_20px_rgba(155,111,212,0.35)] transition hover:opacity-90"
+                className="btn-romantic px-8 py-3"
               >
                 Let&apos;s go →
               </button>
@@ -201,7 +201,7 @@ export function QuizFlow({ name, onComplete }: QuizFlowProps) {
               subtitle="Choose the day that works for you"
               onBack={back}
             >
-              <div className="rounded-2xl border border-border bg-card p-5 shadow-[0_4px_24px_rgba(155,111,212,0.08)]">
+              <div className="card-romantic p-5">
                 <label htmlFor="quiz-date" className="mb-2 block text-sm text-muted">
                   Date
                 </label>
@@ -216,14 +216,14 @@ export function QuizFlow({ name, onComplete }: QuizFlowProps) {
                       selectedDate: e.target.value,
                     }))
                   }
-                  className="w-full rounded-xl border border-border bg-background px-4 py-3 text-foreground outline-none focus:border-accent focus:ring-2 focus:ring-accent/20"
+                  className="input-romantic w-full px-4 py-3"
                 />
               </div>
               <button
                 type="button"
                 onClick={next}
                 disabled={!answers.selectedDate}
-                className="mt-6 w-full rounded-full bg-accent py-3 text-white shadow-[0_4px_20px_rgba(155,111,212,0.35)] transition hover:opacity-90 disabled:opacity-40"
+                className="btn-romantic mt-6 w-full py-3"
               >
                 Continue →
               </button>
@@ -241,12 +241,12 @@ export function QuizFlow({ name, onComplete }: QuizFlowProps) {
                 onChange={(e) => setDietaryNotes(e.target.value)}
                 placeholder="e.g. vegetarian, no seafood..."
                 rows={4}
-                className="w-full rounded-2xl border border-border bg-card p-4 text-foreground outline-none focus:border-accent"
+                className="input-romantic w-full rounded-2xl p-4"
               />
               <button
                 type="button"
                 onClick={next}
-                className="mt-6 w-full rounded-full bg-accent py-3 text-white transition hover:opacity-90"
+                className="btn-romantic mt-6 w-full py-3"
               >
                 Continue →
               </button>
@@ -264,13 +264,13 @@ export function QuizFlow({ name, onComplete }: QuizFlowProps) {
                 value={herEmail}
                 onChange={(e) => setHerEmail(e.target.value)}
                 placeholder="you@email.com"
-                className="w-full rounded-2xl border border-border bg-card p-4 text-foreground outline-none focus:border-accent"
+                className="input-romantic w-full rounded-2xl p-4"
               />
               <button
                 type="button"
                 onClick={handleFinish}
                 disabled={!herEmail.trim()}
-                className="mt-6 w-full rounded-full bg-accent py-3 text-white transition hover:opacity-90 disabled:opacity-40"
+                className="btn-romantic mt-6 w-full py-3"
               >
                 See my date plan →
               </button>
@@ -298,11 +298,11 @@ function QuizStep({
       <button
         type="button"
         onClick={onBack}
-        className="mb-6 text-sm text-muted hover:text-foreground"
+        className="mb-6 text-sm text-muted transition hover:text-accent"
       >
         ← Back
       </button>
-      <h2 className="font-display mb-1 text-3xl">{title}</h2>
+      <h2 className="font-display text-gradient mb-1 text-3xl font-bold">{title}</h2>
       <p className="mb-8 text-muted">{subtitle}</p>
       {children}
     </>

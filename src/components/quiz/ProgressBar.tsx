@@ -11,12 +11,12 @@ export function ProgressBar({ current, total }: ProgressBarProps) {
   const percent = (current / total) * 100;
 
   return (
-    <div className="mb-8 h-1.5 w-full overflow-hidden rounded-full bg-border/80">
+    <div className="progress-romantic-track mb-8">
       <motion.div
-        className="h-full rounded-full bg-gradient-to-r from-accent to-accent-vivid"
+        className="progress-romantic-fill"
         initial={{ width: 0 }}
         animate={{ width: `${percent}%` }}
-        transition={{ duration: 0.4, ease: "easeOut" }}
+        transition={{ duration: 0.45, ease: "easeOut" }}
       />
     </div>
   );

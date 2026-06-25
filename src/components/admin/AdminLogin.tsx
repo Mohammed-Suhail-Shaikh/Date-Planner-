@@ -27,8 +27,10 @@ export function AdminLogin({ onSuccess }: AdminLoginProps) {
 
   return (
     <main className="flex min-h-screen items-center justify-center px-6">
-      <form onSubmit={handleLogin} className="w-full max-w-sm">
-        <h1 className="font-display mb-2 text-center text-3xl">Admin</h1>
+      <form onSubmit={handleLogin} className="card-romantic w-full max-w-sm p-8">
+        <h1 className="font-display text-gradient mb-2 text-center text-3xl">
+          Admin
+        </h1>
         <p className="mb-6 text-center text-sm text-muted">
           Password login for now — Google sign-in after deploy.
         </p>
@@ -37,15 +39,12 @@ export function AdminLogin({ onSuccess }: AdminLoginProps) {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Password"
-          className="mb-4 w-full rounded-2xl border border-border bg-card px-4 py-3 outline-none focus:border-accent"
+          className="input-romantic mb-4 w-full px-4 py-3"
         />
         {loginError && (
           <p className="mb-4 text-center text-sm text-red-600">{loginError}</p>
         )}
-        <button
-          type="submit"
-          className="w-full rounded-full bg-accent py-3 text-white hover:opacity-90"
-        >
+        <button type="submit" className="btn-romantic w-full py-3">
           Sign in
         </button>
       </form>

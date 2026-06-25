@@ -3,10 +3,8 @@ import Link from "next/link";
 export default function HomePage() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center px-6 text-center">
-      <p className="mb-3 text-sm uppercase tracking-[0.2em] text-muted">
-        Date Planner
-      </p>
-      <h1 className="font-display mb-6 max-w-md text-5xl leading-tight">
+      <p className="label-eyebrow mb-3 font-bold">Date Planner</p>
+      <h1 className="font-display text-gradient mb-6 max-w-md text-5xl font-bold leading-tight">
         Plan something special
       </h1>
       <p className="mb-10 max-w-sm text-muted">
@@ -14,7 +12,7 @@ export default function HomePage() {
       </p>
       <Link
         href="/admin"
-        className="text-sm text-muted underline-offset-4 hover:text-accent hover:underline"
+        className="link-romantic text-sm underline-offset-4 hover:underline"
       >
         Admin
       </Link>

@@ -77,7 +77,7 @@ export default function AdminContentPage() {
         in the project and push to deploy.
       </p>
 
-      <section className="mb-8 rounded-2xl border border-border bg-card p-6">
+      <section className="card-romantic mb-8 p-6">
         <h2 className="mb-4 font-medium">Planner</h2>
         <dl className="grid gap-2 text-sm sm:grid-cols-3">
           <div>
@@ -95,7 +95,7 @@ export default function AdminContentPage() {
         </dl>
       </section>
 
-      <section className="mb-8 rounded-2xl border border-border bg-card p-6">
+      <section className="card-romantic mb-8 p-6">
         <h2 className="mb-4 font-medium">Quiz options</h2>
         <div className="grid gap-6 sm:grid-cols-2">
           <OptionGroup title="Moods" items={content.quiz.moods} />
@@ -105,13 +105,13 @@ export default function AdminContentPage() {
         </div>
       </section>
 
-      <section className="mb-8 rounded-2xl border border-border bg-card p-6">
+      <section className="card-romantic mb-8 p-6">
         <h2 className="mb-4 font-medium">Venues ({content.venues.length})</h2>
         <ul className="space-y-4">
           {content.venues.map((venue) => (
             <li
               key={venue.id}
-              className="rounded-xl border border-border p-4"
+              className="card-romantic p-4"
             >
               <p className="font-medium">{venue.name}</p>
               <p className="text-sm text-muted">{venue.address}</p>
@@ -124,11 +124,11 @@ export default function AdminContentPage() {
         </ul>
       </section>
 
-      <section className="mb-8 rounded-2xl border border-border bg-card p-6">
+      <section className="card-romantic mb-8 p-6">
         <h2 className="mb-4 font-medium">Itinerary rules</h2>
         <ul className="space-y-4">
           {content.itineraryRules.map((rule, i) => (
-            <li key={i} className="rounded-xl border border-border p-4 text-sm">
+            <li key={i} className="card-romantic p-4 text-sm">
               <p className="mb-2 font-medium">
                 When{" "}
                 {Object.entries(rule.match)
@@ -157,13 +157,13 @@ export default function AdminContentPage() {
         </p>
       </section>
 
-      <section className="rounded-2xl border border-border bg-card p-6">
+      <section className="card-romantic p-6">
         <div className="mb-4 flex items-center justify-between gap-4">
           <h2 className="font-medium">Edit JSON</h2>
           <button
             type="button"
             onClick={downloadJson}
-            className="rounded-full bg-accent px-4 py-2 text-sm text-white hover:opacity-90"
+            className="btn-romantic px-4 py-2 text-sm"
           >
             Download JSON
           </button>
@@ -172,7 +172,7 @@ export default function AdminContentPage() {
           value={jsonText}
           onChange={(e) => setJsonText(e.target.value)}
           rows={20}
-          className="w-full rounded-xl border border-border bg-background p-4 font-mono text-xs leading-relaxed outline-none focus:border-accent"
+          className="input-romantic w-full p-4 font-mono text-xs leading-relaxed"
           spellCheck={false}
         />
         {jsonError && (
@@ -219,14 +219,14 @@ function AdminNav({
   return (
     <div className="mb-10 flex flex-wrap items-center justify-between gap-4">
       <div>
-        <h1 className="font-display text-3xl">Date Planner</h1>
+        <h1 className="font-display text-gradient text-3xl font-bold">Date Planner</h1>
         <nav className="mt-3 flex gap-4 text-sm">
           <Link
             href="/admin"
             className={
               active === "invites"
-                ? "font-medium text-accent"
-                : "text-muted hover:text-foreground"
+                ? "link-romantic font-medium"
+                : "text-muted hover:text-accent"
             }
           >
             Invites
@@ -235,8 +235,8 @@ function AdminNav({
             href="/admin/content"
             className={
               active === "content"
-                ? "font-medium text-accent"
-                : "text-muted hover:text-foreground"
+                ? "link-romantic font-medium"
+                : "text-muted hover:text-accent"
             }
           >
             Date content

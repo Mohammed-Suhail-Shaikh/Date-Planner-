@@ -10,6 +10,19 @@
       ["museum-gallery-3", "brunch-spot"]
     ]
   },
+  "fillerConfig": {
+    "transitBufferMinutes": 10,
+    "maxFillersPerItinerary": 5,
+    "alwaysInsertBetweenMains": true,
+    "eveningDessertAfterLast": true
+  },
+  "fullDayConfig": {
+    "dinnerHour": 18,
+    "dinnerMinute": 0,
+    "endHour": 20,
+    "endMinute": 0,
+    "minActivitiesBeforeDinner": 3
+  },
   "quiz": {
     "moods": [
       {
@@ -334,6 +347,296 @@
       "defaultDuration": 90,
       "notes": "Immersive, interactive art museum. Super photogenic and fun; great for a playful or curious date. Book tickets online.",
       "area": "downtown"
+    },
+    {
+      "id": "filler-public-garden",
+      "name": "Boston Public Garden stroll",
+      "address": "4 Charles St, Boston, MA 02116",
+      "mapsUrl": "https://maps.google.com/?q=Boston+Public+Garden+4+Charles+St+Boston+MA",
+      "tags": ["filler", "filler-walk", "romantic", "outdoors", "low-key", "cozy", "afternoon", "evening"],
+      "defaultDuration": 25,
+      "notes": "Short wander through America's first public garden — lagoon, willows, and flower beds. Perfect little pause between bigger plans.",
+      "area": "downtown"
+    },
+    {
+      "id": "filler-acorn-street",
+      "name": "Acorn Street photo walk",
+      "address": "Acorn St, Boston, MA 02108",
+      "mapsUrl": "https://maps.google.com/?q=Acorn+Street+Boston+MA",
+      "tags": ["filler", "romantic", "cozy", "low-key", "afternoon", "evening"],
+      "defaultDuration": 20,
+      "notes": "Boston's most photographed cobblestone lane in Beacon Hill. A quick, charming detour — especially pretty at golden hour.",
+      "area": "downtown"
+    },
+    {
+      "id": "filler-ducklings",
+      "name": "Make Way for Ducklings statues",
+      "address": "Boston Public Garden, Boston, MA 02116",
+      "mapsUrl": "https://maps.google.com/?q=Make+Way+for+Ducklings+statues+Boston+Public+Garden",
+      "tags": ["filler", "playful", "cozy", "romantic", "afternoon", "low-key"],
+      "defaultDuration": 15,
+      "notes": "Find Mrs. Mallard and her ducklings in the Public Garden. Sweet, quick, and very Boston.",
+      "area": "downtown"
+    },
+    {
+      "id": "filler-swan-boats",
+      "name": "Swan Boats ride",
+      "address": "Boston Public Garden, Boston, MA 02116",
+      "mapsUrl": "https://maps.google.com/?q=Swan+Boats+Boston+Public+Garden",
+      "tags": ["filler", "romantic", "playful", "outdoors", "afternoon", "balanced"],
+      "defaultDuration": 20,
+      "notes": "Classic 15-minute glide around the lagoon. Seasonal (Apr–Sep) — if closed, enjoy the garden walk instead.",
+      "area": "downtown"
+    },
+    {
+      "id": "filler-quincy-market",
+      "name": "Faneuil Hall & Quincy Market wander",
+      "address": "4 S Market St, Boston, MA 02109",
+      "mapsUrl": "https://maps.google.com/?q=Faneuil+Hall+Quincy+Market+Boston+MA",
+      "tags": ["filler", "playful", "adventurous", "balanced", "afternoon", "evening"],
+      "defaultDuration": 25,
+      "notes": "Browse the market stalls and historic hall — grab a snack, people-watch, soak up the energy.",
+      "area": "downtown"
+    },
+    {
+      "id": "filler-greenway",
+      "name": "Rose Kennedy Greenway walk",
+      "address": "Rose Kennedy Greenway, Boston, MA 02110",
+      "mapsUrl": "https://maps.google.com/?q=Rose+Kennedy+Greenway+Boston+MA",
+      "tags": ["filler", "outdoors", "balanced", "low-key", "afternoon", "evening"],
+      "defaultDuration": 20,
+      "notes": "Linear park linking downtown neighborhoods — fountains, gardens, and skyline views on a easy stroll.",
+      "area": "downtown"
+    },
+    {
+      "id": "filler-chinatown-stroll",
+      "name": "Chinatown gate & alley stroll",
+      "address": "Beach St & Surface Rd, Boston, MA 02111",
+      "mapsUrl": "https://maps.google.com/?q=Chinatown+Gate+Boston+MA",
+      "tags": ["filler", "adventurous", "playful", "afternoon", "evening"],
+      "defaultDuration": 25,
+      "notes": "Walk through the Chinatown gate and side streets — neon, bakeries, and great photo spots.",
+      "area": "downtown"
+    },
+    {
+      "id": "filler-newbury-stroll",
+      "name": "Newbury Street window shopping",
+      "address": "Newbury St, Boston, MA 02116",
+      "mapsUrl": "https://maps.google.com/?q=Newbury+Street+Boston+MA",
+      "tags": ["filler", "playful", "balanced", "romantic", "afternoon", "evening"],
+      "defaultDuration": 30,
+      "notes": "Stroll Boston's boutique strip — galleries, bookstores, and people-watching between stops.",
+      "area": "back-bay-fenway"
+    },
+    {
+      "id": "filler-copley-square",
+      "name": "Copley Square & Trinity Church",
+      "address": "560 Boylston St, Boston, MA 02116",
+      "mapsUrl": "https://maps.google.com/?q=Copley+Square+Boston+MA",
+      "tags": ["filler", "romantic", "culture", "cozy", "afternoon", "evening"],
+      "defaultDuration": 20,
+      "notes": "Quick loop around Copley Square with Trinity Church and the Boston Public Library across the street.",
+      "area": "back-bay-fenway"
+    },
+    {
+      "id": "filler-bpl-courtyard",
+      "name": "Boston Public Library courtyard",
+      "address": "700 Boylston St, Boston, MA 02116",
+      "mapsUrl": "https://maps.google.com/?q=Boston+Public+Library+700+Boylston+St+Boston+MA",
+      "tags": ["filler", "romantic", "culture", "cozy", "low-key", "afternoon"],
+      "defaultDuration": 25,
+      "notes": "Step into the Bates Hall or courtyard — quiet, beautiful, and free. A hidden-gem pause.",
+      "area": "back-bay-fenway"
+    },
+    {
+      "id": "filler-comm-avenue",
+      "name": "Comm Ave mall walk",
+      "address": "Commonwealth Ave, Boston, MA 02215",
+      "mapsUrl": "https://maps.google.com/?q=Commonwealth+Avenue+Mall+Boston+MA",
+      "tags": ["filler", "romantic", "outdoors", "low-key", "afternoon", "evening"],
+      "defaultDuration": 25,
+      "notes": "Tree-lined brownstone boulevard — one of Boston's prettiest walks, especially near Kenmore.",
+      "area": "back-bay-fenway"
+    },
+    {
+      "id": "filler-harvard-square",
+      "name": "Harvard Square wander",
+      "address": "Harvard Square, Cambridge, MA 02138",
+      "mapsUrl": "https://maps.google.com/?q=Harvard+Square+Cambridge+MA",
+      "tags": ["filler", "playful", "balanced", "culture", "afternoon", "full-day"],
+      "defaultDuration": 30,
+      "notes": "People-watch in the Square, peek at the Yard gates, browse street performers and bookshops.",
+      "area": "cambridge-central"
+    },
+    {
+      "id": "filler-kendall-canal",
+      "name": "Kendall Square canal walk",
+      "address": "Broad Canal Way, Cambridge, MA 02142",
+      "mapsUrl": "https://maps.google.com/?q=Broad+Canal+Way+Cambridge+MA",
+      "tags": ["filler", "low-key", "balanced", "outdoors", "afternoon", "evening"],
+      "defaultDuration": 20,
+      "notes": "Short waterside loop near the Kendall canals — calm and scenic between bigger Cambridge stops.",
+      "area": "cambridge-kendall"
+    },
+    {
+      "id": "filler-davis-square",
+      "name": "Davis Square stroll",
+      "address": "Davis Square, Somerville, MA 02144",
+      "mapsUrl": "https://maps.google.com/?q=Davis+Square+Somerville+MA",
+      "tags": ["filler", "playful", "cozy", "balanced", "afternoon", "evening"],
+      "defaultDuration": 25,
+      "notes": "Wander Davis Square's murals, shops, and café scene before dinner or a show.",
+      "area": "somerville"
+    },
+    {
+      "id": "filler-coffee-pavement-allston",
+      "name": "Pavement Coffeehouse",
+      "address": "1243 Commonwealth Ave, Allston, MA 02134",
+      "mapsUrl": "https://maps.google.com/?q=Pavement+Coffeehouse+1243+Commonwealth+Ave+Allston",
+      "tags": ["filler", "filler-coffee", "cozy", "coffee", "afternoon", "evening", "low-key"],
+      "defaultDuration": 25,
+      "notes": "Local roaster with bagels and espresso — perfect quick coffee stop in Allston before heading out.",
+      "area": "allston"
+    },
+    {
+      "id": "filler-coffee-tatte-downtown",
+      "name": "Tatte Bakery & Café",
+      "address": "125 Summer St, Boston, MA 02110",
+      "mapsUrl": "https://maps.google.com/?q=Tatte+Bakery+125+Summer+St+Boston",
+      "tags": ["filler", "filler-coffee", "cozy", "coffee", "afternoon", "evening", "romantic"],
+      "defaultDuration": 25,
+      "notes": "Beautiful pastries and coffee downtown — grab something sweet and sit for a bit.",
+      "area": "downtown"
+    },
+    {
+      "id": "filler-coffee-thinkingcup",
+      "name": "Thinking Cup",
+      "address": "165 Tremont St, Boston, MA 02111",
+      "mapsUrl": "https://maps.google.com/?q=Thinking+Cup+165+Tremont+St+Boston",
+      "tags": ["filler", "filler-coffee", "coffee", "cozy", "afternoon", "evening", "balanced"],
+      "defaultDuration": 20,
+      "notes": "Small-batch coffee on the Common — a cozy pause between plans.",
+      "area": "downtown"
+    },
+    {
+      "id": "filler-coffee-1369",
+      "name": "1369 Coffee House",
+      "address": "1369 Cambridge St, Cambridge, MA 02139",
+      "mapsUrl": "https://maps.google.com/?q=1369+Coffee+House+Cambridge+MA",
+      "tags": ["filler", "filler-coffee", "coffee", "cozy", "afternoon", "full-day", "low-key"],
+      "defaultDuration": 25,
+      "notes": "Cambridge institution for coffee and conversation — ideal mid-date caffeine break.",
+      "area": "cambridge-central"
+    },
+    {
+      "id": "filler-coffee-1369-inman",
+      "name": "1369 Coffee House (Inman)",
+      "address": "757 Massachusetts Ave, Cambridge, MA 02139",
+      "mapsUrl": "https://maps.google.com/?q=1369+Coffee+House+Inman+Square+Cambridge",
+      "tags": ["filler", "filler-coffee", "coffee", "cozy", "afternoon", "full-day"],
+      "defaultDuration": 25,
+      "notes": "Inman Square outpost — relaxed neighborhood café vibe.",
+      "area": "cambridge-central"
+    },
+    {
+      "id": "filler-food-flour",
+      "name": "Flour Bakery",
+      "address": "1595 Washington St, Boston, MA 02118",
+      "mapsUrl": "https://maps.google.com/?q=Flour+Bakery+1595+Washington+St+Boston",
+      "tags": ["filler", "filler-food", "coffee", "afternoon", "full-day", "cozy", "balanced"],
+      "defaultDuration": 30,
+      "notes": "Famous sticky buns, sandwiches, and pastries — great grab-and-go bite between activities.",
+      "area": "back-bay-fenway"
+    },
+    {
+      "id": "filler-food-roxy-allston",
+      "name": "Roxy's Grilled Cheese",
+      "address": "292 Harvard Ave, Allston, MA 02134",
+      "mapsUrl": "https://maps.google.com/?q=Roxy%27s+Grilled+Cheese+292+Harvard+Ave+Allston",
+      "tags": ["filler", "filler-food", "playful", "afternoon", "evening", "balanced"],
+      "defaultDuration": 25,
+      "notes": "Gourmet grilled cheese and tots in Allston — fun, quick fuel before the next stop.",
+      "area": "allston"
+    },
+    {
+      "id": "filler-food-santarpios",
+      "name": "Santarpio's Pizza",
+      "address": "111 Chelsea St, Boston, MA 02128",
+      "mapsUrl": "https://maps.google.com/?q=Santarpio%27s+Pizza+111+Chelsea+St+East+Boston",
+      "tags": ["filler", "filler-food", "playful", "afternoon", "evening", "adventurous"],
+      "defaultDuration": 30,
+      "notes": "Classic Boston pizza slice — casual and legendary if you're near East Boston.",
+      "area": "downtown"
+    },
+    {
+      "id": "filler-food-clover",
+      "name": "Clover Food Lab",
+      "address": "360 Longwood Ave, Boston, MA 02215",
+      "mapsUrl": "https://maps.google.com/?q=Clover+Food+Lab+360+Longwood+Ave+Boston",
+      "tags": ["filler", "filler-food", "afternoon", "full-day", "balanced", "low-key"],
+      "defaultDuration": 25,
+      "notes": "Fresh vegetarian sandwiches and bowls — light bite near the Fenway/Longwood area.",
+      "area": "back-bay-fenway"
+    },
+    {
+      "id": "filler-dessert-jplicks-backbay",
+      "name": "J.P. Licks",
+      "address": "659 Boylston St, Boston, MA 02116",
+      "mapsUrl": "https://maps.google.com/?q=J.P.+Licks+659+Boylston+St+Boston",
+      "tags": ["filler", "filler-dessert", "playful", "cozy", "evening", "afternoon", "coffee"],
+      "defaultDuration": 25,
+      "notes": "Homemade ice cream on Boylston — perfect sweet ending or mid-date treat.",
+      "area": "back-bay-fenway"
+    },
+    {
+      "id": "filler-dessert-emack",
+      "name": "Emack & Bolio's",
+      "address": "200 Newbury St, Boston, MA 02116",
+      "mapsUrl": "https://maps.google.com/?q=Emack+and+Bolio%27s+200+Newbury+St+Boston",
+      "tags": ["filler", "filler-dessert", "playful", "evening", "afternoon", "romantic"],
+      "defaultDuration": 20,
+      "notes": "Ice cream on Newbury Street — grab a cone and keep strolling.",
+      "area": "back-bay-fenway"
+    },
+    {
+      "id": "filler-dessert-mikes",
+      "name": "Mike's Pastry",
+      "address": "300 Hanover St, Boston, MA 02113",
+      "mapsUrl": "https://maps.google.com/?q=Mike%27s+Pastry+300+Hanover+St+Boston",
+      "tags": ["filler", "filler-dessert", "playful", "evening", "afternoon", "adventurous"],
+      "defaultDuration": 20,
+      "notes": "Iconic North End cannoli — share something sweet in the historic neighborhood.",
+      "area": "downtown"
+    },
+    {
+      "id": "filler-dessert-honeycomb",
+      "name": "Honeycomb Creamery",
+      "address": "1702 Massachusetts Ave, Cambridge, MA 02138",
+      "mapsUrl": "https://maps.google.com/?q=Honeycomb+Creamery+Cambridge+MA",
+      "tags": ["filler", "filler-dessert", "playful", "cozy", "afternoon", "evening", "full-day"],
+      "defaultDuration": 25,
+      "notes": "Small-batch ice cream in Cambridge — creative flavors, great for a date pause.",
+      "area": "cambridge-central"
+    },
+    {
+      "id": "filler-dessert-jplicks-davis",
+      "name": "J.P. Licks (Davis Square)",
+      "address": "1668 Massachusetts Ave, Cambridge, MA 02138",
+      "mapsUrl": "https://maps.google.com/?q=J.P.+Licks+Davis+Square+Cambridge",
+      "tags": ["filler", "filler-dessert", "playful", "evening", "afternoon", "cozy"],
+      "defaultDuration": 25,
+      "notes": "Ice cream in Davis Square — easy sweet stop before or after dinner nearby.",
+      "area": "somerville"
+    },
+    {
+      "id": "filler-dessert-toscanini-filler",
+      "name": "Toscanini's Ice Cream",
+      "address": "899 Main St, Cambridge, MA 02139",
+      "mapsUrl": "https://maps.google.com/?q=Toscanini%27s+Ice+Cream+899+Main+St+Cambridge+MA",
+      "tags": ["filler", "filler-dessert", "cozy", "playful", "evening", "afternoon", "full-day"],
+      "defaultDuration": 25,
+      "notes": "Boston's most famous ice cream — try burnt caramel on the way to your next stop.",
+      "area": "cambridge-central"
     }
   ],
   "itineraryRules": [
@@ -526,8 +829,13 @@
         },
         {
           "type": "venue",
-          "venueId": "dinner-spot-1",
+          "venueId": "sunset-walk",
           "offsetMinutes": 300
+        },
+        {
+          "type": "venue",
+          "venueId": "dinner-spot-1",
+          "offsetMinutes": 420
         }
       ]
     }

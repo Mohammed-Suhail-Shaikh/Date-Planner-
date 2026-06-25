@@ -11,3 +11,24 @@ export function generateShortInviteId(length = 7): string {
   }
   return id;
 }
+
+/** Turn a display name into a URL slug (e.g. "Mary Jane" → "mary-jane"). */
+export function slugifyName(name: string): string {
+  const slug = name
+    .trim()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "")
+    .slice(0, 32);
+
+  return slug || "invite";
+}
+
+/** Full invite ID: name slug + short code (e.g. "china-k3m9x2p"). */
+export function generateInviteId(name: string): string {
+  return `${slugifyName(name)}-${generateShortInviteId()}`;
+}

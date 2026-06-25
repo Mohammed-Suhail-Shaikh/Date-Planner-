@@ -1,14 +1,72 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f7f4fc;
-  --foreground: #2a2438;
-  --accent: #9b6fd4;
-  --accent-light: #ede4f9;
-  --accent-vivid: #c084fc;
-  --muted: #7a7190;
-  --card: #fffcff;
-  --border: #e4ddf0;
+  --background: #fdf2f8;
+  --foreground: #3b1f4a;
+  --accent: #d946a8;
+  --accent-light: #fce7f3;
+  --accent-vivid: #a855f7;
+  --accent-rose: #fb7185;
+  --muted: #8b6f96;
+  --card: rgba(255, 252, 255, 0.72);
+  --border: rgba(216, 180, 220, 0.55);
+
+  --gradient-sky: linear-gradient(
+    145deg,
+    #fff5f9 0%,
+    #fce7f3 22%,
+    #f3e8ff 48%,
+    #ede9fe 72%,
+    #ffe4e6 100%
+  );
+  --gradient-cta: linear-gradient(
+    120deg,
+    #f472b6 0%,
+    #e879f9 42%,
+    #a855f7 100%
+  );
+  --gradient-cta-hover: linear-gradient(
+    120deg,
+    #fb7185 0%,
+    #d946ef 45%,
+    #9333ea 100%
+  );
+  --gradient-card: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.88) 0%,
+    rgba(252, 231, 243, 0.65) 50%,
+    rgba(237, 233, 254, 0.72) 100%
+  );
+  --gradient-card-selected: linear-gradient(
+    135deg,
+    rgba(252, 231, 243, 0.95) 0%,
+    rgba(245, 208, 254, 0.9) 45%,
+    rgba(254, 205, 211, 0.88) 100%
+  );
+  --gradient-border: linear-gradient(
+    135deg,
+    #f9a8d4,
+    #e879f9,
+    #c084fc,
+    #fda4af
+  );
+  --gradient-text: linear-gradient(
+    120deg,
+    #be185d 0%,
+    #c026d3 45%,
+    #7c3aed 100%
+  );
+  --gradient-progress: linear-gradient(
+    90deg,
+    #fb7185,
+    #e879f9,
+    #a855f7,
+    #818cf8
+  );
+  --shadow-romantic: 0 8px 32px rgba(192, 38, 211, 0.14),
+    0 2px 8px rgba(244, 114, 182, 0.12);
+  --shadow-romantic-lg: 0 16px 48px rgba(168, 85, 247, 0.2),
+    0 4px 16px rgba(244, 114, 182, 0.15);
 }
 
 @theme inline {
@@ -17,6 +75,7 @@
   --color-accent: var(--accent);
   --color-accent-light: var(--accent-light);
   --color-accent-vivid: var(--accent-vivid);
+  --color-accent-rose: var(--accent-rose);
   --color-muted: var(--muted);
   --color-card: var(--card);
   --color-border: var(--border);
@@ -25,18 +84,413 @@
 }
 
 body {
-  background: linear-gradient(
-    165deg,
-    #faf6ff 0%,
-    #f5effb 40%,
-    #efe4f8 100%
-  );
+  background: var(--gradient-sky);
   background-attachment: fixed;
   color: var(--foreground);
   font-family: var(--font-body), system-ui, sans-serif;
   min-height: 100vh;
 }
 
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(60px);
+}
+
+body::before {
+  top: -12%;
+  right: -8%;
+  width: min(55vw, 420px);
+  height: min(55vw, 420px);
+  background: radial-gradient(
+    circle,
+    rgba(244, 114, 182, 0.35) 0%,
+    rgba(244, 114, 182, 0) 70%
+  );
+}
+
+body::after {
+  bottom: -10%;
+  left: -12%;
+  width: min(60vw, 480px);
+  height: min(60vw, 480px);
+  background: radial-gradient(
+    circle,
+    rgba(168, 85, 247, 0.3) 0%,
+    rgba(129, 140, 248, 0.12) 45%,
+    transparent 70%
+  );
+}
+
+.romantic-scene {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+}
+
 .font-display {
   font-family: var(--font-display), Georgia, serif;
 }
+
+.font-script {
+  font-family: var(--font-script), "Segoe Script", cursive;
+}
+
+.welcome-name {
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  display: inline-block;
+  font-family: var(--font-script), "Segoe Script", cursive;
+  line-height: 1.1;
+  overflow: visible;
+  padding: 0.35rem 0.25rem 1.1rem;
+  margin-bottom: -0.85rem;
+}
+
+/* ——— Typography ——— */
+.text-gradient {
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.label-eyebrow {
+  background: linear-gradient(90deg, #db2777, #a855f7);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+/* ——— Buttons ——— */
+.btn-romantic {
+  background: var(--gradient-cta);
+  border: none;
+  border-radius: 9999px;
+  box-shadow: var(--shadow-romantic-lg);
+  color: white;
+  font-weight: 500;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+
+.btn-romantic:hover:not(:disabled) {
+  background: var(--gradient-cta-hover);
+  box-shadow: 0 20px 52px rgba(168, 85, 247, 0.28);
+  filter: brightness(1.03);
+  transform: translateY(-1px);
+}
+
+.btn-romantic:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn-romantic:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.btn-romantic-outline {
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.9),
+    rgba(252, 231, 243, 0.75)
+  );
+  border: 1.5px solid transparent;
+  border-radius: 9999px;
+  background-clip: padding-box;
+  box-shadow: var(--shadow-romantic);
+  color: #a21caf;
+  font-weight: 500;
+  position: relative;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-romantic-outline::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  padding: 1.5px;
+  background: var(--gradient-border);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.btn-romantic-outline:hover {
+  box-shadow: var(--shadow-romantic-lg);
+  transform: translateY(-1px);
+}
+
+/* ——— Cards ——— */
+.card-romantic {
+  background: var(--gradient-card);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  box-shadow: var(--shadow-romantic);
+}
+
+.card-romantic-selected {
+  background: var(--gradient-card-selected);
+  backdrop-filter: blur(14px);
+  border: 1.5px solid transparent;
+  border-radius: 1rem;
+  box-shadow: var(--shadow-romantic-lg);
+  position: relative;
+}
+
+.card-romantic-selected::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 1rem;
+  padding: 1.5px;
+  background: var(--gradient-border);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.card-romantic-editing {
+  background: linear-gradient(
+    145deg,
+    rgba(252, 231, 243, 0.85),
+    rgba(237, 233, 254, 0.8)
+  );
+  border: 1.5px solid rgba(216, 180, 254, 0.7);
+  border-radius: 1rem;
+  box-shadow: var(--shadow-romantic);
+}
+
+/* ——— Inputs ——— */
+.input-romantic {
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.92),
+    rgba(253, 242, 248, 0.85)
+  );
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  color: var(--foreground);
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.input-romantic:focus {
+  border-color: rgba(192, 38, 211, 0.45);
+  box-shadow: 0 0 0 3px rgba(232, 121, 249, 0.2),
+    0 4px 16px rgba(244, 114, 182, 0.12);
+}
+
+/* ——— Links & accents ——— */
+.link-romantic {
+  background: linear-gradient(90deg, #db2777, #a855f7);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-weight: 500;
+  transition: opacity 0.2s ease;
+}
+
+.link-romantic:hover {
+  opacity: 0.8;
+}
+
+.accent-gradient-text {
+  background: linear-gradient(90deg, #e11d48, #c026d3, #9333ea);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ——— Progress ——— */
+.progress-romantic-track {
+  background: linear-gradient(
+    90deg,
+    rgba(251, 207, 232, 0.6),
+    rgba(233, 213, 255, 0.5)
+  );
+  border-radius: 9999px;
+  height: 0.4rem;
+  overflow: hidden;
+  width: 100%;
+}
+
+.progress-romantic-fill {
+  background: var(--gradient-progress);
+  background-size: 200% 100%;
+  animation: shimmer-progress 3s ease infinite;
+  border-radius: 9999px;
+  height: 100%;
+}
+
+@keyframes shimmer-progress {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* ——— Highlight panel ——— */
+.panel-romantic {
+  background: linear-gradient(
+    135deg,
+    rgba(252, 231, 243, 0.75),
+    rgba(237, 233, 254, 0.65),
+    rgba(254, 226, 226, 0.55)
+  );
+  border: 1px solid rgba(244, 114, 182, 0.25);
+  border-radius: 0.75rem;
+}
+
+/* ——— Itinerary roadmap ——— */
+.roadmap-timeline {
+  --spine-x: 9px;
+  position: relative;
+}
+
+.roadmap-spine {
+  background: linear-gradient(
+    180deg,
+    rgba(232, 121, 249, 0.55) 0%,
+    rgba(244, 114, 182, 0.3) 50%,
+    rgba(232, 121, 249, 0.15) 100%
+  );
+  bottom: 0.5rem;
+  left: calc(var(--spine-x) - 1px);
+  position: absolute;
+  top: 1.75rem;
+  width: 2px;
+  z-index: 0;
+}
+
+.roadmap-item {
+  display: flex;
+  gap: 0.75rem;
+  position: relative;
+  z-index: 1;
+}
+
+.roadmap-marker {
+  flex-shrink: 0;
+  position: relative;
+  width: 2.75rem;
+}
+
+.roadmap-node {
+  border-radius: 50%;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 2;
+}
+
+.roadmap-node-main {
+  background: var(--gradient-cta);
+  box-shadow: 0 0 0 4px rgba(244, 114, 182, 0.2),
+    0 4px 12px rgba(168, 85, 247, 0.35);
+  height: 1.125rem;
+  left: calc(var(--spine-x) - 0.5625rem);
+  margin-top: 1.75rem;
+  position: absolute;
+  width: 1.125rem;
+}
+
+.roadmap-branch-wrap {
+  align-items: center;
+  display: flex;
+  left: var(--spine-x);
+  position: absolute;
+  top: 50%;
+  transform: translate(-1px, -50%);
+}
+
+.roadmap-branch {
+  background: linear-gradient(
+    90deg,
+    rgba(232, 121, 249, 0.65),
+    rgba(244, 114, 182, 0.4)
+  );
+  flex-shrink: 0;
+  height: 2px;
+  width: 0.875rem;
+}
+
+.roadmap-node-filler {
+  background: linear-gradient(135deg, #f9a8d4, #e879f9);
+  box-shadow: 0 0 0 3px rgba(244, 114, 182, 0.15);
+  height: 0.625rem;
+  margin-left: 0;
+  width: 0.625rem;
+}
+
+.roadmap-content {
+  flex: 1;
+  min-width: 0;
+  padding-bottom: 1.25rem;
+}
+
+.roadmap-item-main .roadmap-content {
+  padding-bottom: 1.5rem;
+}
+
+.roadmap-item-filler {
+  align-items: center;
+}
+
+.roadmap-item-filler .roadmap-marker {
+  align-self: stretch;
+  min-height: 4rem;
+}
+
+.roadmap-card-main {
+  background: var(--gradient-card);
+  backdrop-filter: blur(14px);
+  border: 1.5px solid rgba(216, 180, 254, 0.55);
+  border-radius: 1.25rem;
+  box-shadow: var(--shadow-romantic-lg);
+  padding: 1.25rem 1.5rem;
+}
+
+.roadmap-card-filler {
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.75),
+    rgba(252, 231, 243, 0.55)
+  );
+  border: 1px dashed rgba(216, 180, 254, 0.65);
+  border-radius: 0.875rem;
+  box-shadow: 0 2px 12px rgba(192, 38, 211, 0.08);
+  max-width: 18rem;
+  padding: 0.75rem 1rem;
+}
+
+.roadmap-card-filler .roadmap-slot-title {
+  font-size: 0.95rem;
+}
+
+.roadmap-card-filler .roadmap-slot-notes {
+  display: none;
+}
+
+.roadmap-card-filler .roadmap-slot-address {
+  font-size: 0.7rem;
+}
+

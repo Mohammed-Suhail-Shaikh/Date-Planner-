@@ -38,6 +38,7 @@ export type ItinerarySlot = {
   notes: string;
   durationMinutes: number;
   isCustom?: boolean;
+  isFiller?: boolean;
 };
 
 export type Itinerary = {

@@ -103,9 +103,9 @@ export default function AdminPage() {
     <main className="mx-auto min-h-screen max-w-2xl px-6 py-10">
       <div className="mb-10 flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h1 className="font-display text-3xl">Date Planner</h1>
+          <h1 className="font-display text-gradient text-3xl font-bold">Date Planner</h1>
           <nav className="mt-3 flex gap-4 text-sm">
-            <Link href="/admin" className="font-medium text-accent">
+            <Link href="/admin" className="link-romantic font-medium">
               Invites
             </Link>
             <Link
@@ -128,32 +128,32 @@ export default function AdminPage() {
         </button>
       </div>
 
-      <section className="mb-10 rounded-2xl border border-border bg-card p-6">
+      <section className="card-romantic mb-10 p-6">
         <h2 className="mb-4 font-medium">Create new invite</h2>
         <form onSubmit={handleCreate} className="flex gap-3">
           <input
             value={newName}
             onChange={(e) => setNewName(e.target.value)}
             placeholder="Her name"
-            className="flex-1 rounded-xl border border-border px-4 py-2 outline-none focus:border-accent"
+            className="input-romantic flex-1 px-4 py-2"
           />
           <button
             type="submit"
             disabled={loading}
-            className="rounded-full bg-accent px-6 py-2 text-white hover:opacity-90 disabled:opacity-40"
+            className="btn-romantic px-6 py-2"
           >
             {loading ? "..." : "Create"}
           </button>
         </form>
         {createdUrl && (
-          <div className="mt-4 rounded-xl bg-accent-light/50 p-4">
+          <div className="panel-romantic mt-4 p-4">
             <p className="mb-2 text-sm text-muted">Link created — copy and send:</p>
             <div className="flex items-center gap-2">
               <code className="flex-1 truncate text-sm">{createdUrl}</code>
               <button
                 type="button"
                 onClick={() => copyUrl(createdUrl)}
-                className="shrink-0 text-sm text-accent hover:underline"
+                className="link-romantic shrink-0 text-sm hover:underline"
               >
                 Copy
               </button>
@@ -173,7 +173,7 @@ export default function AdminPage() {
               return (
                 <li
                   key={invite.id}
-                  className="flex items-center justify-between rounded-2xl border border-border bg-card p-4"
+                  className="card-romantic flex items-center justify-between p-4"
                 >
                   <div>
                     <p className="font-medium">{invite.name}</p>
@@ -185,7 +185,7 @@ export default function AdminPage() {
                     <button
                       type="button"
                       onClick={() => copyUrl(url)}
-                      className="text-sm text-accent hover:underline"
+                      className="link-romantic text-sm hover:underline"
                     >
                       Copy link
                     </button>

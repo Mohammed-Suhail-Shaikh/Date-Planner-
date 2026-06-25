@@ -139,7 +139,7 @@ export function DatePageClient({ inviteId }: DatePageClientProps) {
     return (
       <main className="mx-auto flex min-h-screen max-w-lg flex-col items-center justify-center px-6 text-center">
         <p className="mb-2 text-4xl">🎉</p>
-        <h1 className="font-display mb-4 text-4xl">You&apos;re all set!</h1>
+        <h1 className="font-display text-gradient mb-4 text-4xl">You&apos;re all set!</h1>
         <p className="mb-8 text-muted">
           Your date plan has been saved
           {calendarError
@@ -147,18 +147,18 @@ export function DatePageClient({ inviteId }: DatePageClientProps) {
             : ". A calendar invite is on its way to your email."}
         </p>
         {calendarError && (
-          <p className="mb-6 rounded-xl bg-accent-light/50 px-4 py-3 text-sm text-muted">
+          <p className="panel-romantic mb-6 px-4 py-3 text-sm text-muted">
             Calendar note: {calendarError}
           </p>
         )}
         <button
           type="button"
           onClick={() => downloadItineraryPdf(itinerary, name)}
-          className="mb-4 w-full max-w-xs rounded-full border border-accent py-3 text-accent transition hover:bg-accent-light"
+          className="btn-romantic-outline mb-4 w-full max-w-xs py-3"
         >
           Download PDF again
         </button>
-        <p className="font-display text-2xl text-muted">
+        <p className="font-display text-gradient text-2xl">
           See you soon, {name}.
         </p>
       </main>

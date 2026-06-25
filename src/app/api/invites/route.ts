@@ -4,7 +4,7 @@ import { getDb, initDb } from "@/lib/db";
 import { invites } from "@/lib/db/schema";
 import { isAdminAuthenticated } from "@/lib/auth";
 import { getBaseUrl } from "@/lib/url";
-import { generateShortInviteId } from "@/lib/short-id";
+import { generateInviteId } from "@/lib/short-id";
 
 export async function GET() {
   const authed = await isAdminAuthenticated();
@@ -36,7 +36,7 @@ export async function POST(request: Request) {
   await initDb();
   const db = getDb();
 
-  let id = generateShortInviteId();
+  let id = generateInviteId(name.trim());
   for (let attempt = 0; attempt < 5; attempt++) {
     const existing = await db
       .select({ id: invites.id })
@@ -44,7 +44,7 @@ export async function POST(request: Request) {
       .where(eq(invites.id, id))
       .limit(1);
     if (!existing.length) break;
-    id = generateShortInviteId();
+    id = generateInviteId(name.trim());
   }
 
   await db.insert(invites).values({
