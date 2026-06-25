@@ -124,7 +124,7 @@
       "mapsUrl": "https://maps.google.com/?q=Waku+Waku+Ramen+32+Beach+St+Boston+MA+Chinatown",
       "tags": ["dinner", "evening", "adventurous", "playful"],
       "defaultDuration": 90,
-      "notes": "In the heart of Chinatown — great for an adventurous foodie date."
+      "notes": "In the heart of Chinatown; great for an adventurous foodie date."
     },
     {
       "id": "dinner-spot-indian-1",
@@ -178,7 +178,7 @@
       "mapsUrl": "https://maps.google.com/?q=CAVA+Boston+MA",
       "tags": ["dinner", "afternoon", "balanced", "low-key"],
       "defaultDuration": 45,
-      "notes": "Mediterranean grain bowls — casual and healthy. Good for a lighter date meal."
+      "notes": "Mediterranean grain bowls; casual and healthy. Good for a lighter date meal."
     },
     {
       "id": "sunset-walk",
@@ -223,7 +223,7 @@
       "mapsUrl": "https://maps.google.com/?q=Museum+of+Fine+Arts+465+Huntington+Ave+Boston+MA",
       "tags": ["culture", "afternoon", "balanced", "cozy"],
       "defaultDuration": 120,
-      "notes": "World-class art museum. Check for special exhibits — great conversation starter."
+      "notes": "World-class art museum. Check for special exhibits; great conversation starter."
     },
     {
       "id": "museum-gallery-3",
@@ -232,7 +232,7 @@
       "mapsUrl": "https://maps.google.com/?q=Museum+of+Ice+Cream+1+Broadway+Cambridge+MA",
       "tags": ["culture", "afternoon", "playful", "high-energy", "balanced"],
       "defaultDuration": 75,
-      "notes": "Interactive, colorful, and super fun. Perfect for a playful date — great photos too!"
+      "notes": "Interactive, colorful, and super fun. Perfect for a playful date; great photos too!"
     },
     {
       "id": "museum-gallery",
@@ -241,7 +241,7 @@
       "mapsUrl": "https://maps.google.com/?q=Isabella+Stewart+Gardner+Museum+25+Evans+Way+Boston+MA",
       "tags": ["culture", "afternoon", "balanced", "playful", "cozy"],
       "defaultDuration": 75,
-      "notes": "Default museum slot — intimate and beautiful. Check hours before the date."
+      "notes": "Default museum slot; intimate and beautiful. Check hours before the date."
     },
     {
       "id": "live-music",
@@ -268,7 +268,7 @@
       "mapsUrl": "https://maps.google.com/?q=Toscanini%27s+Ice+Cream+899+Main+St+Cambridge+MA",
       "tags": ["playful", "cozy", "evening", "low-key", "coffee"],
       "defaultDuration": 45,
-      "notes": "Best ice cream in Boston — a perfect ending to any date. Try the burnt caramel."
+      "notes": "Best ice cream in Boston; a perfect ending to any date. Try the burnt caramel."
     },
     {
       "id": "activity-fun",
@@ -277,7 +277,7 @@
       "mapsUrl": "https://maps.google.com/?q=Newbury+Comics+332+Newbury+St+Boston+MA",
       "tags": ["playful", "balanced", "afternoon", "adventurous"],
       "defaultDuration": 60,
-      "notes": "Iconic Boston pop culture store — comics, vinyls, collectibles. Great for a nerdy or quirky date."
+      "notes": "Iconic Boston pop culture store; comics, vinyls, collectibles. Great for a nerdy or quirky date."
     },
     {
       "id": "kayaking",
@@ -289,13 +289,13 @@
       "notes": "Rent kayaks or canoes on the Charles River. Book ahead on weekends. One of the best active date ideas in Boston."
     },
     {
-      "id": "prudential-view",
-      "name": "Prudential Tower Skywalk Observatory",
+      "id": "Boston-view",
+      "name": "Boston View",
       "address": "800 Boylston St, Boston, MA 02199",
       "mapsUrl": "https://maps.google.com/?q=Prudential+Tower+Skywalk+Observatory+800+Boylston+St+Boston+MA",
       "tags": ["romantic", "adventurous", "evening", "afternoon", "balanced"],
       "defaultDuration": 60,
-      "notes": "360° views of Boston from the 50th floor. Stunning at sunset or at night. Tickets required — book ahead."
+      "notes": "360° views of Boston from the 50th floor. Stunning at sunset or at night. Tickets required; book ahead."
     },
     {
       "id": "museum-gallery-wndr",
@@ -304,7 +304,7 @@
       "mapsUrl": "https://maps.google.com/?q=WNDR+Museum+500+Washington+St+Boston+MA",
       "tags": ["culture", "afternoon", "playful", "high-energy", "balanced", "adventurous"],
       "defaultDuration": 90,
-      "notes": "Immersive, interactive art museum. Super photogenic and fun — great for a playful or curious date. Book tickets online."
+      "notes": "Immersive, interactive art museum. Super photogenic and fun; great for a playful or curious date. Book tickets online."
     }
   ],
   "itineraryRules": [
