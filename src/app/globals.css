@@ -147,6 +147,7 @@ body::after {
   color: transparent;
   display: inline-block;
   font-family: var(--font-script), "Segoe Script", cursive;
+  font-size: 6rem;
   line-height: 1.1;
   overflow: visible;
   padding: 0.35rem 0.25rem 1.1rem;
@@ -173,6 +174,13 @@ body::after {
   padding: 4.5rem 0.5rem 1rem;
 }
 
+.welcome-scene-content .welcome-intro {
+  max-width: 20rem;
+  margin-inline: auto;
+  font-size: 1.125rem;
+  line-height: 1.75;
+}
+
 .photo-scatter-wrap .welcome-scene-content {
   padding-inline: 2rem;
 }
@@ -186,6 +194,10 @@ body::after {
   position: absolute;
   z-index: 1;
   pointer-events: none;
+}
+
+.photo-scatter-motion {
+  display: block;
 }
 
 .photo-scatter-tilt {
@@ -419,6 +431,181 @@ body::after {
 .photo-scatter-wrap--6 .photo-scatter-item--5 .photo-scatter-img {
   width: 11rem;
   height: 11rem;
+}
+
+@media (max-width: 639px) {
+  .welcome-scene {
+    --welcome-photo: clamp(4.1rem, 20vw, 6rem);
+    --welcome-photo-sm: clamp(3.65rem, 17.5vw, 5.4rem);
+    --welcome-photo-bottom: clamp(4.35rem, 21vw, 6.25rem);
+    --welcome-corner-inset: 0.65rem;
+    --welcome-gutter: calc(var(--welcome-photo) + 0.35rem);
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    min-height: clamp(28rem, 86svh, 36rem);
+    padding-inline: var(--welcome-gutter);
+  }
+
+  .welcome-scene-content {
+    width: 100%;
+    padding: clamp(2.5rem, 6vh, 4rem) 0 1rem;
+    text-align: center;
+  }
+
+  .photo-scatter-wrap .welcome-scene-content {
+    padding-inline: 0;
+  }
+
+  .photo-scatter-wrap--1 .welcome-scene-content,
+  .photo-scatter-wrap--3 .welcome-scene-content,
+  .photo-scatter-wrap--5 .welcome-scene-content {
+    padding-bottom: clamp(6.75rem, 19.5vw, 9rem);
+  }
+
+  .welcome-scene .welcome-name {
+    font-size: clamp(2.75rem, 12vw, 5.25rem);
+    padding-bottom: clamp(0.4rem, 1.5vw, 1.1rem);
+    margin-bottom: clamp(-0.4rem, -1.5vw, -0.85rem);
+  }
+
+  .welcome-scene-content .label-eyebrow {
+    display: block;
+    font-size: clamp(0.65rem, 2.8vw, 0.75rem);
+    margin-bottom: clamp(0.75rem, 3vw, 1rem);
+  }
+
+  .welcome-scene-content .welcome-intro {
+    width: 100%;
+    max-width: min(20rem, 100%);
+    font-size: clamp(0.75rem, 2.85vw, 0.8125rem);
+    line-height: 1.5;
+    margin-bottom: clamp(1.5rem, 5vw, 2.5rem);
+  }
+
+  .welcome-scene-content .btn-romantic {
+    padding: clamp(0.55rem, 2.2vw, 0.65rem) clamp(1rem, 4.5vw, 1.75rem);
+    font-size: clamp(0.8125rem, 3.2vw, 0.9375rem);
+  }
+
+  .photo-scatter-img {
+    width: var(--welcome-photo);
+    height: var(--welcome-photo);
+  }
+
+  .photo-scatter-wrap--1 .photo-scatter-item--0 .photo-scatter-img,
+  .photo-scatter-wrap--3 .photo-scatter-item--2 .photo-scatter-img,
+  .photo-scatter-wrap--5 .photo-scatter-item--4 .photo-scatter-img {
+    width: var(--welcome-photo-bottom);
+    height: var(--welcome-photo-bottom);
+  }
+
+  .photo-scatter-wrap--1 .photo-scatter-item--0 .photo-scatter-img {
+    width: clamp(4.6rem, 22vw, 7rem);
+    height: clamp(4.6rem, 22vw, 7rem);
+  }
+
+  .photo-scatter-wrap--6 .photo-scatter-item--2 .photo-scatter-img,
+  .photo-scatter-wrap--6 .photo-scatter-item--3 .photo-scatter-img,
+  .photo-scatter-wrap--6 .photo-scatter-item--4 .photo-scatter-img,
+  .photo-scatter-wrap--6 .photo-scatter-item--5 .photo-scatter-img {
+    width: var(--welcome-photo-sm);
+    height: var(--welcome-photo-sm);
+  }
+
+  /* Mobile photo positions — sit inside padding gutters, never clip */
+  .photo-scatter-wrap .photo-scatter-item {
+    transform: none;
+  }
+
+  /* Left gutter */
+  .photo-scatter-wrap--2 .photo-scatter-item--0,
+  .photo-scatter-wrap--3 .photo-scatter-item--0,
+  .photo-scatter-wrap--4 .photo-scatter-item--0,
+  .photo-scatter-wrap--5 .photo-scatter-item--0,
+  .photo-scatter-wrap--6 .photo-scatter-item--0,
+  .photo-scatter-wrap--4 .photo-scatter-item--2,
+  .photo-scatter-wrap--5 .photo-scatter-item--2,
+  .photo-scatter-wrap--6 .photo-scatter-item--2,
+  .photo-scatter-wrap--6 .photo-scatter-item--4 {
+    left: 0;
+    right: auto;
+  }
+
+  /* Right gutter */
+  .photo-scatter-wrap--2 .photo-scatter-item--1,
+  .photo-scatter-wrap--3 .photo-scatter-item--1,
+  .photo-scatter-wrap--4 .photo-scatter-item--1,
+  .photo-scatter-wrap--5 .photo-scatter-item--1,
+  .photo-scatter-wrap--6 .photo-scatter-item--1,
+  .photo-scatter-wrap--4 .photo-scatter-item--3,
+  .photo-scatter-wrap--5 .photo-scatter-item--3,
+  .photo-scatter-wrap--6 .photo-scatter-item--3,
+  .photo-scatter-wrap--6 .photo-scatter-item--5 {
+    right: 0;
+    left: auto;
+  }
+
+  /* Top corners — slightly inward from the screen edge */
+  .photo-scatter-wrap--2 .photo-scatter-item--0,
+  .photo-scatter-wrap--3 .photo-scatter-item--0,
+  .photo-scatter-wrap--4 .photo-scatter-item--0,
+  .photo-scatter-wrap--5 .photo-scatter-item--0,
+  .photo-scatter-wrap--6 .photo-scatter-item--0 {
+    top: 3%;
+    left: var(--welcome-corner-inset);
+  }
+
+  .photo-scatter-wrap--2 .photo-scatter-item--1,
+  .photo-scatter-wrap--3 .photo-scatter-item--1,
+  .photo-scatter-wrap--4 .photo-scatter-item--1,
+  .photo-scatter-wrap--5 .photo-scatter-item--1,
+  .photo-scatter-wrap--6 .photo-scatter-item--1 {
+    top: 3%;
+    right: var(--welcome-corner-inset);
+  }
+
+  /* Mid side photos */
+  .photo-scatter-wrap--4 .photo-scatter-item--2,
+  .photo-scatter-wrap--5 .photo-scatter-item--2 {
+    top: 42%;
+  }
+
+  .photo-scatter-wrap--4 .photo-scatter-item--3,
+  .photo-scatter-wrap--5 .photo-scatter-item--3 {
+    top: 42%;
+  }
+
+  .photo-scatter-wrap--6 .photo-scatter-item--2 {
+    top: 38%;
+  }
+
+  .photo-scatter-wrap--6 .photo-scatter-item--3 {
+    top: 36%;
+  }
+
+  .photo-scatter-wrap--6 .photo-scatter-item--4 {
+    top: 52%;
+  }
+
+  .photo-scatter-wrap--6 .photo-scatter-item--5 {
+    top: 50%;
+  }
+
+  .photo-scatter-wrap--1 .photo-scatter-item--0,
+  .photo-scatter-wrap--3 .photo-scatter-item--2,
+  .photo-scatter-wrap--5 .photo-scatter-item--4 {
+    left: 50%;
+    right: auto;
+    top: auto;
+    transform: translateX(-50%);
+    bottom: clamp(2.25rem, 6.5vw, 3.25rem);
+  }
+
+  .photo-scatter-tilt {
+    border-radius: clamp(0.6rem, 2vw, 0.85rem);
+    border-width: 2px;
+  }
 }
 
 /* ——— Typography ——— */
