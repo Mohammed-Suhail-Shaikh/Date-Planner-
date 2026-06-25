@@ -36,11 +36,13 @@ export type ItinerarySlot = {
   address: string;
   notes: string;
   durationMinutes: number;
+  isCustom?: boolean;
 };
 
 export type Itinerary = {
   date: string;
   slots: ItinerarySlot[];
+  customSuggestions?: string;
 };
 
 export type Invite = typeof invites.$inferSelect;

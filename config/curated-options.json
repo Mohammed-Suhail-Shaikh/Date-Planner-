@@ -4,6 +4,12 @@
     "email": "mdsuhail2003@gmail.com",
     "defaultLocation": "Boston, MA, USA"
   },
+  "constraints": {
+    "forbiddenVenuePairs": [
+      ["museum-gallery-3", "dessert-spot"],
+      ["museum-gallery-3", "brunch-spot"]
+    ]
+  },
   "quiz": {
     "moods": [
       {
@@ -106,7 +112,8 @@
       "mapsUrl": "https://maps.google.com/?q=REDWHITE+Boneless+Ramen+141+Tremont+St+Boston+MA",
       "tags": ["romantic", "dinner", "evening", "cozy"],
       "defaultDuration": 90,
-      "notes": "Cozy ramen spot in Downtown Boston. Great for an intimate dinner."
+      "notes": "Cozy ramen spot in Downtown Boston. Great for an intimate dinner.",
+      "area": "downtown"
     },
     {
       "id": "dinner-spot-ramen-2",
@@ -115,7 +122,8 @@
       "mapsUrl": "https://maps.google.com/?q=Boston+Ramen+1254+Boylston+St+Boston+MA",
       "tags": ["dinner", "evening", "balanced", "playful"],
       "defaultDuration": 90,
-      "notes": "Casual and fun ramen spot near Fenway. Good energy for a playful date."
+      "notes": "Casual and fun ramen spot near Fenway. Good energy for a playful date.",
+      "area": "back-bay-fenway"
     },
     {
       "id": "dinner-spot-ramen-3",
@@ -124,7 +132,8 @@
       "mapsUrl": "https://maps.google.com/?q=Waku+Waku+Ramen+32+Beach+St+Boston+MA+Chinatown",
       "tags": ["dinner", "evening", "adventurous", "playful"],
       "defaultDuration": 90,
-      "notes": "In the heart of Chinatown; great for an adventurous foodie date."
+      "notes": "In the heart of Chinatown; great for an adventurous foodie date.",
+      "area": "downtown"
     },
     {
       "id": "dinner-spot-indian-1",
@@ -133,7 +142,8 @@
       "mapsUrl": "https://maps.google.com/?q=Namastay+Boston+9+Hamilton+Pl+Boston+MA",
       "tags": ["dinner", "romantic", "evening", "cozy"],
       "defaultDuration": 90,
-      "notes": "Modern Indian cuisine in Downtown Boston. Elegant and intimate."
+      "notes": "Modern Indian cuisine in Downtown Boston. Elegant and intimate.",
+      "area": "downtown"
     },
     {
       "id": "dinner-spot-indian-2",
@@ -142,7 +152,8 @@
       "mapsUrl": "https://maps.google.com/?q=Mumbai+Spice+22+Chauncy+St+Boston+MA",
       "tags": ["dinner", "evening", "playful", "balanced"],
       "defaultDuration": 90,
-      "notes": "Lively Indian spot in Downtown Crossing. Great flavors and fun atmosphere."
+      "notes": "Lively Indian spot in Downtown Crossing. Great flavors and fun atmosphere.",
+      "area": "downtown"
     },
     {
       "id": "dinner-spot-indian-3",
@@ -151,7 +162,8 @@
       "mapsUrl": "https://maps.google.com/?q=Punjab+Palace+109+Brighton+Ave+Allston+MA",
       "tags": ["dinner", "evening", "cozy", "low-key"],
       "defaultDuration": 90,
-      "notes": "Authentic North Indian in Allston. Relaxed and unpretentious."
+      "notes": "Authentic North Indian in Allston. Relaxed and unpretentious.",
+      "area": "allston"
     },
     {
       "id": "dinner-spot-indian-4",
@@ -160,7 +172,8 @@
       "mapsUrl": "https://maps.google.com/?q=Wow+Tikka+249+Elm+St+Somerville+MA",
       "tags": ["dinner", "evening", "playful", "adventurous"],
       "defaultDuration": 75,
-      "notes": "Fun and flavorful tikka spot in Davis Square."
+      "notes": "Fun and flavorful tikka spot in Davis Square.",
+      "area": "somerville"
     },
     {
       "id": "dinner-spot-med-1",
@@ -169,7 +182,8 @@
       "mapsUrl": "https://maps.google.com/?q=NAYA+399+Boylston+St+Boston+MA",
       "tags": ["dinner", "afternoon", "balanced", "cozy"],
       "defaultDuration": 60,
-      "notes": "Fresh Lebanese-inspired fast casual. Light and great for an afternoon bite."
+      "notes": "Fresh Lebanese-inspired fast casual. Light and great for an afternoon bite.",
+      "area": "back-bay-fenway"
     },
     {
       "id": "dinner-spot-med-2",
@@ -178,7 +192,8 @@
       "mapsUrl": "https://maps.google.com/?q=CAVA+Boston+MA",
       "tags": ["dinner", "afternoon", "balanced", "low-key"],
       "defaultDuration": 45,
-      "notes": "Mediterranean grain bowls; casual and healthy. Good for a lighter date meal."
+      "notes": "Mediterranean grain bowls; casual and healthy. Good for a lighter date meal.",
+      "area": "downtown"
     },
     {
       "id": "sunset-walk",
@@ -187,7 +202,8 @@
       "mapsUrl": "https://maps.google.com/?q=Charles+River+Esplanade+Boston+MA",
       "tags": ["romantic", "outdoors", "evening", "low-key", "adventurous"],
       "defaultDuration": 60,
-      "notes": "Beautiful riverside walk along the Charles. Perfect at golden hour or evening."
+      "notes": "Beautiful riverside walk along the Charles. Perfect at golden hour or evening.",
+      "area": "back-bay-fenway"
     },
     {
       "id": "coffee-start",
@@ -196,7 +212,8 @@
       "mapsUrl": "https://maps.google.com/?q=Sanctuary+Cat+Cafe+441+Cambridge+St+Allston+MA",
       "tags": ["cozy", "coffee", "afternoon", "low-key", "playful"],
       "defaultDuration": 60,
-      "notes": "Hang out with cats over coffee. Unique, cozy, and a great conversation starter. Book ahead!"
+      "notes": "Hang out with cats over coffee. Unique, cozy, and a great conversation starter. Book ahead!",
+      "area": "allston"
     },
     {
       "id": "outdoor-activity",
@@ -205,7 +222,8 @@
       "mapsUrl": "https://maps.google.com/?q=Charles+River+Esplanade+Boston+MA",
       "tags": ["adventurous", "outdoors", "afternoon", "high-energy", "balanced"],
       "defaultDuration": 90,
-      "notes": "Great for a walk, jog, or just sitting by the river. Beautiful views of the skyline."
+      "notes": "Great for a walk, jog, or just sitting by the river. Beautiful views of the skyline.",
+      "area": "back-bay-fenway"
     },
     {
       "id": "museum-gallery-1",
@@ -214,7 +232,8 @@
       "mapsUrl": "https://maps.google.com/?q=Isabella+Stewart+Gardner+Museum+25+Evans+Way+Boston+MA",
       "tags": ["culture", "afternoon", "romantic", "balanced", "cozy"],
       "defaultDuration": 90,
-      "notes": "Stunning Venetian-style palazzo with incredible art. One of the most romantic museums in Boston."
+      "notes": "Stunning Venetian-style palazzo with incredible art. One of the most romantic museums in Boston.",
+      "area": "back-bay-fenway"
     },
     {
       "id": "museum-gallery-2",
@@ -223,7 +242,8 @@
       "mapsUrl": "https://maps.google.com/?q=Museum+of+Fine+Arts+465+Huntington+Ave+Boston+MA",
       "tags": ["culture", "afternoon", "balanced", "cozy"],
       "defaultDuration": 120,
-      "notes": "World-class art museum. Check for special exhibits; great conversation starter."
+      "notes": "World-class art museum. Check for special exhibits; great conversation starter.",
+      "area": "back-bay-fenway"
     },
     {
       "id": "museum-gallery-3",
@@ -232,7 +252,8 @@
       "mapsUrl": "https://maps.google.com/?q=Museum+of+Ice+Cream+1+Broadway+Cambridge+MA",
       "tags": ["culture", "afternoon", "playful", "high-energy", "balanced"],
       "defaultDuration": 75,
-      "notes": "Interactive, colorful, and super fun. Perfect for a playful date; great photos too!"
+      "notes": "Interactive, colorful, and super fun. Perfect for a playful date; great photos too!",
+      "area": "cambridge-kendall"
     },
     {
       "id": "museum-gallery",
@@ -241,7 +262,8 @@
       "mapsUrl": "https://maps.google.com/?q=Isabella+Stewart+Gardner+Museum+25+Evans+Way+Boston+MA",
       "tags": ["culture", "afternoon", "balanced", "playful", "cozy"],
       "defaultDuration": 75,
-      "notes": "Default museum slot; intimate and beautiful. Check hours before the date."
+      "notes": "Default museum slot; intimate and beautiful. Check hours before the date.",
+      "area": "back-bay-fenway"
     },
     {
       "id": "live-music",
@@ -250,7 +272,8 @@
       "mapsUrl": "https://maps.google.com/?q=Havana+Club+289+Elm+St+Somerville+MA",
       "tags": ["culture", "evening", "playful", "high-energy", "adventurous"],
       "defaultDuration": 120,
-      "notes": "Salsa & Bachata social dancing in Davis Square. No experience needed — just good energy!"
+      "notes": "Salsa & Bachata social dancing in Davis Square. No experience needed — just good energy!",
+      "area": "somerville"
     },
     {
       "id": "brunch-spot",
@@ -259,7 +282,8 @@
       "mapsUrl": "https://maps.google.com/?q=Toscanini%27s+Ice+Cream+899+Main+St+Cambridge+MA",
       "tags": ["cozy", "coffee", "afternoon", "full-day", "playful"],
       "defaultDuration": 45,
-      "notes": "Legendary Cambridge ice cream institution. Great as a sweet start or mid-day treat on a full-day date."
+      "notes": "Legendary Cambridge ice cream institution. Great as a sweet start or mid-day treat on a full-day date.",
+      "area": "cambridge-central"
     },
     {
       "id": "dessert-spot",
@@ -268,7 +292,8 @@
       "mapsUrl": "https://maps.google.com/?q=Toscanini%27s+Ice+Cream+899+Main+St+Cambridge+MA",
       "tags": ["playful", "cozy", "evening", "low-key", "coffee"],
       "defaultDuration": 45,
-      "notes": "Best ice cream in Boston; a perfect ending to any date. Try the burnt caramel."
+      "notes": "Best ice cream in Boston; a perfect ending to any date. Try the burnt caramel.",
+      "area": "cambridge-central"
     },
     {
       "id": "activity-fun",
@@ -277,7 +302,8 @@
       "mapsUrl": "https://maps.google.com/?q=Newbury+Comics+332+Newbury+St+Boston+MA",
       "tags": ["playful", "balanced", "afternoon", "adventurous"],
       "defaultDuration": 60,
-      "notes": "Iconic Boston pop culture store; comics, vinyls, collectibles. Great for a nerdy or quirky date."
+      "notes": "Iconic Boston pop culture store; comics, vinyls, collectibles. Great for a nerdy or quirky date.",
+      "area": "back-bay-fenway"
     },
     {
       "id": "kayaking",
@@ -286,7 +312,8 @@
       "mapsUrl": "https://maps.google.com/?q=Paddle+Boston+Cambridge+MA",
       "tags": ["adventurous", "outdoors", "afternoon", "high-energy", "balanced", "romantic"],
       "defaultDuration": 90,
-      "notes": "Rent kayaks or canoes on the Charles River. Book ahead on weekends. One of the best active date ideas in Boston."
+      "notes": "Rent kayaks or canoes on the Charles River. Book ahead on weekends. One of the best active date ideas in Boston.",
+      "area": "cambridge-kendall"
     },
     {
       "id": "Boston-view",
@@ -295,7 +322,8 @@
       "mapsUrl": "https://maps.google.com/?q=Prudential+Tower+Skywalk+Observatory+800+Boylston+St+Boston+MA",
       "tags": ["romantic", "adventurous", "evening", "afternoon", "balanced"],
       "defaultDuration": 60,
-      "notes": "360° views of Boston from the 50th floor. Stunning at sunset or at night. Tickets required; book ahead."
+      "notes": "360° views of Boston from the 50th floor. Stunning at sunset or at night. Tickets required; book ahead.",
+      "area": "back-bay-fenway"
     },
     {
       "id": "museum-gallery-wndr",
@@ -304,7 +332,8 @@
       "mapsUrl": "https://maps.google.com/?q=WNDR+Museum+500+Washington+St+Boston+MA",
       "tags": ["culture", "afternoon", "playful", "high-energy", "balanced", "adventurous"],
       "defaultDuration": 90,
-      "notes": "Immersive, interactive art museum. Super photogenic and fun; great for a playful or curious date. Book tickets online."
+      "notes": "Immersive, interactive art museum. Super photogenic and fun; great for a playful or curious date. Book tickets online.",
+      "area": "downtown"
     }
   ],
   "itineraryRules": [
@@ -375,7 +404,7 @@
         },
         {
           "type": "venue",
-          "venueId": "dessert-spot",
+          "venueId": "dinner-spot-indian-3",
           "offsetMinutes": 90
         }
       ]
@@ -406,7 +435,7 @@
         },
         {
           "type": "venue",
-          "venueId": "dessert-spot",
+          "venueId": "kayaking",
           "offsetMinutes": 120
         }
       ]
@@ -424,8 +453,8 @@
         },
         {
           "type": "venue",
-          "venueId": "dessert-spot",
-          "offsetMinutes": 120
+          "venueId": "sunset-walk",
+          "offsetMinutes": 90
         }
       ]
     },
@@ -441,8 +470,8 @@
         },
         {
           "type": "venue",
-          "venueId": "live-music",
-          "offsetMinutes": 150
+          "venueId": "sunset-walk",
+          "offsetMinutes": 120
         }
       ]
     },
@@ -458,7 +487,7 @@
         },
         {
           "type": "venue",
-          "venueId": "dessert-spot",
+          "venueId": "sunset-walk",
           "offsetMinutes": 120
         }
       ]
@@ -475,7 +504,7 @@
         },
         {
           "type": "venue",
-          "venueId": "dessert-spot",
+          "venueId": "dinner-spot-indian-3",
           "offsetMinutes": 75
         }
       ]
@@ -507,12 +536,12 @@
     "slots": [
       {
         "type": "venue",
-        "venueId": "coffee-start",
+        "venueId": "dinner-spot-1",
         "offsetMinutes": 0
       },
       {
         "type": "venue",
-        "venueId": "dinner-spot-1",
+        "venueId": "sunset-walk",
         "offsetMinutes": 120
       }
     ]

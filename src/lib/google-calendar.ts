@@ -47,11 +47,16 @@ export async function createCalendarEvent(
   const end = parseTimeOnDate(itinerary.date, lastSlot.time);
   end.setMinutes(end.getMinutes() + lastSlot.durationMinutes);
 
-  const description = itinerary.slots
-    .map(
+  const description = [
+    ...itinerary.slots.map(
       (s) =>
         `${s.time} — ${s.title}\n${s.address}${s.notes ? `\n${s.notes}` : ""}`
-    )
+    ),
+    itinerary.customSuggestions
+      ? `Her suggestions:\n${itinerary.customSuggestions}`
+      : null,
+  ]
+    .filter(Boolean)
     .join("\n\n");
 
   const response = await calendar.events.insert({

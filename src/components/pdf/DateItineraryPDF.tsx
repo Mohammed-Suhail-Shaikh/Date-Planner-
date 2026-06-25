@@ -83,6 +83,13 @@ function DateItineraryDocument({
           </View>
         ))}
 
+        {itinerary.customSuggestions ? (
+          <View style={styles.slot}>
+            <Text style={styles.slotTitle}>Her suggestions</Text>
+            <Text style={styles.notes}>{itinerary.customSuggestions}</Text>
+          </View>
+        ) : null}
+
         <Text style={styles.footer}>Planned with care for {name}</Text>
       </Page>
     </Document>

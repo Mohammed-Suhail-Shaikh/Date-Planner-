@@ -129,6 +129,7 @@ export function DatePageClient({ inviteId }: DatePageClientProps) {
         itinerary={itinerary}
         onChange={handleItineraryChange}
         onApprove={handleApprove}
+        onBackToQuiz={() => setView("quiz")}
         loading={approving}
       />
     );
