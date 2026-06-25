@@ -1,6 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
+import { AdminLogin } from "@/components/admin/AdminLogin";
 
 type Invite = {
   id: string;
@@ -18,8 +20,6 @@ const STATUS_LABELS: Record<string, string> = {
 export default function AdminPage() {
   const [authed, setAuthed] = useState(false);
   const [checking, setChecking] = useState(true);
-  const [password, setPassword] = useState("");
-  const [loginError, setLoginError] = useState("");
   const [invites, setInvites] = useState<Invite[]>([]);
   const [newName, setNewName] = useState("");
   const [createdUrl, setCreatedUrl] = useState("");
@@ -44,22 +44,6 @@ export default function AdminPage() {
   useEffect(() => {
     loadInvites();
   }, []);
-
-  async function handleLogin(e: React.FormEvent) {
-    e.preventDefault();
-    setLoginError("");
-    const res = await fetch("/api/admin/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ password }),
-    });
-    if (res.ok) {
-      setAuthed(true);
-      loadInvites();
-    } else {
-      setLoginError("Wrong password");
-    }
-  }
 
   async function handleCreate(e: React.FormEvent) {
     e.preventDefault();
@@ -112,35 +96,26 @@ export default function AdminPage() {
   }
 
   if (!authed) {
-    return (
-      <main className="flex min-h-screen items-center justify-center px-6">
-        <form onSubmit={handleLogin} className="w-full max-w-sm">
-          <h1 className="font-display mb-6 text-center text-3xl">Admin</h1>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Password"
-            className="mb-4 w-full rounded-2xl border border-border bg-card px-4 py-3 outline-none focus:border-accent"
-          />
-          {loginError && (
-            <p className="mb-4 text-center text-sm text-red-600">{loginError}</p>
-          )}
-          <button
-            type="submit"
-            className="w-full rounded-full bg-accent py-3 text-white hover:opacity-90"
-          >
-            Sign in
-          </button>
-        </form>
-      </main>
-    );
+    return <AdminLogin onSuccess={loadInvites} />;
   }
 
   return (
     <main className="mx-auto min-h-screen max-w-2xl px-6 py-10">
-      <div className="mb-10 flex items-center justify-between">
-        <h1 className="font-display text-3xl">Date Planner</h1>
+      <div className="mb-10 flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <h1 className="font-display text-3xl">Date Planner</h1>
+          <nav className="mt-3 flex gap-4 text-sm">
+            <Link href="/admin" className="font-medium text-accent">
+              Invites
+            </Link>
+            <Link
+              href="/admin/content"
+              className="text-muted hover:text-foreground"
+            >
+              Date content
+            </Link>
+          </nav>
+        </div>
         <button
           type="button"
           onClick={async () => {

@@ -1,145 +1,507 @@
 {
   "planner": {
-    "name": "You",
-    "email": "you@gmail.com",
-    "defaultLocation": "Your City"
+    "name": "Suhail",
+    "email": "mdsuhail2003@gmail.com",
+    "defaultLocation": "Boston, MA, USA"
   },
   "quiz": {
     "moods": [
-      { "id": "romantic", "label": "Romantic", "emoji": "🌹", "description": "Intimate and thoughtful" },
-      { "id": "adventurous", "label": "Adventurous", "emoji": "🏔️", "description": "Something exciting and new" },
-      { "id": "cozy", "label": "Cozy", "emoji": "☕", "description": "Relaxed and low-key" },
-      { "id": "playful", "label": "Playful", "emoji": "🎉", "description": "Fun and lighthearted" }
+      {
+        "id": "romantic",
+        "label": "Romantic",
+        "emoji": "🌹",
+        "description": "Intimate, thoughtful, just us"
+      },
+      {
+        "id": "adventurous",
+        "label": "Adventurous",
+        "emoji": "🏔️",
+        "description": "Something exciting and new"
+      },
+      {
+        "id": "cozy",
+        "label": "Cozy",
+        "emoji": "☕",
+        "description": "Relaxed, no pressure"
+      },
+      {
+        "id": "playful",
+        "label": "Playful",
+        "emoji": "🎉",
+        "description": "Fun, lighthearted, maybe a little silly"
+      }
     ],
     "energies": [
-      { "id": "low-key", "label": "Low-key", "emoji": "🌙", "description": "Easy pace, no rush" },
-      { "id": "balanced", "label": "Balanced", "emoji": "⚖️", "description": "A nice mix of activity and chill" },
-      { "id": "high-energy", "label": "High-energy", "emoji": "⚡", "description": "Keep things moving" }
+      {
+        "id": "low-key",
+        "label": "Low-key",
+        "emoji": "🌙",
+        "description": "Easy pace, lots of talking"
+      },
+      {
+        "id": "balanced",
+        "label": "Balanced",
+        "emoji": "⚖️",
+        "description": "A mix of activity and chill"
+      },
+      {
+        "id": "high-energy",
+        "label": "High-energy",
+        "emoji": "⚡",
+        "description": "Keep things moving"
+      }
     ],
     "activities": [
-      { "id": "dinner", "label": "Dinner", "emoji": "🍽️", "description": "Great food and conversation" },
-      { "id": "outdoors", "label": "Outdoors", "emoji": "🌿", "description": "Fresh air and scenery" },
-      { "id": "culture", "label": "Culture", "emoji": "🎭", "description": "Art, music, or museums" },
-      { "id": "drinks", "label": "Drinks", "emoji": "🥂", "description": "Cocktails or wine bar" }
+      {
+        "id": "dinner",
+        "label": "Dinner",
+        "emoji": "🍽️",
+        "description": "Sit down, good food, conversation"
+      },
+      {
+        "id": "outdoors",
+        "label": "Outdoors",
+        "emoji": "🌿",
+        "description": "Fresh air, walk, or a view"
+      },
+      {
+        "id": "culture",
+        "label": "Culture",
+        "emoji": "🎭",
+        "description": "Art, music, or something creative"
+      },
+      {
+        "id": "coffee",
+        "label": "Coffee & treats",
+        "emoji": "☕",
+        "description": "Café, tea, or something sweet"
+      }
     ],
     "times": [
-      { "id": "afternoon", "label": "Afternoon", "emoji": "☀️", "description": "Starts around 2 PM" },
-      { "id": "evening", "label": "Evening", "emoji": "🌆", "description": "Starts around 6 PM" },
-      { "id": "full-day", "label": "Full day", "emoji": "📅", "description": "An all-day adventure" }
+      {
+        "id": "afternoon",
+        "label": "Afternoon",
+        "emoji": "☀️",
+        "description": "Starts around 2 PM"
+      },
+      {
+        "id": "evening",
+        "label": "Evening",
+        "emoji": "🌆",
+        "description": "Starts around 6:30 PM"
+      },
+      {
+        "id": "full-day",
+        "label": "Full day",
+        "emoji": "📅",
+        "description": "Brunch through dinner"
+      }
     ]
   },
   "venues": [
     {
-      "id": "bistro-luna",
-      "name": "Bistro Luna",
-      "address": "123 Main St",
+      "id": "dinner-spot-1",
+      "name": "REDWHITE Boneless Ramen",
+      "address": "141 Tremont St, Boston, MA 02111",
+      "mapsUrl": "https://maps.google.com/?q=REDWHITE+Boneless+Ramen+141+Tremont+St+Boston+MA",
       "tags": ["romantic", "dinner", "evening", "cozy"],
       "defaultDuration": 90,
-      "notes": "Reserve a window table"
+      "notes": "Cozy ramen spot in Downtown Boston. Great for an intimate dinner."
     },
     {
-      "id": "rooftop-walk",
-      "name": "Harbor Rooftop Walk",
-      "address": "Harbor View Promenade",
-      "tags": ["romantic", "outdoors", "evening", "low-key"],
-      "defaultDuration": 60,
-      "notes": "Stunning sunset views"
-    },
-    {
-      "id": "trail-cafe",
-      "name": "Trailhead Café",
-      "address": "456 Park Ave",
-      "tags": ["adventurous", "outdoors", "afternoon", "cozy"],
-      "defaultDuration": 45,
-      "notes": "Grab coffee before the hike"
-    },
-    {
-      "id": "summit-lookout",
-      "name": "Summit Lookout",
-      "address": "Eagle Ridge Trail",
-      "tags": ["adventurous", "outdoors", "afternoon", "high-energy"],
-      "defaultDuration": 120,
-      "notes": "Moderate hike, bring water"
-    },
-    {
-      "id": "gallery-modern",
-      "name": "Modern Art Gallery",
-      "address": "789 Arts District",
-      "tags": ["culture", "afternoon", "balanced", "playful"],
-      "defaultDuration": 75,
-      "notes": "Current exhibit is interactive"
-    },
-    {
-      "id": "wine-bar-velvet",
-      "name": "Velvet Wine Bar",
-      "address": "321 Vine St",
-      "tags": ["drinks", "evening", "romantic", "cozy"],
+      "id": "dinner-spot-ramen-2",
+      "name": "Boston Ramen",
+      "address": "1254 Boylston St, Boston, MA 02215",
+      "mapsUrl": "https://maps.google.com/?q=Boston+Ramen+1254+Boylston+St+Boston+MA",
+      "tags": ["dinner", "evening", "balanced", "playful"],
       "defaultDuration": 90,
-      "notes": "Try the house red"
+      "notes": "Casual and fun ramen spot near Fenway. Good energy for a playful date."
     },
     {
-      "id": "jazz-lounge",
-      "name": "Blue Note Jazz Lounge",
-      "address": "555 Music Row",
-      "tags": ["culture", "drinks", "evening", "playful"],
-      "defaultDuration": 120,
-      "notes": "Live music starts at 8"
+      "id": "dinner-spot-ramen-3",
+      "name": "Waku Waku Ramen",
+      "address": "32 Beach St, Boston, MA 02111",
+      "mapsUrl": "https://maps.google.com/?q=Waku+Waku+Ramen+32+Beach+St+Boston+MA+Chinatown",
+      "tags": ["dinner", "evening", "adventurous", "playful"],
+      "defaultDuration": 90,
+      "notes": "In the heart of Chinatown — great for an adventurous foodie date."
     },
     {
-      "id": "brunch-garden",
-      "name": "Garden Brunch Spot",
-      "address": "88 Bloom Lane",
-      "tags": ["cozy", "afternoon", "full-day", "playful"],
+      "id": "dinner-spot-indian-1",
+      "name": "Namastay Boston",
+      "address": "9 Hamilton Pl, Boston, MA 02108",
+      "mapsUrl": "https://maps.google.com/?q=Namastay+Boston+9+Hamilton+Pl+Boston+MA",
+      "tags": ["dinner", "romantic", "evening", "cozy"],
+      "defaultDuration": 90,
+      "notes": "Modern Indian cuisine in Downtown Boston. Elegant and intimate."
+    },
+    {
+      "id": "dinner-spot-indian-2",
+      "name": "Mumbai Spice",
+      "address": "22 Chauncy St, Boston, MA 02111",
+      "mapsUrl": "https://maps.google.com/?q=Mumbai+Spice+22+Chauncy+St+Boston+MA",
+      "tags": ["dinner", "evening", "playful", "balanced"],
+      "defaultDuration": 90,
+      "notes": "Lively Indian spot in Downtown Crossing. Great flavors and fun atmosphere."
+    },
+    {
+      "id": "dinner-spot-indian-3",
+      "name": "Punjab Palace",
+      "address": "109 Brighton Ave, Allston, MA 02134",
+      "mapsUrl": "https://maps.google.com/?q=Punjab+Palace+109+Brighton+Ave+Allston+MA",
+      "tags": ["dinner", "evening", "cozy", "low-key"],
+      "defaultDuration": 90,
+      "notes": "Authentic North Indian in Allston. Relaxed and unpretentious."
+    },
+    {
+      "id": "dinner-spot-indian-4",
+      "name": "Wow Tikka",
+      "address": "249 Elm St, Somerville, MA 02144",
+      "mapsUrl": "https://maps.google.com/?q=Wow+Tikka+249+Elm+St+Somerville+MA",
+      "tags": ["dinner", "evening", "playful", "adventurous"],
       "defaultDuration": 75,
-      "notes": "Outdoor seating when weather permits"
+      "notes": "Fun and flavorful tikka spot in Davis Square."
+    },
+    {
+      "id": "dinner-spot-med-1",
+      "name": "NAYA",
+      "address": "399 Boylston St, Boston, MA 02116",
+      "mapsUrl": "https://maps.google.com/?q=NAYA+399+Boylston+St+Boston+MA",
+      "tags": ["dinner", "afternoon", "balanced", "cozy"],
+      "defaultDuration": 60,
+      "notes": "Fresh Lebanese-inspired fast casual. Light and great for an afternoon bite."
+    },
+    {
+      "id": "dinner-spot-med-2",
+      "name": "CAVA",
+      "address": "Multiple locations, Boston, MA",
+      "mapsUrl": "https://maps.google.com/?q=CAVA+Boston+MA",
+      "tags": ["dinner", "afternoon", "balanced", "low-key"],
+      "defaultDuration": 45,
+      "notes": "Mediterranean grain bowls — casual and healthy. Good for a lighter date meal."
+    },
+    {
+      "id": "sunset-walk",
+      "name": "Charles River Esplanade",
+      "address": "Charles River Esplanade, Boston, MA 02116",
+      "mapsUrl": "https://maps.google.com/?q=Charles+River+Esplanade+Boston+MA",
+      "tags": ["romantic", "outdoors", "evening", "low-key", "adventurous"],
+      "defaultDuration": 60,
+      "notes": "Beautiful riverside walk along the Charles. Perfect at golden hour or evening."
+    },
+    {
+      "id": "coffee-start",
+      "name": "Sanctuary Cat Café",
+      "address": "441 Cambridge St, Allston, MA 02134",
+      "mapsUrl": "https://maps.google.com/?q=Sanctuary+Cat+Cafe+441+Cambridge+St+Allston+MA",
+      "tags": ["cozy", "coffee", "afternoon", "low-key", "playful"],
+      "defaultDuration": 60,
+      "notes": "Hang out with cats over coffee. Unique, cozy, and a great conversation starter. Book ahead!"
+    },
+    {
+      "id": "outdoor-activity",
+      "name": "Charles River Esplanade",
+      "address": "Charles River Esplanade, Boston, MA 02116",
+      "mapsUrl": "https://maps.google.com/?q=Charles+River+Esplanade+Boston+MA",
+      "tags": ["adventurous", "outdoors", "afternoon", "high-energy", "balanced"],
+      "defaultDuration": 90,
+      "notes": "Great for a walk, jog, or just sitting by the river. Beautiful views of the skyline."
+    },
+    {
+      "id": "museum-gallery-1",
+      "name": "Isabella Stewart Gardner Museum",
+      "address": "25 Evans Way, Boston, MA 02115",
+      "mapsUrl": "https://maps.google.com/?q=Isabella+Stewart+Gardner+Museum+25+Evans+Way+Boston+MA",
+      "tags": ["culture", "afternoon", "romantic", "balanced", "cozy"],
+      "defaultDuration": 90,
+      "notes": "Stunning Venetian-style palazzo with incredible art. One of the most romantic museums in Boston."
+    },
+    {
+      "id": "museum-gallery-2",
+      "name": "Museum of Fine Arts (MFA Boston)",
+      "address": "465 Huntington Ave, Boston, MA 02115",
+      "mapsUrl": "https://maps.google.com/?q=Museum+of+Fine+Arts+465+Huntington+Ave+Boston+MA",
+      "tags": ["culture", "afternoon", "balanced", "cozy"],
+      "defaultDuration": 120,
+      "notes": "World-class art museum. Check for special exhibits — great conversation starter."
+    },
+    {
+      "id": "museum-gallery-3",
+      "name": "Museum of Ice Cream",
+      "address": "1 Broadway, Cambridge, MA 02142",
+      "mapsUrl": "https://maps.google.com/?q=Museum+of+Ice+Cream+1+Broadway+Cambridge+MA",
+      "tags": ["culture", "afternoon", "playful", "high-energy", "balanced"],
+      "defaultDuration": 75,
+      "notes": "Interactive, colorful, and super fun. Perfect for a playful date — great photos too!"
+    },
+    {
+      "id": "museum-gallery",
+      "name": "Isabella Stewart Gardner Museum",
+      "address": "25 Evans Way, Boston, MA 02115",
+      "mapsUrl": "https://maps.google.com/?q=Isabella+Stewart+Gardner+Museum+25+Evans+Way+Boston+MA",
+      "tags": ["culture", "afternoon", "balanced", "playful", "cozy"],
+      "defaultDuration": 75,
+      "notes": "Default museum slot — intimate and beautiful. Check hours before the date."
+    },
+    {
+      "id": "live-music",
+      "name": "Havana Club",
+      "address": "289 Elm St, Somerville, MA 02144",
+      "mapsUrl": "https://maps.google.com/?q=Havana+Club+289+Elm+St+Somerville+MA",
+      "tags": ["culture", "evening", "playful", "high-energy", "adventurous"],
+      "defaultDuration": 120,
+      "notes": "Salsa & Bachata social dancing in Davis Square. No experience needed — just good energy!"
+    },
+    {
+      "id": "brunch-spot",
+      "name": "Toscanini's Ice Cream",
+      "address": "899 Main St, Cambridge, MA 02139",
+      "mapsUrl": "https://maps.google.com/?q=Toscanini%27s+Ice+Cream+899+Main+St+Cambridge+MA",
+      "tags": ["cozy", "coffee", "afternoon", "full-day", "playful"],
+      "defaultDuration": 45,
+      "notes": "Legendary Cambridge ice cream institution. Great as a sweet start or mid-day treat on a full-day date."
+    },
+    {
+      "id": "dessert-spot",
+      "name": "Toscanini's Ice Cream",
+      "address": "899 Main St, Cambridge, MA 02139",
+      "mapsUrl": "https://maps.google.com/?q=Toscanini%27s+Ice+Cream+899+Main+St+Cambridge+MA",
+      "tags": ["playful", "cozy", "evening", "low-key", "coffee"],
+      "defaultDuration": 45,
+      "notes": "Best ice cream in Boston — a perfect ending to any date. Try the burnt caramel."
+    },
+    {
+      "id": "activity-fun",
+      "name": "Newbury Comics",
+      "address": "332 Newbury St, Boston, MA 02115",
+      "mapsUrl": "https://maps.google.com/?q=Newbury+Comics+332+Newbury+St+Boston+MA",
+      "tags": ["playful", "balanced", "afternoon", "adventurous"],
+      "defaultDuration": 60,
+      "notes": "Iconic Boston pop culture store — comics, vinyls, collectibles. Great for a nerdy or quirky date."
     }
   ],
   "itineraryRules": [
     {
-      "match": { "mood": "romantic", "activity": "dinner" },
+      "match": {
+        "mood": "romantic",
+        "activity": "dinner"
+      },
       "slots": [
-        { "type": "venue", "venueId": "bistro-luna", "offsetMinutes": 0 },
-        { "type": "venue", "venueId": "rooftop-walk", "offsetMinutes": 120 }
+        {
+          "type": "venue",
+          "venueId": "dinner-spot-1",
+          "offsetMinutes": 0
+        },
+        {
+          "type": "venue",
+          "venueId": "sunset-walk",
+          "offsetMinutes": 120
+        }
       ]
     },
     {
-      "match": { "mood": "adventurous", "activity": "outdoors" },
+      "match": {
+        "mood": "romantic",
+        "activity": "coffee"
+      },
       "slots": [
-        { "type": "venue", "venueId": "trail-cafe", "offsetMinutes": 0 },
-        { "type": "venue", "venueId": "summit-lookout", "offsetMinutes": 60 }
+        {
+          "type": "venue",
+          "venueId": "coffee-start",
+          "offsetMinutes": 0
+        },
+        {
+          "type": "venue",
+          "venueId": "sunset-walk",
+          "offsetMinutes": 90
+        }
       ]
     },
     {
-      "match": { "mood": "cozy", "activity": "drinks" },
+      "match": {
+        "mood": "adventurous",
+        "activity": "outdoors"
+      },
       "slots": [
-        { "type": "venue", "venueId": "wine-bar-velvet", "offsetMinutes": 0 }
+        {
+          "type": "venue",
+          "venueId": "coffee-start",
+          "offsetMinutes": 0
+        },
+        {
+          "type": "venue",
+          "venueId": "outdoor-activity",
+          "offsetMinutes": 60
+        }
       ]
     },
     {
-      "match": { "activity": "culture" },
+      "match": {
+        "mood": "cozy",
+        "activity": "coffee"
+      },
       "slots": [
-        { "type": "venue", "venueId": "gallery-modern", "offsetMinutes": 0 },
-        { "type": "venue", "venueId": "jazz-lounge", "offsetMinutes": 150 }
+        {
+          "type": "venue",
+          "venueId": "coffee-start",
+          "offsetMinutes": 0
+        },
+        {
+          "type": "venue",
+          "venueId": "dessert-spot",
+          "offsetMinutes": 90
+        }
       ]
     },
     {
-      "match": { "time": "full-day" },
+      "match": {
+        "mood": "cozy",
+        "activity": "dinner"
+      },
       "slots": [
-        { "type": "venue", "venueId": "brunch-garden", "offsetMinutes": 0 },
-        { "type": "venue", "venueId": "gallery-modern", "offsetMinutes": 120 },
-        { "type": "venue", "venueId": "bistro-luna", "offsetMinutes": 300 }
+        {
+          "type": "venue",
+          "venueId": "dinner-spot-indian-1",
+          "offsetMinutes": 0
+        }
+      ]
+    },
+    {
+      "match": {
+        "mood": "playful",
+        "activity": "culture"
+      },
+      "slots": [
+        {
+          "type": "venue",
+          "venueId": "museum-gallery-3",
+          "offsetMinutes": 0
+        },
+        {
+          "type": "venue",
+          "venueId": "dessert-spot",
+          "offsetMinutes": 120
+        }
+      ]
+    },
+    {
+      "match": {
+        "mood": "playful",
+        "activity": "outdoors"
+      },
+      "slots": [
+        {
+          "type": "venue",
+          "venueId": "activity-fun",
+          "offsetMinutes": 0
+        },
+        {
+          "type": "venue",
+          "venueId": "dessert-spot",
+          "offsetMinutes": 120
+        }
+      ]
+    },
+    {
+      "match": {
+        "activity": "culture"
+      },
+      "slots": [
+        {
+          "type": "venue",
+          "venueId": "museum-gallery",
+          "offsetMinutes": 0
+        },
+        {
+          "type": "venue",
+          "venueId": "live-music",
+          "offsetMinutes": 150
+        }
+      ]
+    },
+    {
+      "match": {
+        "activity": "dinner"
+      },
+      "slots": [
+        {
+          "type": "venue",
+          "venueId": "dinner-spot-1",
+          "offsetMinutes": 0
+        },
+        {
+          "type": "venue",
+          "venueId": "dessert-spot",
+          "offsetMinutes": 120
+        }
+      ]
+    },
+    {
+      "match": {
+        "activity": "coffee"
+      },
+      "slots": [
+        {
+          "type": "venue",
+          "venueId": "coffee-start",
+          "offsetMinutes": 0
+        },
+        {
+          "type": "venue",
+          "venueId": "dessert-spot",
+          "offsetMinutes": 75
+        }
+      ]
+    },
+    {
+      "match": {
+        "time": "full-day"
+      },
+      "slots": [
+        {
+          "type": "venue",
+          "venueId": "brunch-spot",
+          "offsetMinutes": 0
+        },
+        {
+          "type": "venue",
+          "venueId": "museum-gallery-1",
+          "offsetMinutes": 120
+        },
+        {
+          "type": "venue",
+          "venueId": "dinner-spot-1",
+          "offsetMinutes": 300
+        }
       ]
     }
   ],
   "fallbackRule": {
     "slots": [
-      { "type": "venue", "venueId": "bistro-luna", "offsetMinutes": 0 },
-      { "type": "venue", "venueId": "wine-bar-velvet", "offsetMinutes": 120 }
+      {
+        "type": "venue",
+        "venueId": "coffee-start",
+        "offsetMinutes": 0
+      },
+      {
+        "type": "venue",
+        "venueId": "dinner-spot-1",
+        "offsetMinutes": 120
+      }
     ]
   },
   "timeDefaults": {
-    "afternoon": { "hour": 14, "minute": 0 },
-    "evening": { "hour": 18, "minute": 30 },
-    "full-day": { "hour": 11, "minute": 0 }
+    "afternoon": {
+      "hour": 14,
+      "minute": 0
+    },
+    "evening": {
+      "hour": 18,
+      "minute": 30
+    },
+    "full-day": {
+      "hour": 11,
+      "minute": 0
+    }
   }
 }
