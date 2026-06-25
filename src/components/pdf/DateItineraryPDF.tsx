@@ -14,42 +14,42 @@ const styles = StyleSheet.create({
   page: {
     padding: 48,
     fontFamily: "Helvetica",
-    backgroundColor: "#faf8f5",
+    backgroundColor: "#f7f4fc",
   },
   title: {
     fontSize: 28,
     marginBottom: 8,
-    color: "#2c2420",
+    color: "#2a2438",
   },
   date: {
     fontSize: 14,
-    color: "#8a7f78",
+    color: "#7a7190",
     marginBottom: 32,
   },
   slot: {
     marginBottom: 20,
     paddingBottom: 16,
     borderBottomWidth: 1,
-    borderBottomColor: "#e8e0da",
+    borderBottomColor: "#e4ddf0",
   },
   time: {
     fontSize: 11,
-    color: "#c4715a",
+    color: "#9b6fd4",
     marginBottom: 4,
   },
   slotTitle: {
     fontSize: 16,
     marginBottom: 4,
-    color: "#2c2420",
+    color: "#2a2438",
   },
   address: {
     fontSize: 11,
-    color: "#8a7f78",
+    color: "#7a7190",
     marginBottom: 4,
   },
   notes: {
     fontSize: 10,
-    color: "#8a7f78",
+    color: "#7a7190",
     fontStyle: "italic",
   },
   footer: {
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     bottom: 48,
     left: 48,
     fontSize: 10,
-    color: "#8a7f78",
+    color: "#7a7190",
   },
 });
 

@@ -24,6 +24,7 @@ export type QuizAnswers = {
   energy: string;
   activity: string;
   time: string;
+  selectedDate: string;
   dietaryNotes?: string;
   herEmail: string;
 };
@@ -41,6 +42,7 @@ export type ItinerarySlot = {
 
 export type Itinerary = {
   date: string;
+  dateIso?: string;
   slots: ItinerarySlot[];
   customSuggestions?: string;
 };

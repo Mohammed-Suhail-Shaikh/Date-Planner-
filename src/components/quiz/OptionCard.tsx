@@ -22,10 +22,10 @@ export function OptionCard({
       type="button"
       onClick={onClick}
       whileTap={{ scale: 0.97 }}
-      className={`flex flex-col items-start rounded-2xl border p-5 text-left transition-colors ${
+      className={`flex flex-col items-start rounded-2xl border p-5 text-left transition-all ${
         selected
-          ? "border-accent bg-accent-light"
-          : "border-border bg-card hover:border-accent/40"
+          ? "border-accent bg-accent-light shadow-[0_4px_20px_rgba(155,111,212,0.22)]"
+          : "border-border bg-card shadow-[0_2px_12px_rgba(155,111,212,0.06)] hover:border-accent/50 hover:shadow-[0_4px_16px_rgba(155,111,212,0.12)]"
       }`}
     >
       <span className="mb-2 text-2xl">{emoji}</span>

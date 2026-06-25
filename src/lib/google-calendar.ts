@@ -1,9 +1,11 @@
 import { google } from "googleapis";
 import type { Itinerary } from "@/lib/db/schema";
 import { getCuratedOptions } from "@/lib/itinerary-engine";
-
-function parseTimeOnDate(dateStr: string, timeStr: string): Date {
-  const base = new Date(dateStr);
+function parseTimeOnDate(itinerary: Itinerary, timeStr: string): Date {
+  const iso = itinerary.dateIso;
+  const base = iso
+    ? new Date(`${iso}T12:00:00`)
+    : new Date(itinerary.date);
   const match = timeStr.match(/(\d+):(\d+)\s*(AM|PM)/i);
   if (!match) {
     base.setHours(18, 30, 0, 0);
@@ -43,8 +45,8 @@ export async function createCalendarEvent(
   const firstSlot = itinerary.slots[0];
   const lastSlot = itinerary.slots[itinerary.slots.length - 1];
 
-  const start = parseTimeOnDate(itinerary.date, firstSlot.time);
-  const end = parseTimeOnDate(itinerary.date, lastSlot.time);
+  const start = parseTimeOnDate(itinerary, firstSlot.time);
+  const end = parseTimeOnDate(itinerary, lastSlot.time);
   end.setMinutes(end.getMinutes() + lastSlot.durationMinutes);
 
   const description = [

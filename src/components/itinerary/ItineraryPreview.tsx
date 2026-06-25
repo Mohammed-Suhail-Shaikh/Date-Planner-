@@ -4,6 +4,7 @@ import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import type { Itinerary, ItinerarySlot } from "@/lib/db/schema";
 import { getCuratedOptions } from "@/lib/itinerary-engine";
+import { formatDateDisplay, getDefaultPickableDate, todayIso } from "@/lib/dates";
 
 type ItineraryPreviewProps = {
   itinerary: Itinerary;
@@ -64,7 +65,28 @@ export function ItineraryPreview({
       <p className="mb-1 text-sm uppercase tracking-[0.2em] text-muted">
         Your date plan
       </p>
-      <h1 className="font-display mb-2 text-4xl">{itinerary.date}</h1>
+      <h1 className="font-display mb-4 text-4xl">{itinerary.date}</h1>
+      <div className="mb-8 rounded-2xl border border-border bg-card p-4 shadow-[0_4px_20px_rgba(155,111,212,0.08)]">
+        <label htmlFor="itinerary-date" className="mb-2 block text-sm text-muted">
+          Change date
+        </label>
+        <input
+          id="itinerary-date"
+          type="date"
+          min={todayIso()}
+          value={itinerary.dateIso ?? getDefaultPickableDate()}
+          onChange={(e) => {
+            const dateIso = e.target.value;
+            if (!dateIso) return;
+            onChange({
+              ...itinerary,
+              dateIso,
+              date: formatDateDisplay(dateIso),
+            });
+          }}
+          className="w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm outline-none focus:border-accent focus:ring-2 focus:ring-accent/20"
+        />
+      </div>
       <p className="mb-8 text-sm text-muted">
         Edit anything below, add your own spots, or go back to change your
         answers.

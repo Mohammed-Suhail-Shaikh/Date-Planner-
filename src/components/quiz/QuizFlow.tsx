@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ProgressBar } from "./ProgressBar";
 import { OptionCard } from "./OptionCard";
 import { getCuratedOptions } from "@/lib/itinerary-engine";
+import { getDefaultPickableDate, todayIso } from "@/lib/dates";
 import type { QuizAnswers } from "@/lib/db/schema";
 
 type QuizFlowProps = {
@@ -18,6 +19,7 @@ type Step =
   | { type: "energy" }
   | { type: "activity" }
   | { type: "time" }
+  | { type: "date" }
   | { type: "notes" }
   | { type: "email" };
 
@@ -27,6 +29,7 @@ const STEPS: Step[] = [
   { type: "energy" },
   { type: "activity" },
   { type: "time" },
+  { type: "date" },
   { type: "notes" },
   { type: "email" },
 ];
@@ -36,7 +39,9 @@ const QUIZ_STEPS = STEPS.length - 1;
 export function QuizFlow({ name, onComplete }: QuizFlowProps) {
   const options = getCuratedOptions();
   const [stepIndex, setStepIndex] = useState(0);
-  const [answers, setAnswers] = useState<Partial<QuizAnswers>>({});
+  const [answers, setAnswers] = useState<Partial<QuizAnswers>>({
+    selectedDate: getDefaultPickableDate(),
+  });
   const [dietaryNotes, setDietaryNotes] = useState("");
   const [herEmail, setHerEmail] = useState("");
 
@@ -63,6 +68,7 @@ export function QuizFlow({ name, onComplete }: QuizFlowProps) {
       energy: answers.energy!,
       activity: answers.activity!,
       time: answers.time!,
+      selectedDate: answers.selectedDate!,
       dietaryNotes: dietaryNotes.trim() || undefined,
       herEmail: herEmail.trim(),
     });
@@ -98,7 +104,7 @@ export function QuizFlow({ name, onComplete }: QuizFlowProps) {
               <button
                 type="button"
                 onClick={next}
-                className="rounded-full bg-accent px-8 py-3 text-white transition hover:opacity-90"
+                className="rounded-full bg-accent px-8 py-3 text-white shadow-[0_4px_20px_rgba(155,111,212,0.35)] transition hover:opacity-90"
               >
                 Let&apos;s go →
               </button>
@@ -186,6 +192,41 @@ export function QuizFlow({ name, onComplete }: QuizFlowProps) {
                   />
                 ))}
               </div>
+            </QuizStep>
+          )}
+
+          {step.type === "date" && (
+            <QuizStep
+              title="Pick your date"
+              subtitle="Choose the day that works for you"
+              onBack={back}
+            >
+              <div className="rounded-2xl border border-border bg-card p-5 shadow-[0_4px_24px_rgba(155,111,212,0.08)]">
+                <label htmlFor="quiz-date" className="mb-2 block text-sm text-muted">
+                  Date
+                </label>
+                <input
+                  id="quiz-date"
+                  type="date"
+                  min={todayIso()}
+                  value={answers.selectedDate ?? getDefaultPickableDate()}
+                  onChange={(e) =>
+                    setAnswers((prev) => ({
+                      ...prev,
+                      selectedDate: e.target.value,
+                    }))
+                  }
+                  className="w-full rounded-xl border border-border bg-background px-4 py-3 text-foreground outline-none focus:border-accent focus:ring-2 focus:ring-accent/20"
+                />
+              </div>
+              <button
+                type="button"
+                onClick={next}
+                disabled={!answers.selectedDate}
+                className="mt-6 w-full rounded-full bg-accent py-3 text-white shadow-[0_4px_20px_rgba(155,111,212,0.35)] transition hover:opacity-90 disabled:opacity-40"
+              >
+                Continue →
+              </button>
             </QuizStep>
           )}
 

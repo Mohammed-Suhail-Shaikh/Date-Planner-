@@ -168,15 +168,7 @@ function findReplacementVenue(
   return null;
 }
 
-function getNextSaturday(): Date {
-  const now = new Date();
-  const day = now.getDay();
-  const daysUntilSaturday = (6 - day + 7) % 7 || 7;
-  const saturday = new Date(now);
-  saturday.setDate(now.getDate() + daysUntilSaturday);
-  saturday.setHours(0, 0, 0, 0);
-  return saturday;
-}
+import { formatDateDisplay } from "./dates";
 
 function formatTime(date: Date): string {
   return date.toLocaleTimeString("en-US", {
@@ -189,7 +181,8 @@ function formatTime(date: Date): string {
 export function generateItinerary(answers: QuizAnswers): Itinerary {
   const rawSlots = findBestRule(answers);
   const ruleSlots = optimizeVenueIds(rawSlots, answers);
-  const date = getNextSaturday();
+  const dateIso = answers.selectedDate;
+  const date = new Date(`${dateIso}T12:00:00`);
   const timeDefault =
     curatedOptions.timeDefaults[
       answers.time as keyof typeof curatedOptions.timeDefaults
@@ -219,12 +212,8 @@ export function generateItinerary(answers: QuizAnswers): Itinerary {
   });
 
   return {
-    date: date.toLocaleDateString("en-US", {
-      weekday: "long",
-      month: "long",
-      day: "numeric",
-      year: "numeric",
-    }),
+    date: formatDateDisplay(dateIso),
+    dateIso,
     slots,
   };
 }
