@@ -8,6 +8,15 @@
     "forbiddenVenuePairs": [
       ["museum-gallery-3", "dessert-spot"],
       ["museum-gallery-3", "brunch-spot"]
+    ],
+    "monthlyLimitedVenues": [
+      "museum-gallery-3",
+      "kayaking",
+      "Boston-view",
+      "coffee-start"
+    ],
+    "unavailableDateRanges": [
+      { "start": "07-20", "end": "09-05" }
     ]
   },
   "fillerConfig": {
@@ -159,6 +168,38 @@
         "emoji": "💐",
         "description": "A little bit of everything"
       }
+    ],
+    "dressing": [
+      {
+        "id": "dressy",
+        "label": "Black Tie/Formal",
+        "emoji": "👗",
+        "description": "Fancy date night — dress up a little"
+      },
+      {
+        "id": "smart-casual",
+        "label": "Smart casual",
+        "emoji": "✨",
+        "description": "Polished but relaxed — nice top, cute shoes"
+      },
+      {
+        "id": "casual-comfy",
+        "label": "Casual & comfy",
+        "emoji": "👟",
+        "description": "Jeans, sneakers, keep it easy"
+      },
+      {
+        "id": "cozy-layers",
+        "label": "Cozy layers",
+        "emoji": "🧣",
+        "description": "Soft knits, comfy shoes, stay warm"
+      },
+      {
+        "id": "match-the-mood",
+        "label": "Match the mood",
+        "emoji": "💫",
+        "description": "Dress to fit whatever vibe we picked"
+      }
     ]
   },
   "venues": [
@@ -175,12 +216,13 @@
     {
       "id": "dinner-spot-ramen-2",
       "name": "Boston Ramen",
-      "address": "1254 Boylston St, Boston, MA 02215",
-      "mapsUrl": "https://maps.google.com/?q=Boston+Ramen+1254+Boylston+St+Boston+MA",
+      "address": "224 Newbury St, Boston, MA 02116",
+      "mapsUrl": "https://maps.google.com/?q=Boston+Ramen+224+Newbury+St+Boston+MA+02116",
+      "legacyAddresses": ["1254 Boylston St, Boston, MA 02215"],
       "tags": ["dinner", "evening", "balanced", "playful"],
       "defaultDuration": 90,
-      "notes": "Casual and fun ramen spot near Fenway. Good energy for a playful date.",
-      "area": "back-bay-fenway"
+      "notes": "Casual and fun ramen spot on Newbury Street. Good energy for a playful date.",
+      "area": "back-bay"
     },
     {
       "id": "dinner-spot-ramen-3",
@@ -240,7 +282,7 @@
       "tags": ["dinner", "afternoon", "balanced", "cozy"],
       "defaultDuration": 60,
       "notes": "Fresh Lebanese-inspired fast casual. Light and great for an afternoon bite.",
-      "area": "back-bay-fenway"
+      "area": "back-bay"
     },
     {
       "id": "dinner-spot-med-2",
@@ -260,17 +302,19 @@
       "tags": ["romantic", "outdoors", "evening", "low-key", "adventurous"],
       "defaultDuration": 60,
       "notes": "Beautiful riverside walk along the Charles. Perfect at golden hour or evening.",
-      "area": "back-bay-fenway"
+      "area": "back-bay"
     },
     {
       "id": "coffee-start",
-      "name": "Sanctuary Cat Café",
-      "address": "441 Cambridge St, Allston, MA 02134",
-      "mapsUrl": "https://maps.google.com/?q=Sanctuary+Cat+Cafe+441+Cambridge+St+Allston+MA",
+      "name": "A Sanctuary Cafe",
+      "address": "80 Charles St, Boston, MA 02114",
+      "mapsUrl": "https://maps.google.com/?q=A+Sanctuary+Cafe+80+Charles+St+Boston+MA+02114",
+      "legacyNames": ["Sanctuary Cat Café", "Sanctuary Cat Cafe"],
+      "legacyAddresses": ["441 Cambridge St, Allston, MA 02134"],
       "tags": ["cozy", "coffee", "afternoon", "low-key", "playful"],
       "defaultDuration": 60,
       "notes": "Hang out with cats over coffee. Unique, cozy, and a great conversation starter. Book ahead!",
-      "area": "allston"
+      "area": "downtown"
     },
     {
       "id": "outdoor-activity",
@@ -280,7 +324,7 @@
       "tags": ["adventurous", "outdoors", "afternoon", "high-energy", "balanced"],
       "defaultDuration": 90,
       "notes": "Great for a walk, jog, or just sitting by the river. Beautiful views of the skyline.",
-      "area": "back-bay-fenway"
+      "area": "back-bay"
     },
     {
       "id": "museum-gallery-1",
@@ -290,7 +334,7 @@
       "tags": ["culture", "afternoon", "romantic", "balanced", "cozy"],
       "defaultDuration": 90,
       "notes": "Stunning Venetian-style palazzo with incredible art. One of the most romantic museums in Boston.",
-      "area": "back-bay-fenway"
+      "area": "fenway"
     },
     {
       "id": "museum-gallery-2",
@@ -300,7 +344,7 @@
       "tags": ["culture", "afternoon", "balanced", "cozy"],
       "defaultDuration": 120,
       "notes": "World-class art museum. Check for special exhibits; great conversation starter.",
-      "area": "back-bay-fenway"
+      "area": "fenway"
     },
     {
       "id": "museum-gallery-3",
@@ -320,7 +364,7 @@
       "tags": ["culture", "afternoon", "balanced", "playful", "cozy"],
       "defaultDuration": 75,
       "notes": "Default museum slot; intimate and beautiful. Check hours before the date.",
-      "area": "back-bay-fenway"
+      "area": "fenway"
     },
     {
       "id": "live-music",
@@ -360,7 +404,7 @@
       "tags": ["playful", "balanced", "afternoon", "adventurous"],
       "defaultDuration": 60,
       "notes": "Iconic Boston pop culture store; comics, vinyls, collectibles. Great for a nerdy or quirky date.",
-      "area": "back-bay-fenway"
+      "area": "back-bay"
     },
     {
       "id": "kayaking",
@@ -373,6 +417,16 @@
       "area": "cambridge-kendall"
     },
     {
+      "id": "harvard-square-stroll",
+      "name": "Harvard Square wander",
+      "address": "Harvard Square, Cambridge, MA 02138",
+      "mapsUrl": "https://maps.google.com/?q=Harvard+Square+Cambridge+MA",
+      "tags": ["playful", "culture", "evening", "low-key", "balanced", "cozy"],
+      "defaultDuration": 45,
+      "notes": "People-watch in the Square, browse bookshops and street performers, maybe grab a sweet treat. Easy, fun, and no rush.",
+      "area": "cambridge-central"
+    },
+    {
       "id": "Boston-view",
       "name": "Boston View",
       "address": "800 Boylston St, Boston, MA 02199",
@@ -380,7 +434,7 @@
       "tags": ["romantic", "adventurous", "evening", "afternoon", "balanced"],
       "defaultDuration": 60,
       "notes": "360° views of Boston from the 50th floor. Stunning at sunset or at night. Tickets required; book ahead.",
-      "area": "back-bay-fenway"
+      "area": "back-bay"
     },
     {
       "id": "museum-gallery-wndr",
@@ -413,11 +467,41 @@
       "area": "downtown"
     },
     {
+      "id": "filler-charles-st-stroll",
+      "name": "Charles Street stroll",
+      "address": "Charles St, Boston, MA 02114",
+      "mapsUrl": "https://maps.google.com/?q=Charles+Street+Beacon+Hill+Boston+MA",
+      "tags": ["filler", "filler-walk", "playful", "romantic", "cozy", "low-key", "afternoon", "evening"],
+      "defaultDuration": 25,
+      "notes": "Window-shop and wander Charles Street — boutiques, bookstores, and brownstones between the Common and Public Garden.",
+      "area": "downtown"
+    },
+    {
+      "id": "filler-beacon-hill-wander",
+      "name": "Beacon Hill neighborhood wander",
+      "address": "Mount Vernon St, Boston, MA 02108",
+      "mapsUrl": "https://maps.google.com/?q=Mount+Vernon+Street+Beacon+Hill+Boston+MA",
+      "tags": ["filler", "filler-walk", "romantic", "cozy", "low-key", "afternoon", "evening"],
+      "defaultDuration": 25,
+      "notes": "Meander the gas-lit side streets, peek at hidden gardens, and soak up one of Boston's prettiest neighborhoods.",
+      "area": "downtown"
+    },
+    {
+      "id": "filler-boston-common-walk",
+      "name": "Boston Common walk",
+      "address": "139 Tremont St, Boston, MA 02111",
+      "mapsUrl": "https://maps.google.com/?q=Boston+Common+139+Tremont+St+Boston+MA",
+      "tags": ["filler", "filler-walk", "outdoors", "low-key", "balanced", "afternoon", "evening"],
+      "defaultDuration": 20,
+      "notes": "Easy loop through America's oldest public park — perfect breather right next to Charles Street.",
+      "area": "downtown"
+    },
+    {
       "id": "filler-ducklings",
       "name": "Make Way for Ducklings statues",
       "address": "Boston Public Garden, Boston, MA 02116",
       "mapsUrl": "https://maps.google.com/?q=Make+Way+for+Ducklings+statues+Boston+Public+Garden",
-      "tags": ["filler", "playful", "cozy", "romantic", "afternoon", "low-key"],
+      "tags": ["filler", "playful", "cozy", "romantic", "afternoon", "evening", "low-key"],
       "defaultDuration": 15,
       "notes": "Find Mrs. Mallard and her ducklings in the Public Garden. Sweet, quick, and very Boston.",
       "area": "downtown"
@@ -470,7 +554,7 @@
       "tags": ["filler", "playful", "balanced", "romantic", "afternoon", "evening"],
       "defaultDuration": 30,
       "notes": "Stroll Boston's boutique strip — galleries, bookstores, and people-watching between stops.",
-      "area": "back-bay-fenway"
+      "area": "back-bay"
     },
     {
       "id": "filler-copley-square",
@@ -480,7 +564,7 @@
       "tags": ["filler", "romantic", "culture", "cozy", "afternoon", "evening"],
       "defaultDuration": 20,
       "notes": "Quick loop around Copley Square with Trinity Church and the Boston Public Library across the street.",
-      "area": "back-bay-fenway"
+      "area": "back-bay"
     },
     {
       "id": "filler-bpl-courtyard",
@@ -490,7 +574,7 @@
       "tags": ["filler", "romantic", "culture", "cozy", "low-key", "afternoon"],
       "defaultDuration": 25,
       "notes": "Step into the Bates Hall or courtyard — quiet, beautiful, and free. A hidden-gem pause.",
-      "area": "back-bay-fenway"
+      "area": "back-bay"
     },
     {
       "id": "filler-comm-avenue",
@@ -500,7 +584,7 @@
       "tags": ["filler", "romantic", "outdoors", "low-key", "afternoon", "evening"],
       "defaultDuration": 25,
       "notes": "Tree-lined brownstone boulevard — one of Boston's prettiest walks, especially near Kenmore.",
-      "area": "back-bay-fenway"
+      "area": "fenway"
     },
     {
       "id": "filler-harvard-square",
@@ -543,6 +627,16 @@
       "area": "allston"
     },
     {
+      "id": "filler-coffee-tatte-beacon",
+      "name": "Tatte Bakery & Café (Beacon Hill)",
+      "address": "35 Charles St, Boston, MA 02114",
+      "mapsUrl": "https://maps.google.com/?q=Tatte+Bakery+35+Charles+St+Boston+MA",
+      "tags": ["filler", "filler-coffee", "cozy", "coffee", "afternoon", "evening", "romantic", "playful"],
+      "defaultDuration": 25,
+      "notes": "Pastries and coffee on Charles Street — steps from the Public Garden and a perfect quick stop nearby.",
+      "area": "downtown"
+    },
+    {
       "id": "filler-coffee-tatte-downtown",
       "name": "Tatte Bakery & Café",
       "address": "125 Summer St, Boston, MA 02110",
@@ -583,6 +677,26 @@
       "area": "cambridge-central"
     },
     {
+      "id": "filler-coffee-crema-newbury",
+      "name": "Crema Cafe",
+      "address": "907 Newbury St, Boston, MA 02115",
+      "mapsUrl": "https://maps.google.com/?q=Crema+Cafe+907+Newbury+St+Boston+MA",
+      "tags": ["filler", "filler-coffee", "coffee", "cozy", "afternoon", "evening", "balanced"],
+      "defaultDuration": 20,
+      "notes": "Neighborhood espresso bar on Newbury — a quick coffee stop a short walk from the Esplanade.",
+      "area": "back-bay"
+    },
+    {
+      "id": "filler-food-stephanies-newbury",
+      "name": "Stephanie's On Newbury",
+      "address": "190 Newbury St, Boston, MA 02116",
+      "mapsUrl": "https://maps.google.com/?q=Stephanie%27s+On+Newbury+190+Newbury+St+Boston",
+      "tags": ["filler", "filler-food", "cozy", "playful", "afternoon", "evening", "balanced"],
+      "defaultDuration": 30,
+      "notes": "Back Bay staple for salads, sandwiches, and people-watching — right off Newbury near the river.",
+      "area": "back-bay"
+    },
+    {
       "id": "filler-food-flour",
       "name": "Flour Bakery",
       "address": "1595 Washington St, Boston, MA 02118",
@@ -590,7 +704,7 @@
       "tags": ["filler", "filler-food", "coffee", "afternoon", "full-day", "cozy", "balanced"],
       "defaultDuration": 30,
       "notes": "Famous sticky buns, sandwiches, and pastries — great grab-and-go bite between activities.",
-      "area": "back-bay-fenway"
+      "area": "south-end"
     },
     {
       "id": "filler-food-roxy-allston",
@@ -601,6 +715,16 @@
       "defaultDuration": 25,
       "notes": "Gourmet grilled cheese and tots in Allston — fun, quick fuel before the next stop.",
       "area": "allston"
+    },
+    {
+      "id": "filler-food-paramount-beacon",
+      "name": "Paramount",
+      "address": "44 Charles St, Boston, MA 02114",
+      "mapsUrl": "https://maps.google.com/?q=Paramount+Restaurant+44+Charles+St+Boston+MA",
+      "tags": ["filler", "filler-food", "cozy", "playful", "afternoon", "evening", "balanced"],
+      "defaultDuration": 30,
+      "notes": "Beacon Hill institution for a quick bite — omelettes, sandwiches, and people-watching on Charles Street.",
+      "area": "downtown"
     },
     {
       "id": "filler-food-santarpios",
@@ -620,7 +744,7 @@
       "tags": ["filler", "filler-food", "afternoon", "full-day", "balanced", "low-key"],
       "defaultDuration": 25,
       "notes": "Fresh vegetarian sandwiches and bowls — light bite near the Fenway/Longwood area.",
-      "area": "back-bay-fenway"
+      "area": "fenway"
     },
     {
       "id": "filler-dessert-jplicks-backbay",
@@ -630,7 +754,7 @@
       "tags": ["filler", "filler-dessert", "playful", "cozy", "evening", "afternoon", "coffee"],
       "defaultDuration": 25,
       "notes": "Homemade ice cream on Boylston — perfect sweet ending or mid-date treat.",
-      "area": "back-bay-fenway"
+      "area": "back-bay"
     },
     {
       "id": "filler-dessert-emack",
@@ -640,7 +764,17 @@
       "tags": ["filler", "filler-dessert", "playful", "evening", "afternoon", "romantic"],
       "defaultDuration": 20,
       "notes": "Ice cream on Newbury Street — grab a cone and keep strolling.",
-      "area": "back-bay-fenway"
+      "area": "back-bay"
+    },
+    {
+      "id": "filler-dessert-skip-charles",
+      "name": "Skip the Dishes",
+      "address": "93 Charles St, Boston, MA 02114",
+      "mapsUrl": "https://maps.google.com/?q=Skip+the+Dishes+93+Charles+St+Boston+MA",
+      "tags": ["filler", "filler-dessert", "playful", "cozy", "evening", "afternoon", "romantic"],
+      "defaultDuration": 20,
+      "notes": "Homemade ice cream on Charles Street — grab a cone and keep strolling the neighborhood.",
+      "area": "downtown"
     },
     {
       "id": "filler-dessert-mikes",

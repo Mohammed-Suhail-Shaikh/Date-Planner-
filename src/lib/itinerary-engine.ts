@@ -6,7 +6,9 @@ import {
   type BostonArea,
   areaTravelCost,
   areasCompatibleForEvening,
+  areasWithinFillerRange,
   EVENING_ALTERNATIVES_BY_AREA,
+  EVENING_EXCLUDED_VENUE_IDS,
 } from "./boston-areas";
 
 export type CuratedOptions = typeof curatedOptions;
@@ -42,6 +44,8 @@ type FillerConfig = {
 };
 
 type FillerKind = "coffee" | "food" | "dessert" | "walk";
+
+export type { FillerKind };
 
 type FullDayConfig = {
   dinnerHour: number;
@@ -95,6 +99,61 @@ function isForbiddenPair(a: string, b: string): boolean {
 
 function isEveningDate(answers: QuizAnswers): boolean {
   return answers.time === "evening";
+}
+
+function isVenueSuitableForEvening(venueId: string): boolean {
+  if (EVENING_EXCLUDED_VENUE_IDS.has(venueId)) return false;
+  const venue = getVenue(venueId);
+  if (!venue) return true;
+  if (venue.tags.includes("evening")) return true;
+  if (
+    venue.tags.includes("outdoors") &&
+    venue.tags.includes("high-energy") &&
+    !venue.tags.includes("evening")
+  ) {
+    return false;
+  }
+  return true;
+}
+
+function swapEveningInappropriateVenues(
+  slots: RuleSlot[],
+  answers: QuizAnswers,
+  blockedVenueIds: Set<string> = new Set()
+): RuleSlot[] {
+  if (!isEveningDate(answers) || slots.length === 0) return slots;
+
+  const resolved = slots.map((s) => ({ ...s }));
+  const usedIds = new Set<string>();
+
+  for (let i = 0; i < resolved.length; i++) {
+    const venueId = resolved[i].venueId;
+    const venue = getVenue(venueId);
+
+    if (venue && isVenueSuitableForEvening(venueId)) {
+      usedIds.add(venueId);
+      continue;
+    }
+
+    const anchor =
+      i > 0 ? getVenue(resolved[i - 1].venueId) : venue ?? undefined;
+    const replacement = findReplacementVenue(
+      venueId,
+      anchor?.area,
+      usedIds,
+      true,
+      blockedVenueIds
+    );
+
+    if (replacement) {
+      resolved[i] = { ...resolved[i], venueId: replacement };
+      usedIds.add(replacement);
+    } else {
+      usedIds.add(venueId);
+    }
+  }
+
+  return resolved;
 }
 
 function isFullDay(answers: QuizAnswers): boolean {
@@ -181,7 +240,11 @@ function pickVenueNearAnchor(
 }
 
 /** Ensures full-day plans have enough activities before an anchored dinner. */
-function expandForFullDay(slots: RuleSlot[], answers: QuizAnswers): RuleSlot[] {
+function expandForFullDay(
+  slots: RuleSlot[],
+  answers: QuizAnswers,
+  blockedVenueIds: Set<string> = new Set()
+): RuleSlot[] {
   const config = getFullDayConfig();
   const used = new Set(slots.map((s) => s.venueId));
   const mains = slots.map((s) => ({ ...s }));
@@ -201,10 +264,17 @@ function expandForFullDay(slots: RuleSlot[], answers: QuizAnswers): RuleSlot[] {
         used,
         (v) =>
           !isDinnerVenue(v) &&
+          !blockedVenueIds.has(v.id) &&
           (v.tags.includes(answers.activity) ||
             v.tags.includes("culture") ||
             v.tags.includes("outdoors"))
-      ) ?? pickVenueNearAnchor(anchor, answers, used, (v) => !isDinnerVenue(v));
+      ) ??
+      pickVenueNearAnchor(
+        anchor,
+        answers,
+        used,
+        (v) => !isDinnerVenue(v) && !blockedVenueIds.has(v.id)
+      );
     if (!activity) break;
     mains.push({ type: "venue", venueId: activity.id, offsetMinutes: 0 });
     used.add(activity.id);
@@ -265,7 +335,8 @@ function findBestRule(answers: QuizAnswers): RuleSlot[] {
  */
 function optimizeVenueIds(
   slots: RuleSlot[],
-  answers: QuizAnswers
+  answers: QuizAnswers,
+  blockedVenueIds: Set<string> = new Set()
 ): RuleSlot[] {
   if (slots.length === 0) return slots;
 
@@ -275,31 +346,42 @@ function optimizeVenueIds(
 
   for (let i = 0; i < resolved.length; i++) {
     let venueId = resolved[i].venueId;
+    const prevVenue = i > 0 ? getVenue(chosenIds[i - 1]) : undefined;
+    const currVenue = getVenue(venueId);
 
-    if (i > 0) {
-      const prevId = chosenIds[i - 1];
-      const prevVenue = getVenue(prevId);
-      const currVenue = getVenue(venueId);
+    const forbidden =
+      i > 0 && chosenIds.some((id) => isForbiddenPair(venueId, id));
+    const tooFar =
+      i > 0 &&
+      evening &&
+      prevVenue?.area &&
+      currVenue?.area &&
+      !areasCompatibleForEvening(prevVenue.area, currVenue.area);
+    const blocked = blockedVenueIds.has(venueId);
+    const needsSwap = forbidden || tooFar || blocked;
 
-      if (prevVenue?.area && currVenue?.area) {
-        const forbidden = chosenIds.some((id) =>
-          isForbiddenPair(venueId, id)
-        );
-        const tooFar =
-          evening &&
-          !areasCompatibleForEvening(prevVenue.area, currVenue.area);
-        const needsSwap = forbidden || tooFar;
+    if (needsSwap) {
+      const replacement =
+        findReplacementVenue(
+          venueId,
+          prevVenue?.area ?? currVenue?.area,
+          new Set(chosenIds),
+          evening,
+          blockedVenueIds
+        ) ??
+        (blocked
+          ? pickVenueNearAnchor(
+              prevVenue,
+              answers,
+              new Set(chosenIds),
+              (v) =>
+                !blockedVenueIds.has(v.id) &&
+                v.id !== venueId &&
+                !isFillerVenue(v)
+            )?.id ?? null
+          : null);
 
-        if (needsSwap) {
-          const replacement = findReplacementVenue(
-            venueId,
-            prevVenue.area,
-            new Set(chosenIds),
-            evening
-          );
-          if (replacement) venueId = replacement;
-        }
-      }
+      if (replacement) venueId = replacement;
     }
 
     resolved[i] = { ...resolved[i], venueId };
@@ -313,7 +395,8 @@ function findReplacementVenue(
   originalId: string,
   anchorArea: BostonArea | undefined,
   usedIds: Set<string>,
-  evening: boolean
+  evening: boolean,
+  blockedVenueIds: Set<string> = new Set()
 ): string | null {
   const original = getVenue(originalId);
   if (!anchorArea) return null;
@@ -336,6 +419,8 @@ function findReplacementVenue(
 
   for (const id of candidates) {
     if (usedIds.has(id) || id === originalId) continue;
+    if (blockedVenueIds.has(id)) continue;
+    if (evening && EVENING_EXCLUDED_VENUE_IDS.has(id)) continue;
     if ([...usedIds].some((prev) => isForbiddenPair(id, prev))) continue;
     const v = getVenue(id);
     if (
@@ -355,36 +440,14 @@ function isAfternoonOrFullDay(answers: QuizAnswers): boolean {
   return answers.time === "afternoon" || answers.time === "full-day";
 }
 
-function isFoodFillerKind(kind: FillerKind): boolean {
-  return kind === "coffee" || kind === "food" || kind === "dessert";
-}
-
 function isFillerAreaOk(
   fillerArea: BostonArea,
   prevArea: BostonArea,
-  nextArea: BostonArea,
-  evening: boolean,
-  kind: FillerKind
+  nextArea: BostonArea
 ): boolean {
-  if (isFoodFillerKind(kind)) {
-    const nearPrev = evening
-      ? areasCompatibleForEvening(prevArea, fillerArea)
-      : areaTravelCost(prevArea, fillerArea) <= 2;
-    const nearNext = evening
-      ? areasCompatibleForEvening(fillerArea, nextArea)
-      : areaTravelCost(fillerArea, nextArea) <= 2;
-    return nearPrev || nearNext;
-  }
-
-  if (evening) {
-    return (
-      areasCompatibleForEvening(prevArea, fillerArea) &&
-      areasCompatibleForEvening(fillerArea, nextArea)
-    );
-  }
   return (
-    areaTravelCost(prevArea, fillerArea) <= 2 &&
-    areaTravelCost(fillerArea, nextArea) <= 2
+    areasWithinFillerRange(prevArea, fillerArea) &&
+    areasWithinFillerRange(fillerArea, nextArea)
   );
 }
 
@@ -422,7 +485,7 @@ function kindsForBetweenSlot(
   return ["coffee", "food", "dessert"];
 }
 
-function pickFillerVenue(
+export function pickFillerVenue(
   prevVenue: Venue,
   nextVenue: Venue | null,
   answers: QuizAnswers,
@@ -431,7 +494,6 @@ function pickFillerVenue(
 ): Venue | null {
   if (!prevVenue.area) return null;
   const nextArea = nextVenue?.area ?? prevVenue.area;
-  const evening = isEveningDate(answers);
 
   for (const kind of kinds) {
     const candidates = getFillerVenuesOfKind(kind)
@@ -443,13 +505,7 @@ function pickFillerVenue(
         ) {
           return false;
         }
-        return isFillerAreaOk(
-          v.area,
-          prevVenue.area!,
-          nextArea,
-          evening,
-          kind
-        );
+        return isFillerAreaOk(v.area, prevVenue.area!, nextArea);
       })
       .sort((a, b) => {
         const areaDiff =
@@ -465,7 +521,7 @@ function pickFillerVenue(
   return null;
 }
 
-function formatFillerTitle(venue: Venue): string {
+export function formatFillerTitle(venue: Venue): string {
   if (venue.tags.includes("filler-coffee")) {
     return `Coffee at ${venue.name}`;
   }
@@ -725,13 +781,34 @@ function formatTime(date: Date): string {
   });
 }
 
-export function generateItinerary(answers: QuizAnswers): Itinerary {
+export type GenerateItineraryOptions = {
+  blockedVenueIds?: Set<string>;
+};
+
+export function generateItinerary(
+  answers: QuizAnswers,
+  options?: GenerateItineraryOptions
+): Itinerary {
+  const blockedVenueIds = options?.blockedVenueIds ?? new Set<string>();
   const rawSlots = findBestRule(answers);
-  let optimizedSlots = optimizeVenueIds(rawSlots, answers);
+  let optimizedSlots = swapEveningInappropriateVenues(
+    rawSlots,
+    answers,
+    blockedVenueIds
+  );
+  optimizedSlots = optimizeVenueIds(optimizedSlots, answers, blockedVenueIds);
 
   if (isFullDay(answers)) {
-    optimizedSlots = expandForFullDay(optimizedSlots, answers);
-    optimizedSlots = optimizeVenueIds(optimizedSlots, answers);
+    optimizedSlots = expandForFullDay(
+      optimizedSlots,
+      answers,
+      blockedVenueIds
+    );
+    optimizedSlots = optimizeVenueIds(
+      optimizedSlots,
+      answers,
+      blockedVenueIds
+    );
   }
 
   const ruleSlots = isFullDay(answers)
@@ -764,6 +841,8 @@ export function generateItinerary(answers: QuizAnswers): Itinerary {
       address: venue.address,
       notes: venue.notes,
       durationMinutes: ruleSlot.durationMinutes ?? venue.defaultDuration,
+      venueId: ruleSlot.venueId,
+      mapsUrl: venue.mapsUrl,
       isFiller: ruleSlot.isFiller ?? false,
     };
   });
@@ -774,5 +853,6 @@ export function generateItinerary(answers: QuizAnswers): Itinerary {
     slots,
     flowers: answers.flowers,
     flowersSuggestion: answers.flowersSuggestion,
+    dressing: answers.dressing,
   };
 }

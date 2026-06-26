@@ -103,6 +103,7 @@ export default function AdminContentPage() {
           <OptionGroup title="Activities" items={content.quiz.activities} />
           <OptionGroup title="Times" items={content.quiz.times} />
           <OptionGroup title="Flowers" items={content.quiz.flowers} />
+          <OptionGroup title="Dressing" items={content.quiz.dressing} />
         </div>
       </section>
 

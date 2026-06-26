@@ -972,6 +972,41 @@ textarea.input-romantic {
   font-size: 0.7rem;
 }
 
+.roadmap-node-add {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(252, 231, 243, 0.85));
+  border: 2px dashed rgba(216, 180, 254, 0.75);
+  box-shadow: 0 0 0 4px rgba(244, 114, 182, 0.12);
+  color: #a21caf;
+  font-size: 0.875rem;
+  font-weight: 700;
+  height: 1.125rem;
+  left: calc(var(--spine-x) - 0.5625rem);
+  line-height: 1;
+  margin-top: 1.75rem;
+  position: absolute;
+  width: 1.125rem;
+}
+
+.roadmap-node-add::after {
+  content: "+";
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -52%);
+}
+
+.roadmap-card-add {
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.82),
+    rgba(252, 231, 243, 0.5)
+  );
+  border: 1.5px dashed rgba(216, 180, 254, 0.75);
+  border-radius: 1.25rem;
+  box-shadow: 0 4px 20px rgba(192, 38, 211, 0.06);
+  padding: 1.25rem 1.5rem;
+}
+
 /* Form fields — reliable inset (overrides Tailwind preflight / utility conflicts) */
 textarea.input-romantic,
 input.input-romantic {

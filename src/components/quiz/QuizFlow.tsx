@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ProgressBar } from "./ProgressBar";
 import { OptionCard } from "./OptionCard";
 import { getCuratedOptions } from "@/lib/itinerary-engine";
-import { getDefaultPickableDate, todayIso } from "@/lib/dates";
+import { getDefaultPickableDate, getUnavailableDatesHint, isDatePickable, todayIso } from "@/lib/dates";
 import { PhotoCollage } from "./PhotoCollage";
 import type { QuizAnswers } from "@/lib/db/schema";
 
@@ -23,6 +23,7 @@ type Step =
   | { type: "time" }
   | { type: "date" }
   | { type: "flowers" }
+  | { type: "dressing" }
   | { type: "notes" }
   | { type: "email" };
 
@@ -34,6 +35,7 @@ const STEPS: Step[] = [
   { type: "time" },
   { type: "date" },
   { type: "flowers" },
+  { type: "dressing" },
   { type: "notes" },
   { type: "email" },
 ];
@@ -49,6 +51,8 @@ export function QuizFlow({ name, photos = [], onComplete }: QuizFlowProps) {
   const [dietaryNotes, setDietaryNotes] = useState("");
   const [flowersSuggestion, setFlowersSuggestion] = useState("");
   const [herEmail, setHerEmail] = useState("");
+  const [dateError, setDateError] = useState("");
+  const unavailableHint = getUnavailableDatesHint();
 
   const step = STEPS[stepIndex];
   const quizStepNumber = stepIndex;
@@ -76,6 +80,7 @@ export function QuizFlow({ name, photos = [], onComplete }: QuizFlowProps) {
       selectedDate: answers.selectedDate!,
       flowers: answers.flowers!,
       flowersSuggestion: flowersSuggestion.trim() || undefined,
+      dressing: answers.dressing!,
       dietaryNotes: dietaryNotes.trim() || undefined,
       herEmail: herEmail.trim(),
     });
@@ -227,19 +232,33 @@ export function QuizFlow({ name, photos = [], onComplete }: QuizFlowProps) {
                   type="date"
                   min={todayIso()}
                   value={answers.selectedDate ?? getDefaultPickableDate()}
-                  onChange={(e) =>
-                    setAnswers((prev) => ({
-                      ...prev,
-                      selectedDate: e.target.value,
-                    }))
-                  }
+                  onChange={(e) => {
+                    const selectedDate = e.target.value;
+                    if (!selectedDate) return;
+                    if (!isDatePickable(selectedDate)) {
+                      setDateError("That date isn't available — please pick another day.");
+                      return;
+                    }
+                    setDateError("");
+                    setAnswers((prev) => ({ ...prev, selectedDate }));
+                  }}
                   className="input-romantic w-full min-w-0 max-w-full rounded-xl sm:rounded-2xl"
                 />
+                {unavailableHint ? (
+                  <p className="mt-2 text-xs text-muted">{unavailableHint}</p>
+                ) : null}
+                {dateError ? (
+                  <p className="mt-2 text-sm text-red-600">{dateError}</p>
+                ) : null}
               </div>
               <button
                 type="button"
                 onClick={next}
-                disabled={!answers.selectedDate}
+                disabled={
+                  !answers.selectedDate ||
+                  !isDatePickable(answers.selectedDate) ||
+                  !!dateError
+                }
                 className="btn-romantic mt-8 w-full max-w-full py-3 sm:mt-6"
               >
                 Continue →
@@ -300,6 +319,27 @@ export function QuizFlow({ name, photos = [], onComplete }: QuizFlowProps) {
               >
                 Continue →
               </button>
+            </QuizStep>
+          )}
+
+          {step.type === "dressing" && (
+            <QuizStep
+              title="How are we dressing for the date?"
+              subtitle="Pick an outfit vibe"
+              onBack={back}
+            >
+              <div className="grid w-full grid-cols-2 gap-3">
+                {options.quiz.dressing.map((d) => (
+                  <OptionCard
+                    key={d.id}
+                    emoji={d.emoji}
+                    label={d.label}
+                    description={d.description}
+                    selected={answers.dressing === d.id}
+                    onClick={() => selectAndAdvance("dressing", d.id)}
+                  />
+                ))}
+              </div>
             </QuizStep>
           )}
 

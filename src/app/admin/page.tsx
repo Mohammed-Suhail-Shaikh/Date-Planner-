@@ -7,6 +7,8 @@ import { downloadItineraryPdf } from "@/components/pdf/DateItineraryPDF";
 import { compressImage, MAX_INVITE_PHOTOS } from "@/lib/compress-image";
 import type { Itinerary } from "@/lib/db/schema";
 import { formatDisplayName } from "@/lib/format-name";
+import { formatDaysUntil } from "@/lib/dates";
+import { useTodayIso } from "@/lib/use-today";
 import { getClientBaseUrl, INVITE_PATH } from "@/lib/url";
 
 type Invite = {
@@ -15,6 +17,8 @@ type Invite = {
   status: string;
   photos?: string[];
   createdAt: string;
+  dateSetOn?: string | null;
+  dateIso?: string | null;
 };
 
 const STATUS_LABELS: Record<string, string> = {
@@ -37,6 +41,7 @@ export default function AdminPage() {
   const [downloadingId, setDownloadingId] = useState<string | null>(null);
   const [baseUrl, setBaseUrl] = useState(getClientBaseUrl);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const today = useTodayIso();
 
   async function loadInvites() {
     const res = await fetch("/api/invites");
@@ -290,9 +295,28 @@ export default function AdminPage() {
                 >
                   <div>
                     <p className="font-medium">{formatDisplayName(invite.name)}</p>
-                    <p className="text-sm text-muted">
-                      {STATUS_LABELS[invite.status] || invite.status}
-                    </p>
+                    {invite.status === "pending" ? (
+                      <span className="mt-0.5 inline-block rounded-full border border-sky-300 bg-sky-50 px-3 py-1 text-xs font-bold text-sky-700 shadow-sm">
+                        {STATUS_LABELS.pending}
+                      </span>
+                    ) : (
+                      <p className="text-sm text-muted">
+                        {STATUS_LABELS[invite.status] || invite.status}
+                      </p>
+                    )}
+                    {invite.status === "approved" && invite.dateSetOn && (
+                      <p className="mt-1.5 flex flex-wrap items-center gap-2 text-sm text-muted">
+                        <span>Date set on:</span>
+                        <span className="inline-block rounded-full border border-green-300 bg-green-50 px-3 py-1 text-xs font-bold text-green-700 shadow-sm">
+                          {invite.dateSetOn}
+                        </span>
+                        {invite.dateIso && (
+                          <span className="inline-block rounded-full border border-amber-300 bg-amber-50 px-3 py-1 text-xs font-bold text-amber-700 shadow-sm">
+                            {formatDaysUntil(invite.dateIso, today)}
+                          </span>
+                        )}
+                      </p>
+                    )}
                   </div>
                   <div className="flex shrink-0 items-center gap-3">
                     <button

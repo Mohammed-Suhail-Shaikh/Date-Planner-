@@ -3,10 +3,32 @@ import { eq } from "drizzle-orm";
 import { getDb, initDb } from "@/lib/db";
 import { invites, responses, type Itinerary, type QuizAnswers } from "@/lib/db/schema";
 import { generateItinerary } from "@/lib/itinerary-engine";
+import { getBlockedMonthlyVenueIds } from "@/lib/monthly-venue-limits";
+import { isDatePickable } from "@/lib/dates";
 import { createCalendarEvent } from "@/lib/google-calendar";
 import { isAdminAuthenticated } from "@/lib/auth";
+import {
+  itineraryNeedsNormalization,
+  normalizeItinerary,
+} from "@/lib/migrate-itineraries";
 
 type RouteContext = { params: Promise<{ id: string }> };
+
+async function saveItineraryIfNormalized(
+  db: ReturnType<typeof getDb>,
+  inviteId: string,
+  itinerary: Itinerary,
+  answers?: Partial<QuizAnswers> | null
+): Promise<Itinerary> {
+  const normalized = normalizeItinerary(itinerary, answers ?? undefined);
+  if (itineraryNeedsNormalization(itinerary, answers ?? undefined)) {
+    await db
+      .update(responses)
+      .set({ itinerary: normalized })
+      .where(eq(responses.inviteId, inviteId));
+  }
+  return normalized;
+}
 
 export async function GET(_request: Request, context: RouteContext) {
   const { id } = await context.params;
@@ -29,9 +51,20 @@ export async function GET(_request: Request, context: RouteContext) {
     .where(eq(responses.inviteId, id))
     .limit(1);
 
+  let responseRow = response[0] ?? null;
+  if (responseRow?.itinerary) {
+    const normalized = await saveItineraryIfNormalized(
+      db,
+      id,
+      responseRow.itinerary,
+      responseRow.answers
+    );
+    responseRow = { ...responseRow, itinerary: normalized };
+  }
+
   return NextResponse.json({
     invite: invite[0],
-    response: response[0] ?? null,
+    response: responseRow,
   });
 }
 
@@ -53,7 +86,20 @@ export async function PATCH(request: Request, context: RouteContext) {
 
   if (body.action === "submit-quiz") {
     const answers = body.answers as QuizAnswers;
-    const itinerary = generateItinerary(answers);
+    if (!isDatePickable(answers.selectedDate)) {
+      return NextResponse.json(
+        { error: "Selected date is not available." },
+        { status: 400 }
+      );
+    }
+    const blockedVenueIds = await getBlockedMonthlyVenueIds(
+      answers.selectedDate,
+      id
+    );
+    const itinerary = normalizeItinerary(
+      generateItinerary(answers, { blockedVenueIds }),
+      answers
+    );
 
     await db
       .insert(responses)
@@ -81,7 +127,22 @@ export async function PATCH(request: Request, context: RouteContext) {
   }
 
   if (body.action === "update-itinerary") {
-    const itinerary = body.itinerary as Itinerary;
+    const existing = await db
+      .select({ answers: responses.answers })
+      .from(responses)
+      .where(eq(responses.inviteId, id))
+      .limit(1);
+
+    const itinerary = normalizeItinerary(
+      body.itinerary as Itinerary,
+      existing[0]?.answers ?? undefined
+    );
+    if (itinerary.dateIso && !isDatePickable(itinerary.dateIso)) {
+      return NextResponse.json(
+        { error: "Selected date is not available." },
+        { status: 400 }
+      );
+    }
 
     await db
       .insert(responses)
@@ -95,8 +156,24 @@ export async function PATCH(request: Request, context: RouteContext) {
   }
 
   if (body.action === "approve") {
-    const itinerary = body.itinerary as Itinerary;
+    const existing = await db
+      .select({ answers: responses.answers })
+      .from(responses)
+      .where(eq(responses.inviteId, id))
+      .limit(1);
+
+    const itinerary = normalizeItinerary(
+      body.itinerary as Itinerary,
+      existing[0]?.answers ?? undefined
+    );
     const herEmail = body.herEmail as string;
+
+    if (itinerary.dateIso && !isDatePickable(itinerary.dateIso)) {
+      return NextResponse.json(
+        { error: "Selected date is not available." },
+        { status: 400 }
+      );
+    }
 
     await db
       .insert(responses)

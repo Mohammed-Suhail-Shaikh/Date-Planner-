@@ -1,12 +1,13 @@
 import { NextResponse } from "next/server";
 import { desc, eq } from "drizzle-orm";
 import { getDb, initDb } from "@/lib/db";
-import { invites } from "@/lib/db/schema";
+import { invites, responses } from "@/lib/db/schema";
 import { isAdminAuthenticated } from "@/lib/auth";
 import { getBaseUrl, getInviteUrl } from "@/lib/url";
 import { inviteIdCandidates } from "@/lib/short-id";
 import { formatDisplayName } from "@/lib/format-name";
 import { parseInvitePhotos } from "@/lib/invite-photos";
+import { formatDateDisplay } from "@/lib/dates";
 
 export async function GET() {
   const authed = await isAdminAuthenticated();
@@ -16,10 +17,32 @@ export async function GET() {
 
   await initDb();
   const db = getDb();
-  const allInvites = await db
-    .select()
+  const rows = await db
+    .select({
+      id: invites.id,
+      name: invites.name,
+      status: invites.status,
+      photos: invites.photos,
+      createdAt: invites.createdAt,
+      itinerary: responses.itinerary,
+    })
     .from(invites)
+    .leftJoin(responses, eq(invites.id, responses.inviteId))
     .orderBy(desc(invites.createdAt));
+
+  const allInvites = rows.map(({ itinerary, ...invite }) => ({
+    ...invite,
+    dateIso:
+      invite.status === "approved" && itinerary?.dateIso
+        ? itinerary.dateIso
+        : null,
+    dateSetOn:
+      invite.status === "approved" && itinerary
+        ? itinerary.dateIso
+          ? formatDateDisplay(itinerary.dateIso)
+          : itinerary.date
+        : null,
+  }));
 
   return NextResponse.json({ invites: allInvites, baseUrl: getBaseUrl() });
 }

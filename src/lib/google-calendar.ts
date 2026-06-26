@@ -1,6 +1,7 @@
 import { google } from "googleapis";
 import type { Itinerary } from "@/lib/db/schema";
 import { formatFlowersPreference } from "@/lib/format-flowers";
+import { formatDressingPreference } from "@/lib/format-dressing";
 import { getCuratedOptions } from "@/lib/itinerary-engine";
 function parseTimeOnDate(itinerary: Itinerary, timeStr: string): Date {
   const iso = itinerary.dateIso;
@@ -51,6 +52,7 @@ export async function createCalendarEvent(
   end.setMinutes(end.getMinutes() + lastSlot.durationMinutes);
 
   const flowersLine = formatFlowersPreference(itinerary);
+  const dressingLine = formatDressingPreference(itinerary);
 
   const description = [
     ...itinerary.slots.map(
@@ -58,6 +60,7 @@ export async function createCalendarEvent(
         `${s.time} — ${s.title}\n${s.address}${s.notes ? `\n${s.notes}` : ""}`
     ),
     flowersLine ? `Flowers to bring:\n${flowersLine}` : null,
+    dressingLine ? `Outfit vibe:\n${dressingLine}` : null,
     itinerary.customSuggestions
       ? `Her suggestions:\n${itinerary.customSuggestions}`
       : null,
