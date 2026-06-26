@@ -4,7 +4,7 @@ import { getDb, initDb } from "@/lib/db";
 import { invites, responses, type Itinerary, type QuizAnswers } from "@/lib/db/schema";
 import { generateItinerary } from "@/lib/itinerary-engine";
 import { getBlockedMonthlyVenueIds } from "@/lib/monthly-venue-limits";
-import { isDatePickable } from "@/lib/dates";
+import { getDateAvailabilityError, getBookedDateIsos } from "@/lib/booked-dates";
 import { createCalendarEvent } from "@/lib/google-calendar";
 import { isAdminAuthenticated } from "@/lib/auth";
 import {
@@ -62,9 +62,12 @@ export async function GET(_request: Request, context: RouteContext) {
     responseRow = { ...responseRow, itinerary: normalized };
   }
 
+  const bookedDates = [...(await getBookedDateIsos(id))];
+
   return NextResponse.json({
     invite: invite[0],
     response: responseRow,
+    bookedDates,
   });
 }
 
@@ -86,11 +89,9 @@ export async function PATCH(request: Request, context: RouteContext) {
 
   if (body.action === "submit-quiz") {
     const answers = body.answers as QuizAnswers;
-    if (!isDatePickable(answers.selectedDate)) {
-      return NextResponse.json(
-        { error: "Selected date is not available." },
-        { status: 400 }
-      );
+    const dateError = await getDateAvailabilityError(answers.selectedDate, id);
+    if (dateError) {
+      return NextResponse.json({ error: dateError }, { status: 400 });
     }
     const blockedVenueIds = await getBlockedMonthlyVenueIds(
       answers.selectedDate,
@@ -137,11 +138,11 @@ export async function PATCH(request: Request, context: RouteContext) {
       body.itinerary as Itinerary,
       existing[0]?.answers ?? undefined
     );
-    if (itinerary.dateIso && !isDatePickable(itinerary.dateIso)) {
-      return NextResponse.json(
-        { error: "Selected date is not available." },
-        { status: 400 }
-      );
+    if (itinerary.dateIso) {
+      const dateError = await getDateAvailabilityError(itinerary.dateIso, id);
+      if (dateError) {
+        return NextResponse.json({ error: dateError }, { status: 400 });
+      }
     }
 
     await db
@@ -168,11 +169,11 @@ export async function PATCH(request: Request, context: RouteContext) {
     );
     const herEmail = body.herEmail as string;
 
-    if (itinerary.dateIso && !isDatePickable(itinerary.dateIso)) {
-      return NextResponse.json(
-        { error: "Selected date is not available." },
-        { status: 400 }
-      );
+    if (itinerary.dateIso) {
+      const dateError = await getDateAvailabilityError(itinerary.dateIso, id);
+      if (dateError) {
+        return NextResponse.json({ error: dateError }, { status: 400 });
+      }
     }
 
     await db

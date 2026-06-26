@@ -54,11 +54,33 @@ export function isDatePickable(isoDate: string): boolean {
   return isoDate >= todayIso() && !isDateUnavailable(isoDate);
 }
 
-export function getNextPickableDate(fromIso: string): string {
+export function isDateTakenByAnother(
+  isoDate: string,
+  bookedDateIsos?: Iterable<string>
+): boolean {
+  if (!bookedDateIsos) return false;
+  for (const booked of bookedDateIsos) {
+    if (booked === isoDate) return true;
+  }
+  return false;
+}
+
+/** Config + already-booked checks (use when another invite may hold the day). */
+export function isDateAvailable(
+  isoDate: string,
+  bookedDateIsos?: Iterable<string>
+): boolean {
+  return isDatePickable(isoDate) && !isDateTakenByAnother(isoDate, bookedDateIsos);
+}
+
+export function getNextPickableDate(
+  fromIso: string,
+  bookedDateIsos?: Iterable<string>
+): string {
   const cursor = new Date(`${fromIso}T12:00:00`);
   for (let i = 0; i < 366 * 2; i++) {
     const iso = toIsoDate(cursor);
-    if (isDatePickable(iso)) return iso;
+    if (isDateAvailable(iso, bookedDateIsos)) return iso;
     cursor.setDate(cursor.getDate() + 1);
   }
   return fromIso;
@@ -84,16 +106,16 @@ export function getUnavailableDatesHint(): string | null {
   return `Unavailable: ${labels.join("; ")}`;
 }
 
-/** Default picker value: upcoming Saturday, skipping blocked dates */
-export function getDefaultPickableDate(): string {
+/** Default picker value: upcoming Saturday, skipping blocked and booked dates */
+export function getDefaultPickableDate(bookedDateIsos?: Iterable<string>): string {
   const now = new Date();
   const day = now.getDay();
   const daysUntilSaturday = (6 - day + 7) % 7 || 7;
   const saturday = new Date(now);
   saturday.setDate(now.getDate() + daysUntilSaturday);
   const saturdayIso = toIsoDate(saturday);
-  if (isDatePickable(saturdayIso)) return saturdayIso;
-  return getNextPickableDate(todayIso());
+  if (isDateAvailable(saturdayIso, bookedDateIsos)) return saturdayIso;
+  return getNextPickableDate(todayIso(), bookedDateIsos);
 }
 
 export function toIsoDate(d: Date): string {

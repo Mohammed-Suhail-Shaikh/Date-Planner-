@@ -137,15 +137,19 @@ function swapEveningInappropriateVenues(
 
     const anchor =
       i > 0 ? getVenue(resolved[i - 1].venueId) : venue ?? undefined;
+    const reservedIds = new Set([
+      ...usedIds,
+      ...resolved.slice(i + 1).map((s) => s.venueId),
+    ]);
     const replacement = findReplacementVenue(
       venueId,
       anchor?.area,
-      usedIds,
+      reservedIds,
       true,
       blockedVenueIds
     );
 
-    if (replacement) {
+    if (replacement && !conflictsWithAnyVenueId(replacement, usedIds)) {
       resolved[i] = { ...resolved[i], venueId: replacement };
       usedIds.add(replacement);
     } else {
@@ -194,19 +198,51 @@ function scoreVenueForAnswers(venue: Venue, answers: QuizAnswers): number {
   return score;
 }
 
+function venuesAreSameLocation(a: Venue, b: Venue): boolean {
+  return (
+    a.id === b.id ||
+    a.name === b.name ||
+    a.address === b.address
+  );
+}
+
+function venueConflictsWithId(venueId: string, otherId: string): boolean {
+  if (venueId === otherId) return true;
+  const a = getVenue(venueId);
+  const b = getVenue(otherId);
+  if (!a || !b) return false;
+  return venuesAreSameLocation(a, b);
+}
+
+function conflictsWithAnyVenueId(
+  venueId: string,
+  otherIds: Iterable<string>
+): boolean {
+  for (const id of otherIds) {
+    if (venueConflictsWithId(venueId, id)) return true;
+  }
+  return false;
+}
+
 function isDuplicateOfUsed(candidate: Venue, usedIds: Set<string>): boolean {
   for (const id of usedIds) {
     const existing = getVenue(id);
     if (!existing) continue;
-    if (
-      existing.id === candidate.id ||
-      existing.name === candidate.name ||
-      existing.address === candidate.address
-    ) {
-      return true;
-    }
+    if (venuesAreSameLocation(existing, candidate)) return true;
   }
   return false;
+}
+
+function collectSlotVenueIds(
+  slots: RuleSlot[],
+  excludeIndex?: number
+): Set<string> {
+  const ids = new Set<string>();
+  slots.forEach((slot, index) => {
+    if (excludeIndex !== undefined && index === excludeIndex) return;
+    ids.add(slot.venueId);
+  });
+  return ids;
 }
 
 function pickVenueNearAnchor(
@@ -348,6 +384,10 @@ function optimizeVenueIds(
     let venueId = resolved[i].venueId;
     const prevVenue = i > 0 ? getVenue(chosenIds[i - 1]) : undefined;
     const currVenue = getVenue(venueId);
+    const otherVenueIds = [
+      ...chosenIds,
+      ...resolved.slice(i + 1).map((s) => s.venueId),
+    ];
 
     const forbidden =
       i > 0 && chosenIds.some((id) => isForbiddenPair(venueId, id));
@@ -358,30 +398,35 @@ function optimizeVenueIds(
       currVenue?.area &&
       !areasCompatibleForEvening(prevVenue.area, currVenue.area);
     const blocked = blockedVenueIds.has(venueId);
-    const needsSwap = forbidden || tooFar || blocked;
+    const duplicate = conflictsWithAnyVenueId(venueId, chosenIds);
+    const needsSwap = forbidden || tooFar || blocked || duplicate;
 
     if (needsSwap) {
+      const reservedIds = new Set(otherVenueIds);
       const replacement =
         findReplacementVenue(
           venueId,
           prevVenue?.area ?? currVenue?.area,
-          new Set(chosenIds),
+          reservedIds,
           evening,
           blockedVenueIds
         ) ??
-        (blocked
+        (blocked || duplicate
           ? pickVenueNearAnchor(
               prevVenue,
               answers,
-              new Set(chosenIds),
+              reservedIds,
               (v) =>
                 !blockedVenueIds.has(v.id) &&
                 v.id !== venueId &&
-                !isFillerVenue(v)
+                !isFillerVenue(v) &&
+                !conflictsWithAnyVenueId(v.id, reservedIds)
             )?.id ?? null
           : null);
 
-      if (replacement) venueId = replacement;
+      if (replacement && !conflictsWithAnyVenueId(replacement, chosenIds)) {
+        venueId = replacement;
+      }
     }
 
     resolved[i] = { ...resolved[i], venueId };
@@ -418,7 +463,8 @@ function findReplacementVenue(
   }
 
   for (const id of candidates) {
-    if (usedIds.has(id) || id === originalId) continue;
+    if (id === originalId) continue;
+    if (usedIds.has(id) || conflictsWithAnyVenueId(id, usedIds)) continue;
     if (blockedVenueIds.has(id)) continue;
     if (evening && EVENING_EXCLUDED_VENUE_IDS.has(id)) continue;
     if ([...usedIds].some((prev) => isForbiddenPair(id, prev))) continue;
@@ -498,7 +544,9 @@ export function pickFillerVenue(
   for (const kind of kinds) {
     const candidates = getFillerVenuesOfKind(kind)
       .filter((v) => {
-        if (!v.area || usedIds.has(v.id)) return false;
+        if (!v.area || usedIds.has(v.id) || isDuplicateOfUsed(v, usedIds)) {
+          return false;
+        }
         if (
           isForbiddenPair(v.id, prevVenue.id) ||
           (nextVenue && isForbiddenPair(v.id, nextVenue.id))
@@ -773,6 +821,56 @@ function insertFullDayTimeline(
   return result;
 }
 
+/** Replaces any main stop that repeats the same place (by id, name, or address). */
+function dedupeMainVenueSlots(
+  slots: RuleSlot[],
+  answers: QuizAnswers,
+  blockedVenueIds: Set<string> = new Set()
+): RuleSlot[] {
+  if (slots.length === 0) return slots;
+
+  const resolved = slots.map((s) => ({ ...s }));
+  const usedIds = new Set<string>();
+
+  for (let i = 0; i < resolved.length; i++) {
+    let venueId = resolved[i].venueId;
+    const prevVenue = i > 0 ? getVenue(resolved[i - 1].venueId) : undefined;
+
+    if (conflictsWithAnyVenueId(venueId, usedIds)) {
+      const reservedIds = collectSlotVenueIds(resolved, i);
+      for (const id of usedIds) reservedIds.add(id);
+
+      const replacement =
+        findReplacementVenue(
+          venueId,
+          prevVenue?.area ?? getVenue(venueId)?.area,
+          reservedIds,
+          isEveningDate(answers),
+          blockedVenueIds
+        ) ??
+        pickVenueNearAnchor(
+          prevVenue,
+          answers,
+          reservedIds,
+          (v) =>
+            !isFillerVenue(v) &&
+            !blockedVenueIds.has(v.id) &&
+            !conflictsWithAnyVenueId(v.id, reservedIds)
+        )?.id ??
+        null;
+
+      if (replacement && !conflictsWithAnyVenueId(replacement, usedIds)) {
+        venueId = replacement;
+        resolved[i] = { ...resolved[i], venueId };
+      }
+    }
+
+    usedIds.add(venueId);
+  }
+
+  return resolved;
+}
+
 function formatTime(date: Date): string {
   return date.toLocaleTimeString("en-US", {
     hour: "numeric",
@@ -784,6 +882,86 @@ function formatTime(date: Date): string {
 export type GenerateItineraryOptions = {
   blockedVenueIds?: Set<string>;
 };
+
+function isMainActivitySlot(slot: ItinerarySlot): boolean {
+  return !slot.isFiller && !slot.isCustom;
+}
+
+/** Fixes saved itineraries where the same place appears on multiple main stops. */
+export function dedupeItineraryMainActivitySlots(
+  slots: ItinerarySlot[],
+  answers: QuizAnswers,
+  blockedVenueIds: Set<string> = new Set()
+): ItinerarySlot[] {
+  const result = slots.map((slot) => ({ ...slot }));
+  const usedIds = new Set<string>();
+
+  for (let i = 0; i < result.length; i++) {
+    if (!isMainActivitySlot(result[i])) continue;
+
+    const venue = getVenue(result[i].venueId ?? "");
+    if (!venue) continue;
+
+    if (!conflictsWithAnyVenueId(venue.id, usedIds)) {
+      usedIds.add(venue.id);
+      continue;
+    }
+
+    const prevMainVenue = (() => {
+      for (let j = i - 1; j >= 0; j--) {
+        if (!isMainActivitySlot(result[j])) continue;
+        const prev = getVenue(result[j].venueId ?? "");
+        if (prev) return prev;
+      }
+      return undefined;
+    })();
+
+    const reservedIds = new Set<string>();
+    for (let j = 0; j < result.length; j++) {
+      if (j === i || !isMainActivitySlot(result[j])) continue;
+      const id = result[j].venueId;
+      if (id) reservedIds.add(id);
+    }
+    for (const id of usedIds) reservedIds.add(id);
+
+    const replacement =
+      findReplacementVenue(
+        venue.id,
+        prevMainVenue?.area ?? venue.area,
+        reservedIds,
+        isEveningDate(answers),
+        blockedVenueIds
+      ) ??
+      pickVenueNearAnchor(
+        prevMainVenue,
+        answers,
+        reservedIds,
+        (v) =>
+          !isFillerVenue(v) &&
+          !blockedVenueIds.has(v.id) &&
+          !conflictsWithAnyVenueId(v.id, reservedIds)
+      )?.id ??
+      null;
+
+    if (replacement && !conflictsWithAnyVenueId(replacement, usedIds)) {
+      const newVenue = getVenue(replacement)!;
+      result[i] = {
+        ...result[i],
+        venueId: newVenue.id,
+        title: newVenue.name,
+        location: newVenue.name,
+        address: newVenue.address,
+        notes: newVenue.notes,
+        mapsUrl: newVenue.mapsUrl,
+      };
+      usedIds.add(replacement);
+    } else {
+      usedIds.add(venue.id);
+    }
+  }
+
+  return result;
+}
 
 export function generateItinerary(
   answers: QuizAnswers,
@@ -810,6 +988,12 @@ export function generateItinerary(
       blockedVenueIds
     );
   }
+
+  optimizedSlots = dedupeMainVenueSlots(
+    optimizedSlots,
+    answers,
+    blockedVenueIds
+  );
 
   const ruleSlots = isFullDay(answers)
     ? insertFullDayTimeline(optimizedSlots, answers)

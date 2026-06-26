@@ -11,7 +11,7 @@ export function PhotoCollage({ photos, children }: PhotoCollageProps) {
   const count = Math.min(photos.length, 6);
 
   if (!count) {
-    return <>{children}</>;
+    return <div className="welcome-solo">{children}</div>;
   }
 
   return (

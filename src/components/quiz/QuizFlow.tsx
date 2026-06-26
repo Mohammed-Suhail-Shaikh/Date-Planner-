@@ -1,19 +1,30 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ProgressBar } from "./ProgressBar";
 import { OptionCard } from "./OptionCard";
 import { getCuratedOptions } from "@/lib/itinerary-engine";
-import { getDefaultPickableDate, getUnavailableDatesHint, isDatePickable, todayIso } from "@/lib/dates";
+import { getDefaultPickableDate, getUnavailableDatesHint, isDateAvailable, todayIso } from "@/lib/dates";
 import { PhotoCollage } from "./PhotoCollage";
 import type { QuizAnswers } from "@/lib/db/schema";
 
 type QuizFlowProps = {
   name: string;
   photos?: string[];
-  onComplete: (answers: QuizAnswers) => void;
+  bookedDates?: string[];
+  onComplete: (answers: QuizAnswers) => void | Promise<void>;
 };
+
+function dateUnavailableMessage(
+  isoDate: string,
+  bookedDates: string[]
+): string {
+  if (bookedDates.includes(isoDate)) {
+    return "That date is already booked with someone else — please pick another day.";
+  }
+  return "That date isn't available — please pick another day.";
+}
 
 type Step =
   | { type: "welcome" }
@@ -42,17 +53,34 @@ const STEPS: Step[] = [
 
 const QUIZ_STEPS = STEPS.length - 1;
 
-export function QuizFlow({ name, photos = [], onComplete }: QuizFlowProps) {
+export function QuizFlow({
+  name,
+  photos = [],
+  bookedDates = [],
+  onComplete,
+}: QuizFlowProps) {
   const options = getCuratedOptions();
   const [stepIndex, setStepIndex] = useState(0);
-  const [answers, setAnswers] = useState<Partial<QuizAnswers>>({
-    selectedDate: getDefaultPickableDate(),
-  });
+  const [answers, setAnswers] = useState<Partial<QuizAnswers>>(() => ({
+    selectedDate: getDefaultPickableDate(bookedDates),
+  }));
   const [dietaryNotes, setDietaryNotes] = useState("");
   const [flowersSuggestion, setFlowersSuggestion] = useState("");
   const [herEmail, setHerEmail] = useState("");
   const [dateError, setDateError] = useState("");
+  const [submitError, setSubmitError] = useState("");
+  const [submitting, setSubmitting] = useState(false);
   const unavailableHint = getUnavailableDatesHint();
+
+  useEffect(() => {
+    setAnswers((prev) => {
+      const current = prev.selectedDate ?? getDefaultPickableDate(bookedDates);
+      if (isDateAvailable(current, bookedDates)) {
+        return prev.selectedDate === current ? prev : { ...prev, selectedDate: current };
+      }
+      return { ...prev, selectedDate: getDefaultPickableDate(bookedDates) };
+    });
+  }, [bookedDates]);
 
   const step = STEPS[stepIndex];
   const quizStepNumber = stepIndex;
@@ -70,20 +98,30 @@ export function QuizFlow({ name, photos = [], onComplete }: QuizFlowProps) {
     setTimeout(next, 200);
   }
 
-  function handleFinish() {
+  async function handleFinish() {
     if (!herEmail.trim()) return;
-    onComplete({
-      mood: answers.mood!,
-      energy: answers.energy!,
-      activity: answers.activity!,
-      time: answers.time!,
-      selectedDate: answers.selectedDate!,
-      flowers: answers.flowers!,
-      flowersSuggestion: flowersSuggestion.trim() || undefined,
-      dressing: answers.dressing!,
-      dietaryNotes: dietaryNotes.trim() || undefined,
-      herEmail: herEmail.trim(),
-    });
+    setSubmitError("");
+    setSubmitting(true);
+    try {
+      await onComplete({
+        mood: answers.mood!,
+        energy: answers.energy!,
+        activity: answers.activity!,
+        time: answers.time!,
+        selectedDate: answers.selectedDate!,
+        flowers: answers.flowers!,
+        flowersSuggestion: flowersSuggestion.trim() || undefined,
+        dressing: answers.dressing!,
+        dietaryNotes: dietaryNotes.trim() || undefined,
+        herEmail: herEmail.trim(),
+      });
+    } catch (err) {
+      setSubmitError(
+        err instanceof Error ? err.message : "Something went wrong. Please try again."
+      );
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   return (
@@ -110,24 +148,36 @@ export function QuizFlow({ name, photos = [], onComplete }: QuizFlowProps) {
           {step.type === "welcome" && (
             <div className="flex flex-1 flex-col items-center justify-center overflow-visible">
               <PhotoCollage photos={photos}>
-                <div className="text-center">
-                  <p className="label-eyebrow mb-4">A little surprise for you</p>
-                  <h1 className="mb-0 overflow-visible">
-                    <span className="welcome-name">
-                      {name}
+                <div className="text-center max-sm:flex max-sm:min-h-[min(82svh,34rem)] max-sm:flex-col">
+                  <div className="max-sm:flex max-sm:flex-1 max-sm:flex-col max-sm:items-center max-sm:justify-center">
+                    <p className="label-eyebrow mb-4">A little surprise for you</p>
+                    <h1 className="mb-0 overflow-visible">
+                      <span className="welcome-name">
+                        {name}
+                      </span>
+                    </h1>
+                    <p className="welcome-intro mx-auto mb-7 text-muted">
+                      <span className="welcome-intro-part">
+                        Let&apos;s plan something special together. Answer a few quick{" "}
+                      </span>
+                      <span className="welcome-intro-part">
+                        questions and I&apos;ll put together a date just for you.
+                      </span>
+                    </p>
+                    <button
+                      type="button"
+                      onClick={next}
+                      className="btn-romantic px-6 py-2.5 text-sm sm:px-8 sm:py-3 sm:text-base"
+                    >
+                      Let&apos;s go →
+                    </button>
+                  </div>
+                  <p className="font-display text-gradient max-sm:mt-auto max-sm:pb-10 max-sm:pt-3 text-sm sm:mt-12 sm:pb-0 sm:pt-0 sm:text-xl">
+                    Created with love by{" "}
+                    <span className="font-script text-gradient text-lg sm:text-2xl">
+                      {options.planner.name}
                     </span>
-                  </h1>
-                  <p className="welcome-intro mx-auto mb-10 text-muted">
-                    Let&apos;s plan something special together. Answer a few quick
-                    questions and I&apos;ll put together a date just for you.
                   </p>
-                  <button
-                    type="button"
-                    onClick={next}
-                    className="btn-romantic px-8 py-3"
-                  >
-                    Let&apos;s go →
-                  </button>
                 </div>
               </PhotoCollage>
             </div>
@@ -231,12 +281,12 @@ export function QuizFlow({ name, photos = [], onComplete }: QuizFlowProps) {
                   id="quiz-date"
                   type="date"
                   min={todayIso()}
-                  value={answers.selectedDate ?? getDefaultPickableDate()}
+                  value={answers.selectedDate ?? getDefaultPickableDate(bookedDates)}
                   onChange={(e) => {
                     const selectedDate = e.target.value;
                     if (!selectedDate) return;
-                    if (!isDatePickable(selectedDate)) {
-                      setDateError("That date isn't available — please pick another day.");
+                    if (!isDateAvailable(selectedDate, bookedDates)) {
+                      setDateError(dateUnavailableMessage(selectedDate, bookedDates));
                       return;
                     }
                     setDateError("");
@@ -247,6 +297,11 @@ export function QuizFlow({ name, photos = [], onComplete }: QuizFlowProps) {
                 {unavailableHint ? (
                   <p className="mt-2 text-xs text-muted">{unavailableHint}</p>
                 ) : null}
+                {bookedDates.length > 0 ? (
+                  <p className="mt-2 text-xs text-muted">
+                    Days already planned with someone else can&apos;t be selected.
+                  </p>
+                ) : null}
                 {dateError ? (
                   <p className="mt-2 text-sm text-red-600">{dateError}</p>
                 ) : null}
@@ -256,7 +311,7 @@ export function QuizFlow({ name, photos = [], onComplete }: QuizFlowProps) {
                 onClick={next}
                 disabled={
                   !answers.selectedDate ||
-                  !isDatePickable(answers.selectedDate) ||
+                  !isDateAvailable(answers.selectedDate, bookedDates) ||
                   !!dateError
                 }
                 className="btn-romantic mt-8 w-full max-w-full py-3 sm:mt-6"
@@ -379,13 +434,16 @@ export function QuizFlow({ name, photos = [], onComplete }: QuizFlowProps) {
                 placeholder="you@email.com"
                 className="input-romantic w-full min-w-0 max-w-full rounded-xl sm:rounded-2xl"
               />
+              {submitError ? (
+                <p className="mt-3 text-sm text-red-600">{submitError}</p>
+              ) : null}
               <button
                 type="button"
                 onClick={handleFinish}
-                disabled={!herEmail.trim()}
+                disabled={!herEmail.trim() || submitting}
                 className="btn-romantic mt-5 w-full max-w-full py-3 sm:mt-6"
               >
-                See my date plan →
+                {submitting ? "Saving..." : "See my date plan →"}
               </button>
             </QuizStep>
           )}

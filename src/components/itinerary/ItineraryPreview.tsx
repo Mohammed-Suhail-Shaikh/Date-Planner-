@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import type { Itinerary, ItinerarySlot } from "@/lib/db/schema";
-import { formatDateDisplay, getDefaultPickableDate, getUnavailableDatesHint, isDatePickable, todayIso } from "@/lib/dates";
+import { formatDateDisplay, getDefaultPickableDate, getUnavailableDatesHint, isDateAvailable, todayIso } from "@/lib/dates";
 import { formatFlowersPreference } from "@/lib/format-flowers";
 import { formatDressingPreference } from "@/lib/format-dressing";
 import { getMapsUrlForSlot } from "@/lib/maps-url";
@@ -11,11 +11,22 @@ import { getSlotDisplayAddress, getSlotDisplayTitle } from "@/lib/venue-display"
 
 type ItineraryPreviewProps = {
   itinerary: Itinerary;
-  onChange: (itinerary: Itinerary) => void;
-  onApprove: () => void;
+  bookedDates?: string[];
+  onChange: (itinerary: Itinerary) => void | Promise<void>;
+  onApprove: () => void | Promise<void>;
   onBackToQuiz?: () => void;
   loading?: boolean;
 };
+
+function dateUnavailableMessage(
+  isoDate: string,
+  bookedDates: string[]
+): string {
+  if (bookedDates.includes(isoDate)) {
+    return "That date is already booked with someone else — please pick another day.";
+  }
+  return "That date isn't available — please pick another day.";
+}
 
 function slotVariant(slot: ItinerarySlot): "main" | "filler" {
   return slot.isFiller ? "filler" : "main";
@@ -23,6 +34,7 @@ function slotVariant(slot: ItinerarySlot): "main" | "filler" {
 
 export function ItineraryPreview({
   itinerary,
+  bookedDates = [],
   onChange,
   onApprove,
   onBackToQuiz,
@@ -89,25 +101,38 @@ export function ItineraryPreview({
           id="itinerary-date"
           type="date"
           min={todayIso()}
-          value={itinerary.dateIso ?? getDefaultPickableDate()}
-          onChange={(e) => {
+          value={itinerary.dateIso ?? getDefaultPickableDate(bookedDates)}
+          onChange={async (e) => {
             const dateIso = e.target.value;
             if (!dateIso) return;
-            if (!isDatePickable(dateIso)) {
-              setDateError("That date isn't available — please pick another day.");
+            if (!isDateAvailable(dateIso, bookedDates)) {
+              setDateError(dateUnavailableMessage(dateIso, bookedDates));
               return;
             }
             setDateError("");
-            onChange({
-              ...itinerary,
-              dateIso,
-              date: formatDateDisplay(dateIso),
-            });
+            try {
+              await onChange({
+                ...itinerary,
+                dateIso,
+                date: formatDateDisplay(dateIso),
+              });
+            } catch (err) {
+              setDateError(
+                err instanceof Error
+                  ? err.message
+                  : "Could not update your date."
+              );
+            }
           }}
           className="input-romantic w-full px-4 py-2.5 text-sm"
         />
         {unavailableHint ? (
           <p className="mt-2 text-xs text-muted">{unavailableHint}</p>
+        ) : null}
+        {bookedDates.length > 0 ? (
+          <p className="mt-2 text-xs text-muted">
+            Days already planned with someone else can&apos;t be selected.
+          </p>
         ) : null}
         {dateError ? (
           <p className="mt-2 text-sm text-red-600">{dateError}</p>

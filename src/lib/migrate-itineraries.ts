@@ -1,6 +1,6 @@
 import curatedOptions from "../../config/curated-options.json";
 import type { Itinerary, ItinerarySlot, QuizAnswers } from "@/lib/db/schema";
-import { pickFillerVenue, type FillerKind } from "@/lib/itinerary-engine";
+import { pickFillerVenue, type FillerKind, dedupeItineraryMainActivitySlots } from "@/lib/itinerary-engine";
 import { areasWithinFillerRange } from "@/lib/boston-areas";
 import type { BostonArea } from "@/lib/boston-areas";
 import { resolveCuratedVenueForSlot } from "@/lib/venue-display";
@@ -211,7 +211,12 @@ export function normalizeItinerary(
     normalizeItinerarySlot(slot, beaconPlan)
   );
 
-  const slots = repickItineraryFillers(slotsAfterVenueSync, answers);
+  const slotsAfterDedupe = dedupeItineraryMainActivitySlots(
+    slotsAfterVenueSync,
+    mergeAnswers(answers)
+  );
+
+  const slots = repickItineraryFillers(slotsAfterDedupe, answers);
 
   return { ...itinerary, slots };
 }
